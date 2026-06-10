@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Available Properties – South Atlantic Sites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1A33;--navy2:#132040;--gold:#C9A249;--gold2:#E8C06A;
+  --cream:#F6F1E9;--white:#fff;--mid:#8A95A5;--border:rgba(255,255,255,.08);
+  --c-lease:#2563EB;--c-sale:#DC2626;--c-gl:#16A34A;--c-sl:#EA580C;--c-sgl:#9333EA;
+}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--navy)}
+#app{display:flex;height:100vh}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:360px;flex-shrink:0;display:flex;flex-direction:column;
+  background:var(--navy);color:var(--white);overflow:hidden;
+  box-shadow:4px 0 24px rgba(0,0,0,.35);z-index:10;
+}
+#sidebar-header{
+  padding:20px 22px 16px;border-bottom:1px solid var(--border);
+  background:var(--navy2);flex-shrink:0;
+}
+.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.logo-mark{
+  width:36px;height:36px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.logo-mark svg{width:18px;height:18px;fill:none;stroke:var(--navy2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.firm{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.sub{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);margin-top:2px}
+h1.map-title{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:600;color:var(--cream);margin-bottom:2px}
+.listing-count{font-size:12px;color:var(--mid);letter-spacing:.03em}
+.listing-count span{color:var(--gold);font-weight:600}
+
+/* Filters */
+#filters{
+  display:flex;flex-wrap:wrap;gap:6px;padding:13px 22px 11px;
+  flex-shrink:0;border-bottom:1px solid var(--border);
+}
+.pill{
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 10px;border-radius:20px;cursor:pointer;border:1.5px solid;
+  transition:all .2s;white-space:nowrap;
+}
+.pill[data-type="All"]                      {border-color:var(--gold);  color:var(--gold)}
+.pill[data-type="For Lease"]                {border-color:var(--c-lease);color:var(--c-lease)}
+.pill[data-type="For Sale"]                 {border-color:var(--c-sale); color:var(--c-sale)}
+.pill[data-type="Ground Lease"]             {border-color:var(--c-gl);   color:var(--c-gl)}
+.pill[data-type="For Sale or Lease"]        {border-color:var(--c-sl);   color:var(--c-sl)}
+.pill[data-type="For Sale or Ground Lease"] {border-color:var(--c-sgl);  color:var(--c-sgl)}
+.pill.active,.pill:hover{color:var(--navy2)!important}
+.pill[data-type="All"].active,.pill[data-type="All"]:hover                                  {background:var(--gold)}
+.pill[data-type="For Lease"].active,.pill[data-type="For Lease"]:hover                      {background:var(--c-lease)}
+.pill[data-type="For Sale"].active,.pill[data-type="For Sale"]:hover                        {background:var(--c-sale)}
+.pill[data-type="Ground Lease"].active,.pill[data-type="Ground Lease"]:hover                {background:var(--c-gl)}
+.pill[data-type="For Sale or Lease"].active,.pill[data-type="For Sale or Lease"]:hover      {background:var(--c-sl)}
+.pill[data-type="For Sale or Ground Lease"].active,.pill[data-type="For Sale or Ground Lease"]:hover{background:var(--c-sgl)}
+
+/* Cards */
+#cards{
+  flex:1;overflow-y:auto;padding:10px 12px 14px;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent;
+}
+#cards::-webkit-scrollbar{width:4px}
+#cards::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+
+.card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:13px 14px;margin-bottom:7px;cursor:pointer;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:3px 0 0 3px;
+}
+.card[data-type="For Lease"]::before              {background:var(--c-lease)}
+.card[data-type="For Sale"]::before               {background:var(--c-sale)}
+.card[data-type="Ground Lease"]::before           {background:var(--c-gl)}
+.card[data-type="For Sale or Lease"]::before      {background:var(--c-sl)}
+.card[data-type="For Sale or Ground Lease"]::before{background:var(--c-sgl)}
+.card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);transform:translateX(3px)}
+.card.active{background:rgba(201,162,73,.09);border-color:rgba(201,162,73,.35)}
+
+.card-type{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.card[data-type="For Lease"] .card-type              {color:var(--c-lease)}
+.card[data-type="For Sale"] .card-type               {color:var(--c-sale)}
+.card[data-type="Ground Lease"] .card-type           {color:var(--c-gl)}
+.card[data-type="For Sale or Lease"] .card-type      {color:var(--c-sl)}
+.card[data-type="For Sale or Ground Lease"] .card-type{color:var(--c-sgl)}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--cream);line-height:1.25;margin-bottom:3px}
+.card-city{font-size:10px;color:var(--mid);letter-spacing:.04em;text-transform:uppercase;margin-bottom:7px}
+.card-meta{display:flex;gap:14px;flex-wrap:wrap}
+.meta-item{font-size:11px;color:rgba(255,255,255,.55)}
+.meta-item strong{color:var(--white);font-weight:600;display:block;font-size:12px}
+.card-broker{font-size:10px;color:var(--mid);margin-top:7px;border-top:1px solid rgba(255,255,255,.06);padding-top:6px}
+
+.no-results{text-align:center;padding:40px 20px;color:var(--mid);font-size:13px;display:none}
+.no-results.show{display:block}
+
+/* Map */
+#map-wrap{flex:1;position:relative}
+#map{width:100%;height:100%}
+
+/* Google Maps InfoWindow override */
+.gm-style .gm-style-iw-c{
+  background:var(--navy2)!important;border-radius:10px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:0 8px 32px rgba(0,0,0,.5)!important;
+  padding:0!important;max-width:310px!important;
+}
+.gm-style .gm-style-iw-d{overflow:hidden!important}
+.gm-style .gm-style-iw-t::after{background:var(--navy2)!important}
+.gm-style .gm-ui-hover-effect>span{background:var(--mid)!important}
+.gm-style .gm-style-iw-ch{display:none}
+button.gm-ui-hover-effect{top:4px!important;right:4px!important}
+
+.iw{padding:16px 18px 14px;font-family:'DM Sans',sans-serif}
+.iw-type{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.iw-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--white);line-height:1.2;margin-bottom:2px}
+.iw-addr{font-size:11px;color:var(--mid);margin-bottom:11px}
+.iw-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:11px}
+.iw-field{background:rgba(255,255,255,.05);border-radius:6px;padding:7px 9px}
+.iw-field .lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:2px}
+.iw-field .val{font-size:12px;color:var(--white);font-weight:500;line-height:1.3}
+.iw-hi{font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:10px}
+.iw-broker{font-size:10px;color:var(--mid);margin-bottom:11px}
+.iw-btn{
+  display:block;text-align:center;text-decoration:none;
+  background:var(--gold);color:var(--navy2);font-size:11px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:9px;border-radius:6px;transition:background .2s;
+}
+.iw-btn:hover{background:var(--gold2)}
+
+/* Mobile */
+@media (max-width: 720px){
+  #app{flex-direction:column}
+  #sidebar{width:100%;max-height:45vh;order:2}
+  #map-wrap{order:1;min-height:55vh}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <div class="logo-row">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="firm">South Atlantic Sites</div>
+          <div class="sub">Raleigh, NC · Commercial Real Estate</div>
+        </div>
+      </div>
+      <h1 class="map-title">Available Properties</h1>
+      <div class="listing-count"><span id="vis-count">—</span> active listings across North Carolina</div>
+    </div>
+
+    <div id="filters">
+      <div class="pill active" data-type="All">All</div>
+      <div class="pill" data-type="For Lease">For Lease</div>
+      <div class="pill" data-type="For Sale">For Sale</div>
+      <div class="pill" data-type="Ground Lease">Ground Lease</div>
+      <div class="pill" data-type="For Sale or Lease">Sale or Lease</div>
+      <div class="pill" data-type="For Sale or Ground Lease">Sale or GL</div>
+    </div>
+
+    <div id="cards">
+      <div class="no-results" id="no-results">No listings match this filter.</div>
+    </div>
+  </div>
+
+  <div id="map-wrap">
+    <div id="map"></div>
+  </div>
+</div>
+
+<script>
+const API_KEY = 'AIzaSyDamApjVQCoRvsj5C2j3uwBAG1lngtnNUc';
+
+// ════════════════════════════════════════════════════════════════════════
+//  LISTINGS — embedded directly. Regenerated by Claude when flyers change.
+//  Last updated: 2026-06-10
+// ════════════════════════════════════════════════════════════════════════
+const LISTINGS = [
+  {name:"203 Capcom Ave – Suite 100",address:"203 Capcom Ave, Suite 100",city:"Wake Forest, NC 27587",type:"For Lease",price:"$18.50 PSF NNN",size:"1,819 SF",zoning:"HB",available:"July 1, 2026",use:"Flex / Light Industrial",broker:"Joe Cabral & Shipman Northcutt",highlights:"Flex space in Capital Commerce Center adjacent to The Factory retail complex. Quick access to US-1.",flyer:"https://drive.google.com/file/d/1KHsnMtjyyItTjfV7Ewwl9QHd0LA6woDr/view"},
+  {name:"203 Capcom Ave – Suite 114",address:"203 Capcom Ave, Suite 114",city:"Wake Forest, NC 27587",type:"For Lease",price:"$18.50 PSF NNN",size:"8,029 SF",zoning:"HB",available:"March 1, 2026",use:"Flex / Retail / Assembly",broker:"Joe Cabral & Shipman Northcutt",highlights:"Large flex suite with loading dock. Assembly use allowed by-right. Adjacent to The Factory destination retail.",flyer:"https://drive.google.com/file/d/1ZCou8ukkqrzdEB47VVQeLz8VxMf-a0-A/view"},
+  {name:"832 Purser Dr",address:"832 Purser Dr",city:"Raleigh, NC 27603",type:"For Lease",price:"$7,400/mo Modified Gross",size:"7,000 SF",zoning:"LI (Garner)",available:"Immediately",use:"Light Industrial / Service",broker:"Cam Wilson",highlights:"Fully conditioned flex space, 2 motorized roll-up doors, 3-phase/200V power, mezzanine. 6–7 min from Downtown Raleigh.",flyer:"https://drive.google.com/file/d/1UWkh85PKnCogSAqJqwtwTitW0lpNntHB/view"},
+  {name:"Stonehenge Building – Ste 204",address:"2301 Stonehenge Dr, Suite 204",city:"Raleigh, NC 27615",type:"For Lease",price:"$25.00 PSF Modified Gross",size:"1,130 SF",zoning:"OX-3",available:"April 1, 2026",use:"Professional Office",broker:"Joe Cabral",highlights:"Charming office building with upgraded lobby. Two large offices, kitchenette and private restroom. Adjacent Harris Teeter.",flyer:"https://drive.google.com/file/d/1zPzxskcpyzHYAKAqFXsABQLgR4yrwM4O/view"},
+  {name:"10754 NC HWY 50",address:"10754 NC-50",city:"Benson, NC 27504",type:"Ground Lease",price:"$150,000/yr",size:"1.72 Acres",zoning:"GB",available:"Available",use:"QSR / Drive-Thru / Retail",broker:"Mike Wilen",highlights:"Signalized intersection NC-210 & NC-50, 28,000+ combined VPD. 1 mile to I-40. All utilities to site.",flyer:"https://drive.google.com/file/d/1fbRn9Mcof6x3K5UtPNGXxpupT7ZP8fGB/view"},
+  {name:"2791 Cornwallis Rd",address:"2791 Cornwallis Rd",city:"Garner, NC 27529",type:"For Sale or Ground Lease",price:"$1,375,000 · $125K/yr GL",size:"0.92 Acres",zoning:"GB",available:"Available",use:"Drive-Thru Restaurant",broker:"Mike Wilen",highlights:"Approved drive-thru plans on signalized corner. 13,000 VPD on Cleveland Rd. 1.5 mi from I-40/540.",flyer:"https://drive.google.com/file/d/12HK0BWGSL2n20mPzjaSdItXWcIGXkbDV/view"},
+  {name:"1507 Greenfield St",address:"1507 Greenfield St",city:"Wilmington, NC 28401",type:"For Lease",price:"$11.50 PSF",size:"8,301 SF",zoning:"UMX",available:"Available",use:"Flex / Auto / Retail",broker:"Payton Reid",highlights:"Full city block, 20,000+ VPD, 4 garage bays, 150+ parking spaces. Adjacent to $66M redevelopment.",flyer:"https://drive.google.com/file/d/1vxA413nV1KXw4X931uXzUX8K2AihkgLt/view"},
+  {name:"5000 Market St",address:"5000 Market St",city:"Wilmington, NC 28405",type:"For Lease",price:"Negotiable + $3.54 TICAM",size:"1,931 SF",zoning:"RB",available:"Available",use:"Retail / Office",broker:"Payton Reid",highlights:"40,000 VPD on Market Street. 0.7 mi from I-40, 0.85 mi from UNCW. Join two national retail tenants.",flyer:"https://drive.google.com/file/d/10UpqJCBBlbvAJidoEBvfdCirc0j_Kokf/view"},
+  {name:"Firetower & Greys Mill Rd",address:"NEC Firetower Rd & Greys Mill Rd",city:"Louisburg, NC 27549",type:"For Sale",price:"Call for Details",size:"32 Acres",zoning:"AR",available:"Available",use:"Residential Development",broker:"Cameron Wilson",highlights:"12 potential lots per soil study. Franklin County pop +11.7% since 2020. Significant housing shortfall.",flyer:"https://drive.google.com/file/d/1Y6IYHXXvggLm94GWqoOkOUOBNeD4PAT8/view"},
+  {name:"1548 E Williams St",address:"1548 E Williams St",city:"Apex, NC 27539",type:"For Sale or Lease",price:"$12,500/mo · Sale Negotiable",size:"6.10 Acres",zoning:"PC-CZ",available:"Available",use:"Commercial / Drive-Thru",broker:"Cam Wilson",highlights:"600' frontage on NC-55 (45,500 VPD). Adjacent to $3B Veridea development and planned NC Children's Hospital.",flyer:"https://drive.google.com/file/d/1mtRidQ4JK0vAmFblGPvyI9PcYSzXV3_X/view"},
+  {name:"1928 S 16th Street",address:"1928 S 16th St",city:"Wilmington, NC 28401",type:"For Lease",price:"$3,500/mo NNN",size:"1,406 SF",zoning:"—",available:"February 1, 2026",use:"Office / Spa / Medical",broker:"Payton Reid & Mike Wilen",highlights:"Fully renovated freestanding building on 0.41 AC. 10 dedicated parking spaces. Move-in ready.",flyer:"https://drive.google.com/file/d/1KSEb750np64UHi4NmDLSkSflfYyjDkgi/view"},
+  {name:"Angier Ave at US-70",address:"4731–4717 Angier Ave",city:"Durham, NC 27703",type:"For Lease",price:"Negotiable",size:"2.19 Acres",zoning:"CG / RS-20",available:"Available",use:"Commercial",broker:"Cam Wilson",highlights:"375' frontage on US-70 (37,000 VPD). Three parcels, 1.48 AC already commercial zoned.",flyer:"https://drive.google.com/file/d/1QaJuW6xP8ibfeh322g_O-EtW8o7KAal1/view"},
+  {name:"Hwy 17 & Washington Acres Rd",address:"SEC Hwy 17 & Washington Acres Rd",city:"Hampstead, NC 28411",type:"For Sale or Ground Lease",price:"Call to Discuss",size:"7.55 Acres (3 Pads)",zoning:"GB",available:"Pads Available",use:"QSR / Retail / Commercial",broker:"Payton Reid",highlights:"Join Royal Farms & Walmart. 50,000+ VPD. Fastest-growing town in NC (35.5% since 2020). $120K+ HH income.",flyer:"https://drive.google.com/file/d/1t_Eu7jcAu51OG-qh23n4TR4rqvn6OTm_/view"},
+  {name:"S Wesleyan & Harbour West Dr",address:"NWC S Wesleyan Blvd & Harbour West Dr",city:"Rocky Mount, NC 27803",type:"For Sale",price:"$650,000",size:"9.14 Acres",zoning:"B-2 / A-1",available:"Available",use:"QSR / C-Store / Car Wash",broker:"Payton Reid",highlights:"26,500 VPD, 1,640 trucks/day on signalized intersection. Adjacent Rocky Mount High School and Food Lion.",flyer:"https://drive.google.com/file/d/1mzE9k8QygglaDN_vhQVt2gA1FFybJeyG/view"},
+  {name:"NC-98 & Old Murray Dr",address:"NC-98 & Old Murray Dr",city:"Wake Forest, NC 27587",type:"For Sale",price:"Contact Brokers",size:"~37.75 Acres",zoning:"HD",available:"Available",use:"Residential Development",broker:"Mike Wilen & Shipman Northcutt",highlights:"Infill assemblage with 950' frontage on NC-98 in Wake Forest. Utilities at site. Buyer controls annexation.",flyer:"https://drive.google.com/file/d/1lZCDaxxynRYZWwi0mctS6SWqqTvj7w1c/view"},
+  {name:"Jones Printing – Downtown Sanford",address:"107 Charlotte Ave & 104 Hawkins Ave",city:"Sanford, NC 27330",type:"For Sale",price:"$700K RE · $1.05M Business",size:"10,500 SF / 0.73 AC",zoning:"Opportunity Zone",available:"Available",use:"Properties + Business",broker:"Shipman Northcutt",highlights:"100+ year old profitable printing business sold with real estate. Downtown Sanford Opportunity Zone.",flyer:"https://drive.google.com/file/d/10lbyGSdjL1-UXkic8kreeullSq-4raxc/view"}
+];
+
+const TYPE_COLOR = {
+  'For Lease':'#2563EB','For Sale':'#DC2626','Ground Lease':'#16A34A',
+  'For Sale or Lease':'#EA580C','For Sale or Ground Lease':'#9333EA',
+};
+
+let map, markers = [], infoWindow, activeFilter = 'All';
+
+// ── LOAD MAPS SCRIPT ────────────────────────────────────────────────────────
+(function() {
+  const s = document.createElement('script');
+  s.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initMap`;
+  s.async = true; s.defer = true;
+  document.head.appendChild(s);
+})();
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+window.initMap = function() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 35.50, lng: -78.45},
+    zoom: 8,
+    mapTypeId: 'hybrid',
+    zoomControl: true,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      mapTypeIds: ['hybrid','roadmap','satellite','terrain'],
+      position: google.maps.ControlPosition.TOP_RIGHT,
+    },
+    streetViewControl: false,
+    fullscreenControl: true,
+  });
+
+  infoWindow = new google.maps.InfoWindow({ maxWidth: 320 });
+
+  map.addListener('click', () => {
+    infoWindow.close();
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  });
+
+  geocodeAndRender();
+};
+
+// ── GEOCODE ON LOAD ─────────────────────────────────────────────────────────
+// Every listing is geocoded live by the Google Geocoding API in the visitor's
+// browser. Results are cached in sessionStorage so repeat views in the same
+// session don't re-spend API calls.
+async function geocodeAndRender() {
+  const geocoder = new google.maps.Geocoder();
+  document.getElementById('vis-count').textContent = LISTINGS.length;
+
+  for (let i = 0; i < LISTINGS.length; i++) {
+    const l = LISTINGS[i];
+    const query = `${l.address}, ${l.city}`;
+    const cacheKey = 'sas-geo:' + query;
+
+    // Session cache to avoid re-geocoding on every reload
+    let coords = null;
+    try {
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) coords = JSON.parse(cached);
+    } catch(e) {}
+
+    if (!coords) {
+      coords = await new Promise(resolve => {
+        geocoder.geocode({ address: query, region: 'us' }, (results, status) => {
+          if (status === 'OK' && results[0]) {
+            const loc = results[0].geometry.location;
+            resolve({ lat: loc.lat(), lng: loc.lng() });
+          } else {
+            console.warn('Geocode failed for', query, status);
+            resolve(null);
+          }
+        });
+      });
+      if (coords) {
+        try { sessionStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e) {}
+      }
+      await new Promise(r => setTimeout(r, 120)); // stay under rate limit
+    }
+
+    if (coords) {
+      l.lat = coords.lat;
+      l.lng = coords.lng;
+      createMarker(l, i);
+      createCard(l, i);
+    }
+  }
+}
+
+// ── MARKER ──────────────────────────────────────────────────────────────────
+function pinSVG(color) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity=".45"/></filter>
+    <g filter="url(#sh)">
+      <path d="M16 2C9.37 2 4 7.37 4 14c0 9 12 26 12 26S28 23 28 14C28 7.37 22.63 2 16 2z"
+        fill="${color}" stroke="rgba(255,255,255,.85)" stroke-width="1.4"/>
+      <circle cx="16" cy="14" r="5.5" fill="white" opacity=".95"/>
+    </g>
+  </svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+}
+
+function createMarker(l, i) {
+  const color = TYPE_COLOR[l.type] || '#888';
+  const marker = new google.maps.Marker({
+    position: {lat: l.lat, lng: l.lng},
+    map,
+    title: l.name,
+    icon: {
+      url: pinSVG(color),
+      scaledSize: new google.maps.Size(32, 42),
+      anchor: new google.maps.Point(16, 40),
+    },
+    optimized: false,
+  });
+  marker.addListener('click', () => openListing(i, marker));
+  markers[i] = marker;
+}
+
+function openListing(i, marker) {
+  const l = LISTINGS[i];
+  const color = TYPE_COLOR[l.type] || '#888';
+  infoWindow.setContent(`
+    <div class="iw">
+      <div class="iw-type" style="color:${color}">${l.type}</div>
+      <div class="iw-name">${l.name}</div>
+      <div class="iw-addr">${l.address}${l.city ? ' · ' + l.city : ''}</div>
+      <div class="iw-grid">
+        <div class="iw-field"><div class="lbl">Price / Rate</div><div class="val">${l.price || '—'}</div></div>
+        <div class="iw-field"><div class="lbl">Size</div><div class="val">${l.size || '—'}</div></div>
+        <div class="iw-field"><div class="lbl">Use</div><div class="val">${l.use || '—'}</div></div>
+        <div class="iw-field"><div class="lbl">Zoning</div><div class="val">${l.zoning || '—'}</div></div>
+      </div>
+      ${l.highlights ? `<div class="iw-hi">${l.highlights}</div>` : ''}
+      ${l.broker    ? `<div class="iw-broker">Broker: ${l.broker}</div>` : ''}
+      <a class="iw-btn" href="${l.flyer}" target="_blank" rel="noopener">View Flyer PDF →</a>
+    </div>`);
+  infoWindow.open(map, marker);
+
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  const card = document.getElementById(`card-${i}`);
+  card?.classList.add('active');
+  card?.scrollIntoView({ block:'nearest', behavior:'smooth' });
+}
+
+// ── CARD ─────────────────────────────────────────────────────────────────────
+function createCard(l, i) {
+  const card = document.createElement('div');
+  card.className = 'card'; card.dataset.type = l.type; card.id = `card-${i}`;
+  card.innerHTML = `
+    <div class="card-type">${l.type}</div>
+    <div class="card-name">${l.name}</div>
+    <div class="card-city">${l.city || ''}</div>
+    <div class="card-meta">
+      <div class="meta-item"><strong>${l.price || '—'}</strong>Price</div>
+      <div class="meta-item"><strong>${l.size  || '—'}</strong>Size</div>
+    </div>
+    ${l.broker ? `<div class="card-broker">${l.broker}</div>` : ''}`;
+  card.addEventListener('click', () => {
+    if (!markers[i]) return;
+    map.panTo({lat: l.lat, lng: l.lng});
+    map.setZoom(16);
+    setTimeout(() => openListing(i, markers[i]), 300);
+  });
+  document.getElementById('cards').appendChild(card);
+}
+
+// ── FILTERS ──────────────────────────────────────────────────────────────────
+document.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    activeFilter = pill.dataset.type;
+
+    let count = 0;
+    document.querySelectorAll('.card').forEach((card) => {
+      const i = parseInt(card.id.replace('card-',''));
+      const show = activeFilter === 'All' || card.dataset.type === activeFilter;
+      card.style.display = show ? '' : 'none';
+      if (markers[i]) markers[i].setMap(show ? map : null);
+      if (show) count++;
+    });
+
+    document.getElementById('vis-count').textContent = count;
+    document.getElementById('no-results').classList.toggle('show', count === 0);
+    infoWindow.close();
+  });
+});
+</script>
+</body>
+</html>
