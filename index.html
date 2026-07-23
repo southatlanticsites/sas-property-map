@@ -14,7 +14,28 @@
   --c-lease:#2563EB;--c-sale:#DC2626;--c-gl:#16A34A;--c-sl:#EA580C;--c-sgl:#9333EA;
 }
 html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--navy)}
-#app{display:flex;height:100vh}
+
+/* ── SITE HEADER ── */
+#site-header{width:100%;flex-shrink:0}
+#header-top{
+  position:relative;height:96px;display:flex;align-items:center;gap:14px;
+  padding:0 26px;overflow:hidden;
+  background:#dfe3e6 url('https://static.wixstatic.com/media/1e805d_b71440d3fb114767aa9ee1c5d7de58e5~mv2.jpg') center/cover no-repeat;
+}
+#header-top::before{content:'';position:absolute;inset:0;background:rgba(223,227,230,.35)}
+.header-logo{position:relative;height:76px;width:76px;flex-shrink:0;object-fit:contain}
+.header-wordmark{position:relative;height:44px;object-fit:contain}
+#header-nav{display:flex}
+.nav-btn{
+  flex:1;text-align:center;padding:13px 10px;font-size:14px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
+  font-family:'DM Sans',sans-serif;transition:opacity .2s;
+}
+.nav-btn:hover{opacity:.85}
+.nav-home{background:var(--gold);color:var(--navy2)}
+.nav-about{background:var(--navy2);color:var(--gold)}
+
+#app{display:flex;height:calc(100vh - 152px)}
 
 /* ── SIDEBAR ── */
 #sidebar{
@@ -137,10 +158,24 @@ button.gm-ui-hover-effect{top:4px!important;right:4px!important}
   #app{flex-direction:column}
   #sidebar{width:100%;max-height:45vh;order:2}
   #map-wrap{order:1;min-height:55vh}
+  #header-top{height:72px;padding:0 16px;gap:10px}
+  .header-logo{height:52px;width:52px}
+  .header-wordmark{height:28px}
+  .nav-btn{font-size:12px;padding:11px 8px}
 }
 </style>
 </head>
 <body>
+<div id="site-header">
+  <div id="header-top">
+    <img class="header-logo" src="https://static.wixstatic.com/media/1e805d_ad3ff1f5603d408ab11cfe8ba6104946~mv2.png" alt="South Atlantic Sites logo">
+    <img class="header-wordmark" src="https://static.wixstatic.com/media/1e805d_34f302a71e944029955ab95211e783c0~mv2.png" alt="South Atlantic Sites">
+  </div>
+  <div id="header-nav">
+    <a class="nav-btn nav-home" href="https://www.southatlanticsites.com">Home</a>
+    <a class="nav-btn nav-about" href="https://www.southatlanticsites.com/about">About</a>
+  </div>
+</div>
 <div id="app">
   <div id="sidebar">
     <div id="sidebar-header">
