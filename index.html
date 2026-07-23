@@ -75,8 +75,8 @@ h1.map-title{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:6
 }
 .card[data-type="For Lease"]::before              {background:var(--c-lease)}
 .card[data-type="For Sale"]::before               {background:var(--c-sale)}
-.card[data-type="Ground Lease"]::before           {background:var(--c-gl)}
-.card[data-type="For Sale or Lease"]::before      {background:var(--c-sl)}
+.card[data-type="Ground Lease"]::before           {background:var(--c-lease)}
+.card[data-type="For Sale or Lease"]::before      {background:var(--c-sgl)}
 .card[data-type="For Sale or Ground Lease"]::before{background:var(--c-sgl)}
 .card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);transform:translateX(3px)}
 .card.active{background:rgba(201,162,73,.09);border-color:rgba(201,162,73,.35)}
@@ -84,8 +84,8 @@ h1.map-title{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:6
 .card-type{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
 .card[data-type="For Lease"] .card-type              {color:var(--c-lease)}
 .card[data-type="For Sale"] .card-type               {color:var(--c-sale)}
-.card[data-type="Ground Lease"] .card-type           {color:var(--c-gl)}
-.card[data-type="For Sale or Lease"] .card-type      {color:var(--c-sl)}
+.card[data-type="Ground Lease"] .card-type           {color:var(--c-lease)}
+.card[data-type="For Sale or Lease"] .card-type      {color:var(--c-sgl)}
 .card[data-type="For Sale or Ground Lease"] .card-type{color:var(--c-sgl)}
 .card-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--cream);line-height:1.25;margin-bottom:3px}
 .card-city{font-size:10px;color:var(--mid);letter-spacing:.04em;text-transform:uppercase;margin-bottom:7px}
@@ -199,8 +199,8 @@ const LISTINGS = [
 ];
 
 const TYPE_COLOR = {
-  'For Lease':'#2563EB','For Sale':'#DC2626','Ground Lease':'#16A34A',
-  'For Sale or Lease':'#EA580C','For Sale or Ground Lease':'#9333EA',
+  'For Lease':'#2563EB','For Sale':'#DC2626','Ground Lease':'#2563EB',
+  'For Sale or Lease':'#9333EA','For Sale or Ground Lease':'#9333EA',
 };
 
 let map, markers = [], infoWindow, activeFilter = 'All';
