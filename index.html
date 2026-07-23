@@ -51,16 +51,10 @@ h1.map-title{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:6
 .pill[data-type="All"]                      {border-color:var(--gold);  color:var(--gold)}
 .pill[data-type="For Lease"]                {border-color:var(--c-lease);color:var(--c-lease)}
 .pill[data-type="For Sale"]                 {border-color:var(--c-sale); color:var(--c-sale)}
-.pill[data-type="Ground Lease"]             {border-color:var(--c-gl);   color:var(--c-gl)}
-.pill[data-type="For Sale or Lease"]        {border-color:var(--c-sl);   color:var(--c-sl)}
-.pill[data-type="For Sale or Ground Lease"] {border-color:var(--c-sgl);  color:var(--c-sgl)}
 .pill.active,.pill:hover{color:var(--navy2)!important}
-.pill[data-type="All"].active,.pill[data-type="All"]:hover                                  {background:var(--gold)}
-.pill[data-type="For Lease"].active,.pill[data-type="For Lease"]:hover                      {background:var(--c-lease)}
-.pill[data-type="For Sale"].active,.pill[data-type="For Sale"]:hover                        {background:var(--c-sale)}
-.pill[data-type="Ground Lease"].active,.pill[data-type="Ground Lease"]:hover                {background:var(--c-gl)}
-.pill[data-type="For Sale or Lease"].active,.pill[data-type="For Sale or Lease"]:hover      {background:var(--c-sl)}
-.pill[data-type="For Sale or Ground Lease"].active,.pill[data-type="For Sale or Ground Lease"]:hover{background:var(--c-sgl)}
+.pill[data-type="All"].active,.pill[data-type="All"]:hover            {background:var(--gold)}
+.pill[data-type="For Lease"].active,.pill[data-type="For Lease"]:hover{background:var(--c-lease)}
+.pill[data-type="For Sale"].active,.pill[data-type="For Sale"]:hover  {background:var(--c-sale)}
 
 /* Cards */
 #cards{
@@ -158,9 +152,6 @@ button.gm-ui-hover-effect{top:4px!important;right:4px!important}
       <div class="pill active" data-type="All">All</div>
       <div class="pill" data-type="For Lease">For Lease</div>
       <div class="pill" data-type="For Sale">For Sale</div>
-      <div class="pill" data-type="Ground Lease">Ground Lease</div>
-      <div class="pill" data-type="For Sale or Lease">Sale or Lease</div>
-      <div class="pill" data-type="For Sale or Ground Lease">Sale or GL</div>
     </div>
 
     <div id="cards">
@@ -380,6 +371,21 @@ function createCard(l, i) {
 }
 
 // ── FILTERS ──────────────────────────────────────────────────────────────────
+// A listing's underlying deal type can satisfy more than one simplified
+// category — e.g. "For Sale or Lease" shows under both For Lease and For Sale.
+function matchesCategory(type, category) {
+  if (category === 'All') return true;
+  if (category === 'For Lease') {
+    return type === 'For Lease' || type === 'Ground Lease' ||
+           type === 'For Sale or Lease' || type === 'For Sale or Ground Lease';
+  }
+  if (category === 'For Sale') {
+    return type === 'For Sale' ||
+           type === 'For Sale or Lease' || type === 'For Sale or Ground Lease';
+  }
+  return false;
+}
+
 document.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', () => {
     document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
@@ -389,7 +395,7 @@ document.querySelectorAll('.pill').forEach(pill => {
     let count = 0;
     document.querySelectorAll('.card').forEach((card) => {
       const i = parseInt(card.id.replace('card-',''));
-      const show = activeFilter === 'All' || card.dataset.type === activeFilter;
+      const show = matchesCategory(card.dataset.type, activeFilter);
       card.style.display = show ? '' : 'none';
       if (markers[i]) markers[i].setMap(show ? map : null);
       if (show) count++;
