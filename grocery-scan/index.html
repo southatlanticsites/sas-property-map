@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Grocery Site Scan – South Atlantic Sites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1A33;--navy2:#132040;--navy3:#1A2A4E;--gold:#C9A249;--cream:#F6F1E9;--mid:#8A95A5;--border:rgba(255,255,255,.09);
+  --short:#2BD1A0;--second:#F5B83D;--out:#9AA3AE;--store:#EF4444;
+}
+html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--cream)}
+#app{display:flex;height:100%}
+#sidebar{width:380px;flex-shrink:0;display:flex;flex-direction:column;background:var(--navy);box-shadow:4px 0 24px rgba(0,0,0,.35);z-index:2}
+#sb-head{padding:18px 20px 14px;background:var(--navy2);border-bottom:1px solid var(--border)}
+.firm{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;line-height:1.1;margin:4px 0 4px}
+.sub{font-size:12px;color:var(--mid);line-height:1.4}
+.ctrl{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center}
+.ctrl .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);width:44px}
+button.chip{font:600 12px/1 'DM Sans',sans-serif;color:var(--cream);background:var(--navy3);border:1px solid var(--border);border-radius:999px;padding:7px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button.chip[aria-pressed="false"]{opacity:.45}
+button.chip:hover{border-color:var(--gold)}
+button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.d-short{background:var(--short)}.d-second{background:var(--second)}.d-out{background:transparent;border:2px solid var(--out)}.d-store{background:var(--store)}
+#list{flex:1;overflow:auto;padding-bottom:20px}
+.mk h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:16px 20px 6px}
+.mk .none{margin:0 20px 6px;color:var(--mid);font-size:12.5px}
+.item{display:grid;grid-template-columns:12px 1fr auto;gap:2px 10px;align-items:baseline;padding:8px 20px;cursor:pointer;border-left:3px solid transparent}
+.item:hover{background:rgba(255,255,255,.04)}
+.item.sel{background:rgba(201,162,73,.10);border-left-color:var(--gold)}
+.item .nm{font-weight:600;font-size:14px}
+.item .ds{font-size:12.5px;color:var(--mid);font-variant-numeric:tabular-nums;white-space:nowrap}
+.item .meta{grid-column:2/4;font-size:12.5px;color:var(--mid);line-height:1.4}
+.item.out .nm{text-decoration:line-through;text-decoration-color:var(--out);color:#C9CED6}
+[hidden]{display:none!important}
+.note{margin:18px 20px 0;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--mid);line-height:1.5}
+.note p{margin-bottom:6px}
+#map{flex:1;min-height:300px}
+/* info window */
+.iw{font-family:'DM Sans',sans-serif;color:#0B1A33;max-width:280px}
+.iw .tier{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.iw h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.15;margin:3px 0 6px}
+.iw dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12.5px;margin-bottom:8px}
+.iw dt{color:#5b6576}.iw dd{font-variant-numeric:tabular-nums}
+.iw p{font-size:12.5px;margin-bottom:8px;line-height:1.4}
+.iw a{color:#0B5CAD;font-weight:600}
+@media (max-width:820px){
+  #app{flex-direction:column-reverse;height:auto}
+  #map{height:62vh;flex:none}
+  #sidebar{width:100%}
+  #list{overflow:visible}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <div id="sb-head">
+      <div class="firm">South Atlantic Sites</div>
+      <h1>Grocery Site Scan</h1>
+      <div class="sub">Crexi + LoopNet listings as of Sep 25, 2026. Red circles are a 4.5-mi straight-line buffer around existing stores; click a site to see its 3-mi ring.</div>
+      <div class="ctrl" role="group" aria-label="Show">
+        <span class="lbl">Show</span>
+        <button class="chip" id="t-short" data-k="short" aria-pressed="true"><span class="dot d-short"></span>Shortlist</button>
+        <button class="chip" id="t-second" data-k="second" aria-pressed="true"><span class="dot d-second"></span>Second tier</button>
+        <button class="chip" id="t-out" data-k="out" aria-pressed="false"><span class="dot d-out"></span>Ruled out</button>
+        <button class="chip" id="t-store" data-k="store" aria-pressed="true"><span class="dot d-store"></span>Existing + 4.5 mi</button>
+      </div>
+      <div class="ctrl" role="group" aria-label="Zoom to">
+        <span class="lbl">Zoom</span>
+        <button class="chip" data-z="tri">Triangle</button>
+        <button class="chip" data-z="triad">Triad</button>
+        <button class="chip" data-z="all">All</button>
+      </div>
+    </div>
+    <div id="list"></div>
+  </aside>
+  <div id="map" aria-label="Map of candidate sites"></div>
+</div>
+<script>
+const API_KEY = 'AIzaSyCoqCH6BGDq4K-DDZs1XnWnuSGRAzviS00';
+const STORES = [
+  {n:"Raleigh – 4308 Wake Forest Rd", c:[35.83943,-78.61184]},
+  {n:"Raleigh – 4115 Buffaloe Rd", c:[35.83136,-78.56870]},
+  {n:"Cary – 1105 N Harrison Ave", c:[35.80382,-78.78302]},
+  {n:"Garner – 2694 Timber Dr", c:[35.71662,-78.63936]},
+  {n:"Apex – 670 Grand Central Station", c:[35.73840,-78.84366]},
+  {n:"Wake Forest – 1120 S Main St", c:[35.96569,-78.51784]},
+  {n:"Burlington – 3010 S Church St", c:[36.08049,-79.49189]},
+  {n:"Greensboro – 5696 W Gate City Blvd", c:[36.01792,-79.89643]},
+  {n:"Greensboro – 3005 Martinsville Rd", c:[36.11719,-79.82968]},
+  {n:"Winston-Salem – 3315 Sides Branch Rd", c:[36.03205,-80.26201]},
+  {n:"Winston-Salem – 2445 Fairlawn Ct", c:[36.14343,-80.29406]}
+];
+
+const MARKETS = ["Central Raleigh (Western / New Bern)","NW Raleigh (Glenwood / Creedmoor)","E Burlington / Graham","High Point","Archdale / Thomasville","Clemmons","Chapel Hill / Carrboro"];
+const SITES = [
+ // shortlist
+ {t:"short",m:0,n:"4500 Western Blvd (former Kmart)",c:[35.78485,-78.70269],type:"Box lease",size:"117,440 SF on 12.28 AC; suites 30,860–70,146 SF",ask:"$18.50–19.00/SF",note:"100K+ VPD. Landlord (CityPlat) splitting into 5–7 suites; need a ~23–26K SF demise with dock. Rent is high against a flat 10-yr base. Only ~0.2 mi past the 4.5-mi line.",u:"https://www.loopnet.com/Listing/4500-Western-Blvd-Raleigh-NC/31953112/"},
+ {t:"short",m:1,n:"8629 Glenwood Ave",c:[35.88493,-78.74200],type:"Land",size:"4.82 AC, IX-3",ask:"$1.85M",note:"Site plan for a ±30K SF building. Listing calls it infill with privacy, so verify frontage and visibility. Avison Young (Aucoin/Navo).",u:"https://www.crexi.com/properties/2590112/north-carolina-8629-glenwood-ave"},
+ {t:"short",m:2,n:"1934 N Church St",c:[36.09516,-79.40509],type:"Land",size:"6.77 AC",ask:"Unpriced",note:"N Church / US-70 corridor. Infinito (Carreño).",u:"https://www.crexi.com/properties/2145952/north-carolina-1934-north-church-street-burlington-nc"},
+ {t:"short",m:3,n:"North Main Place, 2645 N Main St",c:[35.99168,-80.02912],type:"Box lease",size:"24,200 SF",ask:"$11.50/SF",note:"Signalized at N Main & Hartley / University Pkwy, across from Tesla and Chick-fil-A. Warehouse with a retail front: check clear height, dock and parking.",u:"https://www.loopnet.com/Listing/2645-N-Main-St-High-Point-NC/38491181/"},
+ {t:"short",m:3,n:"3510–3528 N Main St",c:[36.00815,-80.04076],type:"Land",size:"21.57 AC, CZ-GB",ask:"$1.945M",note:"N Main frontage, US-311 visibility; subdivide 3–4 AC. Aldi next door in a separate building, so it's OK; confirm there's no shared REA. Speckman.",u:"https://www.crexi.com/properties/1051801/north-carolina-3510---3528-n-main-st-high-point-nc-27265"},
+ {t:"short",m:4,n:"11651 Main St, Archdale",c:[35.91722,-79.97466],type:"Land",size:"3.36 AC, B-1",ask:"$495K",note:"270 ft on N Main / US-311, level, next to Archdale Commons, seller financing. Confirm the corner and traffic count.",u:"https://www.crexi.com/properties/2676967/north-carolina-11651-main-st"},
+ {t:"short",m:5,n:"6207 Ramada Dr",c:[36.03395,-80.38263],type:"Land",size:"8.6 AC",ask:"$3.75M",note:"I-40 / Lewisville-Clemmons Rd interchange; subdivide. NAI Piedmont Triad.",u:"https://www.crexi.com/properties/2335273/north-carolina-6207-ramada-drive"},
+ // second tier
+ {t:"second",m:0,n:"Mission Valley, 2109 Avent Ferry Rd",c:[35.77938,-78.67657],type:"Box lease",size:"Up to 37,536 SF",ask:"$28/SF",note:"In-line space by NCSU; rent is high. Grocer co-tenancy not yet confirmed.",u:"https://www.loopnet.com/Listing/2109-Avent-Ferry-Rd-Raleigh-NC/31084312/"},
+ {t:"second",m:1,n:"6425 / 6429 Glenwood Ave",c:[35.85815,-78.70569],type:"Land + income",size:"2.70 AC",ask:"$6.0M",note:"Sherwin-Williams and Godfather's NNN leases in place; expensive redevelopment.",u:"https://www.crexi.com/properties/1649335/north-carolina-6425-6429-glenwood-ave"},
+ {t:"second",m:2,n:"Church Street Shopping Ctr",c:[36.09421,-79.40116],type:"Center for sale",size:"95,460 SF",ask:"Unpriced",note:"Ollie's-anchored. Check what space is available.",u:"https://www.crexi.com/properties/2450877/north-carolina-21252143-n-church-street-burlington-nc"},
+ {t:"second",m:2,n:"Jimmie Kerr Rd, Graham",c:[36.06653,-79.35752],approx:true,type:"Land",size:"3.87 AC, I-1",ask:"$800K",note:"I-40/85 Exit 150, across from Alamance Community College (map point is the college). Needs rezoning; traffic count is a question.",u:"https://www.crexi.com/properties/2234158/north-carolina-jimmie-kerr-rd"},
+ {t:"second",m:4,n:"6623 Unity St",c:[35.87884,-80.04677],type:"Land",size:"4.23 AC, C-2 corner",ask:"$850K",note:"~1 mi from I-85. VPD likely under 20K.",u:"https://www.crexi.com/properties/886748/north-carolina-423-acres-prime-commercial-land-in-thomasville-city-limits"},
+ {t:"second",m:4,n:"233 Kennedy Rd (Walmart shadow)",c:[35.85370,-80.06916],type:"Land",size:"4.81 AC, R10",ask:"$550K",note:"Needs rezoning; check for Walmart deed restrictions. Liberty Dr 15K / NC-109 25K VPD.",u:"https://www.crexi.com/properties/1935832/north-carolina-walmart-shadow-parcel---233-kennedy-road"},
+ {t:"second",m:3,n:"3023 S Main St",c:[35.91900,-79.97630],type:"Land",size:"12.5 AC",ask:"Unpriced",note:"South High Point toward Archdale. Freeman.",u:"https://www.crexi.com/properties/660186/north-carolina-multi-family-office-commercial-site"},
+ {t:"second",m:5,n:"6325 Amp Dr",c:[36.03737,-80.38384],type:"Land",size:"4.04 AC, GB-S",ask:"$1.1M",note:"I-40 visibility, but it isn't on the retail corridor.",u:"https://www.crexi.com/properties/2463341/north-carolina-6325-amp-drive"},
+ {t:"second",m:5,n:"Towncenter Dr (Publix shadow)",c:[36.02743,-80.38210],approx:true,type:"Land",size:"2.52 AC",ask:"$850K",note:"At the acreage floor. Confirm it's outside the Publix center's REA / exclusive. Map point is approximate.",u:"https://www.loopnet.com/Listing/0-Towncenter-Dr-Clemmons-NC/39292289/"},
+ {t:"second",m:5,n:"Kinnamon Village outparcels",c:[36.02616,-80.37164],type:"Land",size:"2.0 + 2.07 AC",ask:"$525K + $325K",note:"Outparcels of a grocery-anchored center, so the REA / exclusive likely applies. Check before pursuing.",u:"https://www.crexi.com/properties/1327335/north-carolina-2-ac-land-kinnamon-clemmons-nc"},
+ // ruled out
+ {t:"out",m:0,n:"Edgewater Commons",c:[35.79735,-78.55141],type:"Land",size:"18.99 AC",ask:"Unpriced",why:"Inside 4.5 mi of Buffaloe Rd store",u:"https://www.crexi.com/properties/865399/north-carolina-edgewater-commons-neighborhood-commercial-retail"},
+ {t:"out",m:0,n:"5006 New Bern Ave",c:[35.79614,-78.55329],type:"Building",size:"20,130 SF on 1.8 AC",ask:"$3.21M",why:"Inside 4.5 mi of Buffaloe Rd store",u:"https://www.crexi.com/properties/2690023/north-carolina-raymo-car-care-raleigh-outlet"},
+ {t:"out",m:0,n:"Sunnybrook Rd",c:[35.77754,-78.58327],type:"Land",size:"3.26 AC",ask:"Unpriced",why:"Inside 4.5 mi of Buffaloe Rd store",u:"https://www.crexi.com/properties/1298284/north-carolina-sunnybrook"},
+ {t:"out",m:0,n:"0 Poole Rd",c:[35.76779,-78.57629],approx:true,type:"Land",size:"4.13 AC",ask:"$1.6M",why:"Inside 4.5 mi; right-in/right-out only",u:"https://www.loopnet.com/Listing/0-Poole-Rd-Raleigh-NC/34322047/"},
+ {t:"out",m:1,n:"Cornerstone Commons",c:[35.87361,-78.72803],type:"Box lease",size:"Up to 53,940 SF",ask:"Upon request",why:"Lowes Foods in the same center",u:"https://www.loopnet.com/Listing/8111-Glenwood-Ave-Raleigh-NC/12512782/"},
+ {t:"out",m:2,n:"2391 Eric Ln",c:[36.06458,-79.47686],type:"Land",size:"3.06 AC",ask:"$2.5M",why:"Inside 4.5 mi of Burlington store",u:"https://www.loopnet.com/Listing/2391-Eric-Lane-Burlington-NC/42105668/"},
+ {t:"out",m:2,n:"3802 Rural Retreat Rd",c:[36.07198,-79.51960],type:"Land",size:"2.43 AC",ask:"$3.25M",why:"Inside 4.5 mi of Burlington store",u:"https://www.loopnet.com/Listing/3802-Rural-Retreat-Rd-Burlington-NC/30634506/"},
+ {t:"out",m:2,n:"2703 Ramada Rd",c:[36.06698,-79.47271],type:"Building",size:"21,092 SF",ask:"Upon request",why:"Inside 4.5 mi of Burlington store",u:"https://www.loopnet.com/Listing/2703-Ramada-Rd-Burlington-NC/41226152/"},
+ {t:"out",m:3,n:"Westchester Centre",c:[35.94001,-80.03434],type:"Box lease",size:"Up to 25,828 SF",ask:"$9–18/SF",why:"Food Lion in the same center",u:"https://www.loopnet.com/Listing/2200-Westchester-Dr-High-Point-NC/33449542/"},
+ {t:"out",m:4,n:"Southgate Plaza",c:[35.86330,-80.07230],type:"Box lease",size:"Up to 21,135 SF",ask:"$8–12/SF",why:"Aldi in the same center",u:"https://www.loopnet.com/Listing/1033-Randolph-St-Thomasville-NC/23561452/"},
+ {t:"out",m:4,n:"Forest Park Dr & Mt Calvary Rd",c:[35.88372,-80.11455],approx:true,type:"Land",size:"3.04 AC, OI",ask:"$760K",why:"18,500 AADT, under the 20K minimum",u:"https://www.crexi.com/properties/2433269/north-carolina-land-with-frontage-in-thomasville"},
+ {t:"out",m:5,n:"1612 S Stratford Rd, W-S",c:[36.07210,-80.30371],type:"Box lease",size:"27,267 SF",ask:"$8.50/SF",why:"Inside 4.5 mi of Sides Branch Rd store; 85 parking spaces",u:"https://www.loopnet.com/Listing/1612-S-Stratford-Rd-Winston-Salem-NC/40409019/"},
+ {t:"out",m:6,n:"1318 MLK Blvd",c:[35.95001,-79.05837],type:"Land",size:"2.2 AC",ask:"$1.075M",why:"Under the 2.5 AC minimum",u:"https://www.crexi.com/properties/2664084/north-carolina-22-acres-mlk-boulevard-chapel-hill-nc-27514"},
+ {t:"out",m:6,n:"5504 Durham-Chapel Hill Blvd",c:[35.95239,-78.99577],type:"Land + income",size:"4.5 AC",ask:"Upon request",why:"Entitled for 13-story mixed use; likely priced out. In the 15-501 market",u:"https://www.loopnet.com/Listing/5504-Durham-Chapel-Hill-Blvd-Durham-NC/39271081/"}
+];
+
+
+const MI=1609.344, BUF=4.5;
+const COL={short:'#2BD1A0',second:'#F5B83D',out:'#9AA3AE',store:'#EF4444'};
+const TIER={short:'Shortlist',second:'Second tier',out:'Ruled out'};
+function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b[1]-a[1]);const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+SITES.forEach(s=>{let b=null;STORES.forEach(l=>{const d=hav(s.c,l.c);if(!b||d<b.d)b={d,l};});s.near=b;});
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+const ll=c=>({lat:c[0],lng:c[1]});
+
+let map,iw,ring=null;const groups={short:[],second:[],out:[],store:[]};const shown={short:true,second:true,out:false,store:true};
+const VIEWS={tri:[[35.68,-78.95],[36.02,-78.47]],triad:[[35.82,-80.45],[36.16,-79.30]],all:[[35.68,-80.45],[36.18,-78.47]]};
+function fit(k){const v=VIEWS[k];map.fitBounds(new google.maps.LatLngBounds(ll(v[0]),ll(v[1])),20);}
+
+function content(s){
+  return '<div class="iw"><div class="tier" style="color:'+(s.t==='out'?'#6b7380':s.t==='second'?'#A36F00':'#0E7A5C')+'">'+TIER[s.t]+' · '+esc(MARKETS[s.m])+'</div><h3>'+esc(s.n)+'</h3>'+
+  '<dl><dt>Type</dt><dd>'+esc(s.type)+'</dd><dt>Size</dt><dd>'+esc(s.size)+'</dd><dt>Ask</dt><dd>'+esc(s.ask)+'</dd><dt>Nearest store</dt><dd>'+s.near.d.toFixed(2)+' mi · '+esc(s.near.l.n)+'</dd></dl>'+
+  (s.why?'<p><strong>Why out:</strong> '+esc(s.why)+'</p>':'')+(s.note?'<p>'+esc(s.note)+'</p>':'')+(s.approx?'<p style="color:#5b6576">Map point is approximate.</p>':'')+
+  '<a href="'+s.u+'" target="_blank" rel="noopener">Open listing ↗</a></div>';
+}
+function select(i,fly){
+  const s=SITES[i];
+  if(ring)ring.setMap(null);
+  ring=new google.maps.Circle({map,center:ll(s.c),radius:3*MI,strokeColor:'#FFFFFF',strokeOpacity:.9,strokeWeight:1.5,fillOpacity:0,clickable:false});
+  document.querySelectorAll('.item.sel').forEach(e=>e.classList.remove('sel'));
+  const el=document.getElementById('it'+i);if(el)el.classList.add('sel');
+  if(!shown[s.t])toggle(s.t,true);
+  iw.setContent(content(s));iw.open({map,anchor:s.marker});
+  if(fly){map.fitBounds(ring.getBounds(),20);}
+}
+function setVis(k,on){shown[k]=on;groups[k].forEach(o=>o.setMap(on?map:null));document.querySelectorAll('.item[data-t="'+k+'"]').forEach(e=>e.hidden=!on);}
+function toggle(k,force){const b=document.getElementById('t-'+k);const on=force!==undefined?force:b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);setVis(k,on);}
+
+function buildList(){
+  let h='';
+  MARKETS.forEach((m,mi)=>{
+    const list=SITES.map((s,i)=>[s,i]).filter(([s])=>s.m===mi).sort((a,b)=>['short','second','out'].indexOf(a[0].t)-['short','second','out'].indexOf(b[0].t));
+    h+='<section class="mk"><h2>'+esc(m)+'</h2>';
+    if(!list.some(([s])=>s.t!=='out'))h+='<p class="none">No qualifying listing on Crexi or LoopNet.</p>';
+    list.forEach(([s,i])=>{h+='<div class="item '+s.t+'" id="it'+i+'" data-t="'+s.t+'" tabindex="0" role="button"><span class="dot d-'+s.t+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.near.d.toFixed(1)+' mi</span><span class="meta">'+esc(s.type+' · '+s.size+' · '+s.ask)+(s.why?' · '+esc(s.why):'')+'</span></div>';});
+    h+='</section>';
+  });
+  h+='<div class="note"><p>Distances are straight-line to the nearest existing store. Sites under 4.5 mi are ruled out. Points come from US Census address geocoding (about ±0.2 mi), so anything from 4.3 to 4.8 mi needs a parcel-level check.</p><p>A grocer in the same center rules a site out; a separately owned grocer next door does not.</p></div>';
+  const L=document.getElementById('list');L.innerHTML=h;
+  L.querySelectorAll('.item').forEach(el=>{const i=+el.id.slice(2);el.addEventListener('click',()=>select(i,true));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i,true);}});});
+}
+
+window.initMap=function(){
+  map=new google.maps.Map(document.getElementById('map'),{center:{lat:35.95,lng:-79.5},zoom:8,mapTypeId:'hybrid',mapTypeControl:true,mapTypeControlOptions:{mapTypeIds:['hybrid','satellite','roadmap','terrain'],position:google.maps.ControlPosition.TOP_RIGHT},streetViewControl:true,fullscreenControl:true});
+  iw=new google.maps.InfoWindow();
+  iw.addListener('closeclick',()=>{if(ring){ring.setMap(null);ring=null;}document.querySelectorAll('.item.sel').forEach(e=>e.classList.remove('sel'));});
+  STORES.forEach(l=>{
+    groups.store.push(new google.maps.Circle({map,center:ll(l.c),radius:BUF*MI,strokeColor:COL.store,strokeOpacity:.95,strokeWeight:1.5,fillColor:COL.store,fillOpacity:.10,clickable:false}));
+    const m=new google.maps.Marker({map,position:ll(l.c),title:l.n,zIndex:5,icon:{path:google.maps.SymbolPath.CIRCLE,scale:7,fillColor:COL.store,fillOpacity:1,strokeColor:'#fff',strokeWeight:2}});
+    m.addListener('click',()=>{iw.setContent('<div class="iw"><div class="tier" style="color:#B91C1C">Existing store</div><h3>'+esc(l.n)+'</h3><p>4.5-mi straight-line buffer shown.</p></div>');iw.open({map,anchor:m});});
+    groups.store.push(m);
+  });
+  SITES.forEach((s,i)=>{
+    const out=s.t==='out';
+    const m=new google.maps.Marker({map:shown[s.t]?map:null,position:ll(s.c),title:s.n,zIndex:s.t==='short'?30:out?10:20,
+      icon:{path:google.maps.SymbolPath.CIRCLE,scale:s.t==='short'?9:7,fillColor:out?'#000':COL[s.t],fillOpacity:out?.25:1,strokeColor:out?COL.out:'#0B1A33',strokeWeight:out?2.5:2}});
+    m.addListener('click',()=>select(i,false));
+    s.marker=m;groups[s.t].push(m);
+  });
+  buildList();setVis('out',false);
+  document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.k)));
+  document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>fit(b.dataset.z)));
+  fit('all');
+};
+(function(){const s=document.createElement('script');s.src='https://maps.googleapis.com/maps/api/js?key='+API_KEY+'&callback=initMap';s.async=true;s.defer=true;document.head.appendChild(s);})();
+</script>
+</body>
+</html>
