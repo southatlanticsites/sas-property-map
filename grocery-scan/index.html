@@ -11,7 +11,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --navy:#0B1A33;--navy2:#132040;--navy3:#1A2A4E;--gold:#C9A249;--cream:#F6F1E9;--mid:#8A95A5;--border:rgba(255,255,255,.09);
-  --short:#2BD1A0;--second:#F5B83D;--out:#9AA3AE;--store:#EF4444;
+  --short:#2BD1A0;--second:#F5B83D;--out:#9AA3AE;--store:#EF4444;--box:#FF8A00;
 }
 html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--cream)}
 #app{display:flex;height:100%}
@@ -27,7 +27,7 @@ button.chip[aria-pressed="false"]{opacity:.45}
 button.chip:hover{border-color:var(--gold)}
 button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
-.d-short{background:var(--short)}.d-second{background:var(--second)}.d-out{background:transparent;border:2px solid var(--out)}.d-store{background:var(--store)}
+.d-short{background:var(--short)}.d-second{background:var(--second)}.d-out{background:transparent;border:2px solid var(--out)}.d-store{background:var(--store)}.d-box{background:var(--box);border-radius:2px}
 #list{flex:1;overflow:auto;padding-bottom:20px}
 .mk h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:16px 20px 6px}
 .mk .none{margin:0 20px 6px;color:var(--mid);font-size:12.5px}
@@ -71,6 +71,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
         <button class="chip" id="t-second" data-k="second" aria-pressed="true"><span class="dot d-second"></span>Second tier</button>
         <button class="chip" id="t-out" data-k="out" aria-pressed="false"><span class="dot d-out"></span>Ruled out</button>
         <button class="chip" id="t-store" data-k="store" aria-pressed="true"><span class="dot d-store"></span>Existing + 4.5 mi</button>
+        <button class="chip" id="t-box" data-k="box" aria-pressed="true"><span class="dot d-box"></span>Dark boxes</button>
       </div>
       <div class="ctrl" role="group" aria-label="Zoom to">
         <span class="lbl">Zoom</span>
@@ -530,15 +531,16 @@ const SITES = [
 ];
 
 
+const BOX = [{"n":"3924 Western Blvd, Raleigh","s":"closed","c":[35.7844712,-78.6920505],"pid":"ChIJExaxa7D1rIkRIV4FD1azIRA","mk":"Central Raleigh (Western)","near_mi":5.35,"near":"Cary – 1105 N Harrison Ave"},{"n":"6540 Glenwood Ave, Raleigh","s":"closed","c":[35.8603854,-78.7060775],"pid":"ChIJOz7yG_72rIkR0XMyCOiq2-U","mk":"NW Raleigh (Glenwood / Creedmoor)","near_mi":5.54,"near":"Raleigh – 4308 Wake Forest Rd"},{"n":"1515 Garner Station Blvd, Raleigh","s":"closed","c":[35.7237477,-78.65569],"pid":"ChIJ-fCImQBgrIkR5dAl7540Oog","mk":"Garner (not a target market)","near_mi":1.21,"near":"Garner – 2694 Timber Dr"},{"n":"7132 Knightdale Blvd, Knightdale","s":"closed","c":[35.797161,-78.4889394],"pid":"ChIJ18TSU1hbrIkRApGpstElJsU","mk":"Knightdale","near_mi":5.04,"near":"Raleigh – 4115 Buffaloe Rd"},{"n":"128 Kilmayne Dr, Cary","s":"closed","c":[35.7702324,-78.7837867],"pid":"ChIJ_8_ozBrzrIkRPtJ6acAJOwM","mk":"Cary (not a target market)","near_mi":2.41,"near":"Cary – 1105 N Harrison Ave"},{"n":"3420 SW Durham Dr, Durham","s":"closed","c":[35.9514266,-78.9882378],"pid":"ChIJa_xKax3nrIkR9WCP-dVgJaA","mk":"15-501 Durham/Chapel Hill","near_mi":15.26,"near":"Cary – 1105 N Harrison Ave"},{"n":"4723 NC-55, Durham","s":"closed","c":[35.900535,-78.8941658],"pid":"ChIJtWdJm23vrIkRScywiE15o8Y","mk":"Southpoint Durham","near_mi":9.03,"near":"Cary – 1105 N Harrison Ave"},{"n":"2000 Avondale Dr Ste E, Durham","s":"closed","c":[36.0176409,-78.885934],"pid":"ChIJy7Zt1JzjrIkR_NBJnmq1WA0","mk":"North Durham","near_mi":15.75,"near":"Cary – 1105 N Harrison Ave"},{"n":"4209 W Gate City Blvd, Greensboro","s":"closed","c":[36.0345237,-79.8627955],"pid":"ChIJ9zN3uEQaU4gRVLXUzgo5Sy0","mk":"Greensboro (not a target market)","near_mi":2.2,"near":"Greensboro – 5696 W Gate City Blvd"},{"n":"1233 Silas Creek Pkwy, Winston-Salem","s":"closed","c":[36.0674887,-80.2555482],"pid":"ChIJD0M3ssCvU4gRh_pusVl5GFE","mk":"Winston-Salem (not a target market)","near_mi":2.45,"near":"Winston-Salem – 3315 Sides Branch Rd"},{"n":"12295 Capital Blvd, Wake Forest","s":"open","c":[35.9817384,-78.5405872],"pid":"ChIJZ7u7b1BTrIkRy5h34WS7bzU","mk":"Wake Forest (not a target market)","near_mi":1.64,"near":"Wake Forest – 1120 S Main St"},{"n":"630 Lakestone Commons Ave, Fuquay-Varina","s":"open","c":[35.5928677,-78.7639023],"pid":"ChIJEX-ohDuPrIkRm7gQcLldFOk","mk":"Fuquay","near_mi":11.01,"near":"Apex – 670 Grand Central Station"},{"n":"1811 S Church St, Burlington","s":"open","c":[36.0845286,-79.4608852],"pid":"ChIJG1y8ydwrU4gRK4qRL2d8eo0","mk":"Burlington (near E Burlington/Graham)","near_mi":1.76,"near":"Burlington – 3010 S Church St"},{"n":"3718 Battleground Ave, Greensboro","s":"open","c":[36.1337064,-79.8539051],"pid":"ChIJo5nvLUocU4gRiXuYa4nxIn4","mk":"Greensboro (not a target market)","near_mi":1.72,"near":"Greensboro – 3005 Martinsville Rd"},{"n":"2531 Eastchester Dr, High Point","s":"open","c":[36.0300122,-79.9700897],"pid":"ChIJ943JjpsFU4gRpWXEqSPSwdw","mk":"High Point","near_mi":4.2,"near":"Greensboro – 5696 W Gate City Blvd"},{"n":"1677 Westchester Dr, High Point","s":"open","c":[35.949855,-80.0317298],"pid":"ChIJcZ01hPQJU4gRKtm4QpDSbDg","mk":"High Point","near_mi":8.9,"near":"Greensboro – 5696 W Gate City Blvd"},{"n":"100 Westwood Village Dr, Clemmons","s":"open","c":[36.0308829,-80.3839695],"pid":"ChIJBxSjp-u5U4gRq60Qz4q8EeM","mk":"Clemmons","near_mi":6.85,"near":"Winston-Salem – 3315 Sides Branch Rd"}];
 const MI=1609.344, BUF=4.5;
-const COL={short:'#2BD1A0',second:'#F5B83D',out:'#9AA3AE',store:'#EF4444'};
+const COL={short:'#2BD1A0',second:'#F5B83D',out:'#9AA3AE',store:'#EF4444',box:'#FF8A00'};
 const TIER={short:'Shortlist',second:'Second tier',out:'Ruled out'};
 function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b[1]-a[1]);const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 SITES.forEach(s=>{let b=null;STORES.forEach(l=>{const d=hav(s.c,l.c);if(!b||d<b.d)b={d,l};});s.near=b;});
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 const ll=c=>({lat:c[0],lng:c[1]});
 
-let map,iw,ring=null;const groups={short:[],second:[],out:[],store:[]};const shown={short:true,second:true,out:false,store:true};
+let map,iw,ring=null;const groups={short:[],second:[],out:[],store:[],box:[]};const shown={short:true,second:true,out:false,store:true,box:true};
 const VIEWS={tri:[[35.68,-78.95],[36.02,-78.47]],triad:[[35.82,-80.45],[36.16,-79.30]],all:[[35.68,-80.45],[36.18,-78.47]]};
 function fit(k){const v=VIEWS[k];map.fitBounds(new google.maps.LatLngBounds(ll(v[0]),ll(v[1])),20);}
 
@@ -558,6 +560,8 @@ function select(i,fly){
   iw.setContent(content(s));iw.open({map,anchor:s.marker});
   if(fly){map.fitBounds(ring.getBounds(),20);}
 }
+function boxContent(b){const ok=b.near_mi>=4.5;return '<div class="iw"><div class="tier" style="color:#C25E00">Box Watch · Big Lots · '+(b.s==='closed'?'Closed':'Open')+'</div><h3>'+esc(b.n)+'</h3><dl><dt>Market</dt><dd>'+esc(b.mk)+'</dd><dt>Nearest store</dt><dd>'+b.near_mi.toFixed(2)+' mi · '+esc(b.near)+'</dd><dt>4.5-mi rule</dt><dd>'+(ok?'Clears':'Inside 4.5 mi')+'</dd></dl><p>Typical Big Lots box is roughly 25–35K SF. Size, owner and leasing broker not yet confirmed.</p><a href="https://www.google.com/maps/place/?q=place_id:'+b.pid+'" target="_blank" rel="noopener">Open in Google Maps ↗</a></div>';}
+function selectBox(i){const b=BOX[i];if(!shown.box)toggle('box',true);if(ring){ring.setMap(null);ring=null;}document.querySelectorAll('.item.sel').forEach(e=>e.classList.remove('sel'));const el=document.getElementById('bx'+i);if(el)el.classList.add('sel');ring=new google.maps.Circle({map,center:ll(b.c),radius:3*MI,strokeColor:'#FFFFFF',strokeOpacity:.9,strokeWeight:1.5,fillOpacity:0,clickable:false});iw.setContent(boxContent(b));iw.open({map,anchor:b.marker});map.fitBounds(ring.getBounds(),20);}
 function setVis(k,on){shown[k]=on;groups[k].forEach(o=>o.setMap(on?map:null));document.querySelectorAll('.item[data-t="'+k+'"]').forEach(e=>e.hidden=!on);}
 function toggle(k,force){const b=document.getElementById('t-'+k);const on=force!==undefined?force:b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);setVis(k,on);}
 
@@ -570,9 +574,13 @@ function buildList(){
     list.forEach(([s,i])=>{h+='<div class="item '+s.t+'" id="it'+i+'" data-t="'+s.t+'" tabindex="0" role="button"><span class="dot d-'+s.t+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.near.d.toFixed(1)+' mi</span><span class="meta">'+esc(s.type+' · '+s.size+' · '+s.ask)+(s.why?' · '+esc(s.why):'')+'</span></div>';});
     h+='</section>';
   });
+  const bx=BOX.map((b,i)=>[b,i]).filter(([b])=>b.s==='closed').sort((a,b)=>(b[0].near_mi>=4.5)-(a[0].near_mi>=4.5));
+  h+='<section class="mk"><h2>Box Watch · closed Big Lots</h2>';
+  bx.forEach(([b,i])=>{const ok=b.near_mi>=4.5;h+='<div class="item box'+(ok?'':' out')+'" id="bx'+i+'" data-t="box" tabindex="0" role="button"><span class="dot d-box"></span><span class="nm">'+esc(b.n)+'</span><span class="ds">'+b.near_mi.toFixed(1)+' mi</span><span class="meta">'+esc(b.mk)+(ok?'':' · Inside 4.5 mi')+'</span></div>';});
+  h+='</section>';
   h+='<div class="note"><p>Distances are straight-line to the nearest existing store. Sites under 4.5 mi are ruled out. Points come from US Census address geocoding (about ±0.2 mi), so anything from 4.3 to 4.8 mi needs a parcel-level check.</p><p>A grocer in the same center rules a site out; a separately owned grocer next door does not.</p></div>';
   const L=document.getElementById('list');L.innerHTML=h;
-  L.querySelectorAll('.item').forEach(el=>{const i=+el.id.slice(2);el.addEventListener('click',()=>select(i,true));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i,true);}});});
+  L.querySelectorAll('.item').forEach(el=>{const i=+el.id.slice(2);const fn=el.id.startsWith('bx')?()=>selectBox(i):()=>select(i,true);el.addEventListener('click',fn);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn();}});if(false)el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i,true);}});});
 }
 
 window.initMap=function(){
@@ -592,6 +600,7 @@ window.initMap=function(){
     m.addListener('click',()=>select(i,false));
     s.marker=m;groups[s.t].push(m);
   });
+  BOX.forEach((b,i)=>{if(b.s!=='closed')return;const ok=b.near_mi>=4.5;const m=new google.maps.Marker({map,position:ll(b.c),title:'Big Lots – '+b.n,zIndex:25,icon:{path:'M -6 -6 L 6 -6 L 6 6 L -6 6 Z',scale:1.1,fillColor:COL.box,fillOpacity:ok?1:.35,strokeColor:'#0B1A33',strokeWeight:2}});m.addListener('click',()=>selectBox(i));b.marker=m;groups.box.push(m);});
   buildList();setVis('out',false);
   document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.k)));
   document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>fit(b.dataset.z)));
