@@ -64,7 +64,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
     <div id="sb-head">
       <div class="firm">South Atlantic Sites</div>
       <h1>Grocery Site Scan</h1>
-      <div class="sub">Crexi + LoopNet listings as of Sep 25, 2026. Red circles are a 4.5-mi straight-line buffer around existing stores; click a site to see its 3-mi ring.</div>
+      <div class="sub">Crexi + LoopNet listings as of Sep 25, 2026 · tiers updated Sep 28. Red circles are a 4.5-mi straight-line buffer around existing stores; click a site to see its 3-mi ring.</div>
       <div class="ctrl" role="group" aria-label="Show">
         <span class="lbl">Show</span>
         <button class="chip" id="t-short" data-k="short" aria-pressed="true"><span class="dot d-short"></span>Shortlist</button>
@@ -85,56 +85,448 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
 </div>
 <script>
 const API_KEY = 'AIzaSyCoqCH6BGDq4K-DDZs1XnWnuSGRAzviS00';
-const STORES = [
-  {n:"Raleigh – 4308 Wake Forest Rd", c:[35.83943,-78.61184]},
-  {n:"Raleigh – 4115 Buffaloe Rd", c:[35.83136,-78.56870]},
-  {n:"Cary – 1105 N Harrison Ave", c:[35.80382,-78.78302]},
-  {n:"Garner – 2694 Timber Dr", c:[35.71662,-78.63936]},
-  {n:"Apex – 670 Grand Central Station", c:[35.73840,-78.84366]},
-  {n:"Wake Forest – 1120 S Main St", c:[35.96569,-78.51784]},
-  {n:"Burlington – 3010 S Church St", c:[36.08049,-79.49189]},
-  {n:"Greensboro – 5696 W Gate City Blvd", c:[36.01792,-79.89643]},
-  {n:"Greensboro – 3005 Martinsville Rd", c:[36.11719,-79.82968]},
-  {n:"Winston-Salem – 3315 Sides Branch Rd", c:[36.03205,-80.26201]},
-  {n:"Winston-Salem – 2445 Fairlawn Ct", c:[36.14343,-80.29406]}
-];
+const STORES = [{"n": "Raleigh – 4308 Wake Forest Rd", "c": [35.8398606, -78.6104082]}, {"n": "Raleigh – 4115 Buffaloe Rd", "c": [35.8321032, -78.5679358]}, {"n": "Cary – 1105 N Harrison Ave", "c": [35.8051399, -78.7840167]}, {"n": "Garner – 2694 Timber Dr", "c": [35.7165693, -78.635989]}, {"n": "Apex – 670 Grand Central Station", "c": [35.7384325, -78.8436595]}, {"n": "Wake Forest – 1120 S Main St", "c": [35.9658972, -78.5187179]}, {"n": "Burlington – 3010 S Church St", "c": [36.0791666, -79.4917205]}, {"n": "Greensboro – 5696 W Gate City Blvd", "c": [36.0179105, -79.8964733]}, {"n": "Greensboro – 3005 Martinsville Rd", "c": [36.1178683, -79.8301287]}, {"n": "Winston-Salem – 3315 Sides Branch Rd", "c": [36.0323142, -80.2613417]}, {"n": "Winston-Salem – 2445 Fairlawn Ct", "c": [36.1437539, -80.2923337]}];
 
-const MARKETS = ["Central Raleigh (Western / New Bern)","NW Raleigh (Glenwood / Creedmoor)","E Burlington / Graham","High Point","Archdale / Thomasville","Clemmons","Chapel Hill / Carrboro"];
+const MARKETS = ["Central Raleigh (Western / New Bern)", "NW Raleigh (Glenwood / Creedmoor)", "E Burlington / Graham", "High Point", "Archdale / Thomasville", "Clemmons", "Chapel Hill / Carrboro"];
 const SITES = [
- // shortlist
- {t:"short",m:0,n:"4500 Western Blvd (former Kmart)",c:[35.78485,-78.70269],type:"Box lease",size:"117,440 SF on 12.28 AC; suites 30,860–70,146 SF",ask:"$18.50–19.00/SF",note:"100K+ VPD. Landlord (CityPlat) splitting into 5–7 suites; need a ~23–26K SF demise with dock. Rent is high against a flat 10-yr base. Only ~0.2 mi past the 4.5-mi line.",u:"https://www.loopnet.com/Listing/4500-Western-Blvd-Raleigh-NC/31953112/"},
- {t:"short",m:1,n:"8629 Glenwood Ave",c:[35.88493,-78.74200],type:"Land",size:"4.82 AC, IX-3",ask:"$1.85M",note:"Site plan for a ±30K SF building. Listing calls it infill with privacy, so verify frontage and visibility. Avison Young (Aucoin/Navo).",u:"https://www.crexi.com/properties/2590112/north-carolina-8629-glenwood-ave"},
- {t:"short",m:2,n:"1934 N Church St",c:[36.09516,-79.40509],type:"Land",size:"6.77 AC",ask:"Unpriced",note:"N Church / US-70 corridor. Infinito (Carreño).",u:"https://www.crexi.com/properties/2145952/north-carolina-1934-north-church-street-burlington-nc"},
- {t:"short",m:3,n:"North Main Place, 2645 N Main St",c:[35.99168,-80.02912],type:"Box lease",size:"24,200 SF",ask:"$11.50/SF",note:"Signalized at N Main & Hartley / University Pkwy, across from Tesla and Chick-fil-A. Warehouse with a retail front: check clear height, dock and parking.",u:"https://www.loopnet.com/Listing/2645-N-Main-St-High-Point-NC/38491181/"},
- {t:"short",m:3,n:"3510–3528 N Main St",c:[36.00815,-80.04076],type:"Land",size:"21.57 AC, CZ-GB",ask:"$1.945M",note:"N Main frontage, US-311 visibility; subdivide 3–4 AC. Aldi next door in a separate building, so it's OK; confirm there's no shared REA. Speckman.",u:"https://www.crexi.com/properties/1051801/north-carolina-3510---3528-n-main-st-high-point-nc-27265"},
- {t:"short",m:4,n:"11651 Main St, Archdale",c:[35.91722,-79.97466],type:"Land",size:"3.36 AC, B-1",ask:"$495K",note:"270 ft on N Main / US-311, level, next to Archdale Commons, seller financing. Confirm the corner and traffic count.",u:"https://www.crexi.com/properties/2676967/north-carolina-11651-main-st"},
- {t:"short",m:5,n:"6207 Ramada Dr",c:[36.03395,-80.38263],type:"Land",size:"8.6 AC",ask:"$3.75M",note:"I-40 / Lewisville-Clemmons Rd interchange; subdivide. NAI Piedmont Triad.",u:"https://www.crexi.com/properties/2335273/north-carolina-6207-ramada-drive"},
- // second tier
- {t:"second",m:0,n:"Mission Valley, 2109 Avent Ferry Rd",c:[35.77938,-78.67657],type:"Box lease",size:"Up to 37,536 SF",ask:"$28/SF",note:"In-line space by NCSU; rent is high. Grocer co-tenancy not yet confirmed.",u:"https://www.loopnet.com/Listing/2109-Avent-Ferry-Rd-Raleigh-NC/31084312/"},
- {t:"second",m:1,n:"6425 / 6429 Glenwood Ave",c:[35.85815,-78.70569],type:"Land + income",size:"2.70 AC",ask:"$6.0M",note:"Sherwin-Williams and Godfather's NNN leases in place; expensive redevelopment.",u:"https://www.crexi.com/properties/1649335/north-carolina-6425-6429-glenwood-ave"},
- {t:"second",m:2,n:"Church Street Shopping Ctr",c:[36.09421,-79.40116],type:"Center for sale",size:"95,460 SF",ask:"Unpriced",note:"Ollie's-anchored. Check what space is available.",u:"https://www.crexi.com/properties/2450877/north-carolina-21252143-n-church-street-burlington-nc"},
- {t:"second",m:2,n:"Jimmie Kerr Rd, Graham",c:[36.06653,-79.35752],approx:true,type:"Land",size:"3.87 AC, I-1",ask:"$800K",note:"I-40/85 Exit 150, across from Alamance Community College (map point is the college). Needs rezoning; traffic count is a question.",u:"https://www.crexi.com/properties/2234158/north-carolina-jimmie-kerr-rd"},
- {t:"second",m:4,n:"6623 Unity St",c:[35.87884,-80.04677],type:"Land",size:"4.23 AC, C-2 corner",ask:"$850K",note:"~1 mi from I-85. VPD likely under 20K.",u:"https://www.crexi.com/properties/886748/north-carolina-423-acres-prime-commercial-land-in-thomasville-city-limits"},
- {t:"second",m:4,n:"233 Kennedy Rd (Walmart shadow)",c:[35.85370,-80.06916],type:"Land",size:"4.81 AC, R10",ask:"$550K",note:"Needs rezoning; check for Walmart deed restrictions. Liberty Dr 15K / NC-109 25K VPD.",u:"https://www.crexi.com/properties/1935832/north-carolina-walmart-shadow-parcel---233-kennedy-road"},
- {t:"second",m:3,n:"3023 S Main St",c:[35.91900,-79.97630],type:"Land",size:"12.5 AC",ask:"Unpriced",note:"South High Point toward Archdale. Freeman.",u:"https://www.crexi.com/properties/660186/north-carolina-multi-family-office-commercial-site"},
- {t:"second",m:5,n:"6325 Amp Dr",c:[36.03737,-80.38384],type:"Land",size:"4.04 AC, GB-S",ask:"$1.1M",note:"I-40 visibility, but it isn't on the retail corridor.",u:"https://www.crexi.com/properties/2463341/north-carolina-6325-amp-drive"},
- {t:"second",m:5,n:"Towncenter Dr (Publix shadow)",c:[36.02743,-80.38210],approx:true,type:"Land",size:"2.52 AC",ask:"$850K",note:"At the acreage floor. Confirm it's outside the Publix center's REA / exclusive. Map point is approximate.",u:"https://www.loopnet.com/Listing/0-Towncenter-Dr-Clemmons-NC/39292289/"},
- {t:"second",m:5,n:"Kinnamon Village outparcels",c:[36.02616,-80.37164],type:"Land",size:"2.0 + 2.07 AC",ask:"$525K + $325K",note:"Outparcels of a grocery-anchored center, so the REA / exclusive likely applies. Check before pursuing.",u:"https://www.crexi.com/properties/1327335/north-carolina-2-ac-land-kinnamon-clemmons-nc"},
- // ruled out
- {t:"out",m:0,n:"Edgewater Commons",c:[35.79735,-78.55141],type:"Land",size:"18.99 AC",ask:"Unpriced",why:"Inside 4.5 mi of Buffaloe Rd store",u:"https://www.crexi.com/properties/865399/north-carolina-edgewater-commons-neighborhood-commercial-retail"},
- {t:"out",m:0,n:"5006 New Bern Ave",c:[35.79614,-78.55329],type:"Building",size:"20,130 SF on 1.8 AC",ask:"$3.21M",why:"Inside 4.5 mi of Buffaloe Rd store",u:"https://www.crexi.com/properties/2690023/north-carolina-raymo-car-care-raleigh-outlet"},
- {t:"out",m:0,n:"Sunnybrook Rd",c:[35.77754,-78.58327],type:"Land",size:"3.26 AC",ask:"Unpriced",why:"Inside 4.5 mi of Buffaloe Rd store",u:"https://www.crexi.com/properties/1298284/north-carolina-sunnybrook"},
- {t:"out",m:0,n:"0 Poole Rd",c:[35.76779,-78.57629],approx:true,type:"Land",size:"4.13 AC",ask:"$1.6M",why:"Inside 4.5 mi; right-in/right-out only",u:"https://www.loopnet.com/Listing/0-Poole-Rd-Raleigh-NC/34322047/"},
- {t:"out",m:1,n:"Cornerstone Commons",c:[35.87361,-78.72803],type:"Box lease",size:"Up to 53,940 SF",ask:"Upon request",why:"Lowes Foods in the same center",u:"https://www.loopnet.com/Listing/8111-Glenwood-Ave-Raleigh-NC/12512782/"},
- {t:"out",m:2,n:"2391 Eric Ln",c:[36.06458,-79.47686],type:"Land",size:"3.06 AC",ask:"$2.5M",why:"Inside 4.5 mi of Burlington store",u:"https://www.loopnet.com/Listing/2391-Eric-Lane-Burlington-NC/42105668/"},
- {t:"out",m:2,n:"3802 Rural Retreat Rd",c:[36.07198,-79.51960],type:"Land",size:"2.43 AC",ask:"$3.25M",why:"Inside 4.5 mi of Burlington store",u:"https://www.loopnet.com/Listing/3802-Rural-Retreat-Rd-Burlington-NC/30634506/"},
- {t:"out",m:2,n:"2703 Ramada Rd",c:[36.06698,-79.47271],type:"Building",size:"21,092 SF",ask:"Upon request",why:"Inside 4.5 mi of Burlington store",u:"https://www.loopnet.com/Listing/2703-Ramada-Rd-Burlington-NC/41226152/"},
- {t:"out",m:3,n:"Westchester Centre",c:[35.94001,-80.03434],type:"Box lease",size:"Up to 25,828 SF",ask:"$9–18/SF",why:"Food Lion in the same center",u:"https://www.loopnet.com/Listing/2200-Westchester-Dr-High-Point-NC/33449542/"},
- {t:"out",m:4,n:"Southgate Plaza",c:[35.86330,-80.07230],type:"Box lease",size:"Up to 21,135 SF",ask:"$8–12/SF",why:"Aldi in the same center",u:"https://www.loopnet.com/Listing/1033-Randolph-St-Thomasville-NC/23561452/"},
- {t:"out",m:4,n:"Forest Park Dr & Mt Calvary Rd",c:[35.88372,-80.11455],approx:true,type:"Land",size:"3.04 AC, OI",ask:"$760K",why:"18,500 AADT, under the 20K minimum",u:"https://www.crexi.com/properties/2433269/north-carolina-land-with-frontage-in-thomasville"},
- {t:"out",m:5,n:"1612 S Stratford Rd, W-S",c:[36.07210,-80.30371],type:"Box lease",size:"27,267 SF",ask:"$8.50/SF",why:"Inside 4.5 mi of Sides Branch Rd store; 85 parking spaces",u:"https://www.loopnet.com/Listing/1612-S-Stratford-Rd-Winston-Salem-NC/40409019/"},
- {t:"out",m:6,n:"1318 MLK Blvd",c:[35.95001,-79.05837],type:"Land",size:"2.2 AC",ask:"$1.075M",why:"Under the 2.5 AC minimum",u:"https://www.crexi.com/properties/2664084/north-carolina-22-acres-mlk-boulevard-chapel-hill-nc-27514"},
- {t:"out",m:6,n:"5504 Durham-Chapel Hill Blvd",c:[35.95239,-78.99577],type:"Land + income",size:"4.5 AC",ask:"Upon request",why:"Entitled for 13-story mixed use; likely priced out. In the 15-501 market",u:"https://www.loopnet.com/Listing/5504-Durham-Chapel-Hill-Blvd-Durham-NC/39271081/"}
+{
+"t": "short",
+"n": "4500 Western Blvd (former Kmart)",
+"c": [
+35.7862718,
+-78.7010274
+],
+"type": "Box lease",
+"size": "117,440 SF on 12.28 AC; suites 30,860–70,146 SF",
+"ask": "$18.50–19.00/SF",
+"note": "100K+ VPD. Landlord (CityPlat) splitting into 5–7 suites; need a ~23–26K SF demise with dock. Rent is high against a flat 10-yr base. Only ~0.2 mi past the 4.5-mi line.",
+"u": "https://www.loopnet.com/Listing/4500-Western-Blvd-Raleigh-NC/31953112/"
+},
+{
+"t": "out",
+"m": 1,
+"n": "8629 Glenwood Ave",
+"c": [
+35.8851992,
+-78.7436021
+],
+"type": "Land",
+"size": "4.82 AC, IX-3",
+"ask": "$1.85M",
+"note": "Site plan for a ±30K SF building. Listing calls it infill with privacy, so verify frontage and visibility. Avison Young (Aucoin/Navo).",
+"why": "Poor access (Mike, 9/28 site review)",
+"u": "https://www.crexi.com/properties/2590112/north-carolina-8629-glenwood-ave"
+},
+{
+"t": "short",
+"m": 2,
+"n": "1934 N Church St",
+"c": [
+36.095678,
+-79.4043603
+],
+"type": "Land",
+"size": "6.77 AC",
+"ask": "Unpriced",
+"note": "N Church / US-70 corridor. Infinito (Carreño).",
+"u": "https://www.crexi.com/properties/2145952/north-carolina-1934-north-church-street-burlington-nc"
+},
+{
+"t": "out",
+"m": 3,
+"n": "North Main Place, 2645 N Main St",
+"c": [
+35.9919941,
+-80.0299136
+],
+"type": "Box lease",
+"size": "24,200 SF",
+"ask": "$11.50/SF",
+"note": "Signalized at N Main & Hartley / University Pkwy, across from Tesla and Chick-fil-A. Warehouse with a retail front: check clear height, dock and parking.",
+"why": "No visibility (Mike, 9/28 site review)",
+"u": "https://www.loopnet.com/Listing/2645-N-Main-St-High-Point-NC/38491181/"
+},
+{
+"t": "short",
+"m": 3,
+"n": "3510–3528 N Main St",
+"c": [
+36.008273,
+-80.038237
+],
+"type": "Land",
+"size": "21.57 AC, CZ-GB",
+"ask": "$1.945M",
+"note": "N Main frontage, US-311 visibility; subdivide 3–4 AC. Aldi next door in a separate building, so it's OK; confirm there's no shared REA. Speckman.",
+"u": "https://www.crexi.com/properties/1051801/north-carolina-3510---3528-n-main-st-high-point-nc-27265"
+},
+{
+"t": "out",
+"m": 4,
+"n": "11651 Main St, Archdale",
+"c": [
+35.9173511,
+-79.9757195
+],
+"type": "Land",
+"size": "3.36 AC, B-1",
+"ask": "$495K",
+"note": "270 ft on N Main / US-311, level, next to Archdale Commons, seller financing. Confirm the corner and traffic count.",
+"why": "No visibility (Mike, 9/28 site review)",
+"u": "https://www.crexi.com/properties/2676967/north-carolina-11651-main-st"
+},
+{
+"t": "out",
+"m": 5,
+"n": "6207 Ramada Dr",
+"c": [
+36.0363792,
+-80.3808946
+],
+"type": "Land",
+"size": "8.6 AC",
+"ask": "$3.75M",
+"note": "I-40 / Lewisville-Clemmons Rd interchange; subdivide. NAI Piedmont Triad.",
+"why": "Poor access (Mike, 9/28 site review)",
+"u": "https://www.crexi.com/properties/2335273/north-carolina-6207-ramada-drive"
+},
+{
+"t": "short",
+"n": "Mission Valley, 2109 Avent Ferry Rd",
+"c": [
+35.7793592,
+-78.6751648
+],
+"type": "Box lease",
+"size": "Up to 37,536 SF",
+"ask": "$28/SF",
+"note": "In-line space by NCSU; rent is high. Grocer co-tenancy not yet confirmed.",
+"u": "https://www.loopnet.com/Listing/2109-Avent-Ferry-Rd-Raleigh-NC/31084312/"
+},
+{
+"t": "out",
+"m": 1,
+"n": "6425 / 6429 Glenwood Ave",
+"c": [
+35.857694,
+-78.7074119
+],
+"type": "Land + income",
+"size": "2.70 AC",
+"ask": "$6.0M",
+"note": "Sherwin-Williams and Godfather's NNN leases in place; expensive redevelopment.",
+"why": "Existing leases run too long (Mike, 9/28 site review)",
+"u": "https://www.crexi.com/properties/1649335/north-carolina-6425-6429-glenwood-ave"
+},
+{
+"t": "out",
+"m": 2,
+"n": "Church Street Shopping Ctr",
+"c": [
+36.0930442,
+-79.4019404
+],
+"type": "Center for sale",
+"size": "95,460 SF",
+"ask": "Unpriced",
+"note": "Ollie's-anchored. Check what space is available.",
+"why": "Existing leases run too long (Mike, 9/28 site review)",
+"u": "https://www.crexi.com/properties/2450877/north-carolina-21252143-n-church-street-burlington-nc"
+},
+{
+"t": "second",
+"m": 2,
+"n": "Jimmie Kerr Rd, Graham",
+"c": [
+36.0653883,
+-79.3551217
+],
+"type": "Land",
+"size": "3.87 AC, I-1",
+"ask": "$800K",
+"note": "To do: check 3-mi population. I-40/85 Exit 150, across from Alamance Community College (map point is the college). Needs rezoning; traffic count is a question.",
+"u": "https://www.crexi.com/properties/2234158/north-carolina-jimmie-kerr-rd"
+},
+{
+"t": "second",
+"m": 4,
+"n": "6623 Unity St",
+"c": [
+35.879547,
+-80.048227
+],
+"type": "Land",
+"size": "4.23 AC, C-2 corner",
+"ask": "$850K",
+"note": "~1 mi from I-85. VPD likely under 20K.",
+"u": "https://www.crexi.com/properties/886748/north-carolina-423-acres-prime-commercial-land-in-thomasville-city-limits"
+},
+{
+"t": "second",
+"m": 4,
+"n": "233 Kennedy Rd (Walmart shadow)",
+"c": [
+35.8539066,
+-80.0689633
+],
+"type": "Land",
+"size": "4.81 AC, R10",
+"ask": "$550K",
+"note": "Needs rezoning; check for Walmart deed restrictions. Liberty Dr 15K / NC-109 25K VPD.",
+"u": "https://www.crexi.com/properties/1935832/north-carolina-walmart-shadow-parcel---233-kennedy-road"
+},
+{
+"t": "second",
+"m": 3,
+"n": "3023 S Main St",
+"c": [
+35.919724,
+-79.974843
+],
+"type": "Land",
+"size": "12.5 AC",
+"ask": "Unpriced",
+"note": "South High Point toward Archdale. Freeman.",
+"u": "https://www.crexi.com/properties/660186/north-carolina-multi-family-office-commercial-site"
+},
+{
+"t": "out",
+"m": 5,
+"n": "6325 Amp Dr",
+"c": [
+36.0380261,
+-80.382661
+],
+"type": "Land",
+"size": "4.04 AC, GB-S",
+"ask": "$1.1M",
+"note": "I-40 visibility, but it isn't on the retail corridor.",
+"why": "No visibility (Mike, 9/28 site review)",
+"u": "https://www.crexi.com/properties/2463341/north-carolina-6325-amp-drive"
+},
+{
+"t": "out",
+"m": 5,
+"n": "Towncenter Dr (Publix shadow)",
+"c": [
+36.038244,
+-80.386835
+],
+"approx": true,
+"type": "Land",
+"size": "2.52 AC",
+"ask": "$850K",
+"note": "At the acreage floor. Confirm it's outside the Publix center's REA / exclusive. Map point is approximate.",
+"why": "Not buildable (Mike, 9/28 site review)",
+"u": "https://www.loopnet.com/Listing/0-Towncenter-Dr-Clemmons-NC/39292289/"
+},
+{
+"t": "second",
+"m": 5,
+"n": "Kinnamon Village outparcels",
+"c": [
+36.02525,
+-80.371549
+],
+"type": "Land",
+"size": "2.0 + 2.07 AC",
+"ask": "$525K + $325K",
+"note": "Outparcels of a grocery-anchored center, so the REA / exclusive likely applies. Check before pursuing.",
+"u": "https://www.crexi.com/properties/1327335/north-carolina-2-ac-land-kinnamon-clemmons-nc"
+},
+{
+"t": "out",
+"n": "Edgewater Commons",
+"c": [
+35.796131,
+-78.548642
+],
+"type": "Land",
+"size": "18.99 AC",
+"ask": "Unpriced",
+"why": "Inside 4.5 mi of Buffaloe Rd store",
+"u": "https://www.crexi.com/properties/865399/north-carolina-edgewater-commons-neighborhood-commercial-retail"
+},
+{
+"t": "out",
+"n": "5006 New Bern Ave",
+"c": [
+35.7956881,
+-78.5534428
+],
+"type": "Building",
+"size": "20,130 SF on 1.8 AC",
+"ask": "$3.21M",
+"why": "Inside 4.5 mi of Buffaloe Rd store",
+"u": "https://www.crexi.com/properties/2690023/north-carolina-raymo-car-care-raleigh-outlet"
+},
+{
+"t": "out",
+"n": "Sunnybrook Rd",
+"c": [
+35.778011,
+-78.5829265
+],
+"type": "Land",
+"size": "3.26 AC",
+"ask": "Unpriced",
+"why": "Inside 4.5 mi of Buffaloe Rd store",
+"u": "https://www.crexi.com/properties/1298284/north-carolina-sunnybrook"
+},
+{
+"t": "out",
+"n": "0 Poole Rd",
+"c": [
+35.76779,
+-78.57629
+],
+"approx": true,
+"type": "Land",
+"size": "4.13 AC",
+"ask": "$1.6M",
+"why": "Inside 4.5 mi; right-in/right-out only",
+"u": "https://www.loopnet.com/Listing/0-Poole-Rd-Raleigh-NC/34322047/"
+},
+{
+"t": "out",
+"m": 1,
+"n": "Cornerstone Commons",
+"c": [
+35.8733054,
+-78.7286567
+],
+"type": "Box lease",
+"size": "Up to 53,940 SF",
+"ask": "Upon request",
+"why": "Lowes Foods in the same center",
+"u": "https://www.loopnet.com/Listing/8111-Glenwood-Ave-Raleigh-NC/12512782/"
+},
+{
+"t": "out",
+"m": 2,
+"n": "2391 Eric Ln",
+"c": [
+36.0649521,
+-79.470611
+],
+"type": "Land",
+"size": "3.06 AC",
+"ask": "$2.5M",
+"why": "Inside 4.5 mi of Burlington store",
+"u": "https://www.loopnet.com/Listing/2391-Eric-Lane-Burlington-NC/42105668/"
+},
+{
+"t": "out",
+"m": 2,
+"n": "3802 Rural Retreat Rd",
+"c": [
+36.0717601,
+-79.519791
+],
+"type": "Land",
+"size": "2.43 AC",
+"ask": "$3.25M",
+"why": "Inside 4.5 mi of Burlington store",
+"u": "https://www.loopnet.com/Listing/3802-Rural-Retreat-Rd-Burlington-NC/30634506/"
+},
+{
+"t": "out",
+"m": 2,
+"n": "2703 Ramada Rd",
+"c": [
+36.0675768,
+-79.473202
+],
+"type": "Building",
+"size": "21,092 SF",
+"ask": "Upon request",
+"why": "Inside 4.5 mi of Burlington store",
+"u": "https://www.loopnet.com/Listing/2703-Ramada-Rd-Burlington-NC/41226152/"
+},
+{
+"t": "out",
+"m": 3,
+"n": "Westchester Centre",
+"c": [
+35.9394167,
+-80.0356779
+],
+"type": "Box lease",
+"size": "Up to 25,828 SF",
+"ask": "$9–18/SF",
+"why": "Food Lion in the same center",
+"u": "https://www.loopnet.com/Listing/2200-Westchester-Dr-High-Point-NC/33449542/"
+},
+{
+"t": "out",
+"m": 4,
+"n": "Southgate Plaza",
+"c": [
+35.8642957,
+-80.0708293
+],
+"type": "Box lease",
+"size": "Up to 21,135 SF",
+"ask": "$8–12/SF",
+"why": "Aldi in the same center",
+"u": "https://www.loopnet.com/Listing/1033-Randolph-St-Thomasville-NC/23561452/"
+},
+{
+"t": "out",
+"m": 4,
+"n": "Forest Park Dr & Mt Calvary Rd",
+"c": [
+35.8873233,
+-80.115505
+],
+"type": "Land",
+"size": "3.04 AC, OI",
+"ask": "$760K",
+"why": "18,500 AADT, under the 20K minimum",
+"u": "https://www.crexi.com/properties/2433269/north-carolina-land-with-frontage-in-thomasville"
+},
+{
+"t": "out",
+"m": 5,
+"n": "1612 S Stratford Rd, W-S",
+"c": [
+36.0702812,
+-80.3052973
+],
+"type": "Box lease",
+"size": "27,267 SF",
+"ask": "$8.50/SF",
+"why": "Inside 4.5 mi of Sides Branch Rd store; 85 parking spaces",
+"u": "https://www.loopnet.com/Listing/1612-S-Stratford-Rd-Winston-Salem-NC/40409019/"
+},
+{
+"t": "out",
+"m": 6,
+"n": "1318 MLK Blvd",
+"c": [
+35.9501238,
+-79.0581823
+],
+"type": "Land",
+"size": "2.2 AC",
+"ask": "$1.075M",
+"why": "Under the 2.5 AC minimum",
+"u": "https://www.crexi.com/properties/2664084/north-carolina-22-acres-mlk-boulevard-chapel-hill-nc-27514"
+},
+{
+"t": "out",
+"m": 6,
+"n": "5504 Durham-Chapel Hill Blvd",
+"c": [
+35.9523914,
+-78.9969317
+],
+"type": "Land + income",
+"size": "4.5 AC",
+"ask": "Upon request",
+"why": "Entitled for 13-story mixed use; likely priced out. In the 15-501 market",
+"u": "https://www.loopnet.com/Listing/5504-Durham-Chapel-Hill-Blvd-Durham-NC/39271081/"
+}
 ];
 
 
