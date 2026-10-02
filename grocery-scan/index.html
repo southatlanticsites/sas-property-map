@@ -105,7 +105,8 @@ const SITES = [
 "size": "117,440 SF on 12.28 AC; suites 30,860–70,146 SF",
 "ask": "$18.50–19.00/SF",
 "u": "https://www.loopnet.com/Listing/4500-Western-Blvd-Raleigh-NC/31953112/",
-"note": "100K+ VPD. Landlord (CityPlat) splitting into 5–7 suites; need a ~23–26K SF demise with dock. Rent is high against a flat 10-yr base. Only ~0.2 mi past the 4.5-mi line."
+"note": "100K+ VPD. Landlord (CityPlat) splitting into 5–7 suites; need a ~23–26K SF demise with dock. Rent is high against a flat 10-yr base. Only ~0.2 mi past the 4.5-mi line.",
+"scr": "3-mi pop 85,680 ✓ · MHHI $78.2K ✓ · 35,500 VPD on Western Blvd (2024) ✓ · parcel 12.27 AC",
 },
 {
 "t": "out",
@@ -135,6 +136,8 @@ const SITES = [
 "ask": "Unpriced",
 "u": "https://www.crexi.com/properties/2145952/north-carolina-1934-north-church-street-burlington-nc",
 "note": "N Church / US-70 corridor.",
+"scr": "3-mi pop 46,513 ✓ · MHHI $46.8K ✗ · 23,000 VPD on US 70 / N Church St (2024) ✓ · parcel 6.77 AC",
+"scr_fail": "MHHI under $50K",
 },
 {
 "t": "out",
@@ -164,6 +167,8 @@ const SITES = [
 "ask": "$1.945M",
 "u": "https://www.crexi.com/properties/1051801/north-carolina-3510---3528-n-main-st-high-point-nc-27265",
 "note": "N Main frontage, US-311 visibility; subdivide 3–4 AC. Aldi next door in a separate building, so it's OK; confirm there's no shared REA.",
+"scr": "3-mi pop 37,009 ✗ · MHHI $65.8K ✓ · 10,500 VPD on N Main St (2024) ✗ · parcel 21.60 AC",
+"scr_fail": "3-mi population under 40K; traffic under 20K VPD",
 },
 {
 "t": "out",
@@ -208,6 +213,7 @@ const SITES = [
 "ask": "$28/SF",
 "u": "https://www.loopnet.com/Listing/2109-Avent-Ferry-Rd-Raleigh-NC/31084312/",
 "note": "In-line space by NCSU; rent is high. Grocer co-tenancy not yet confirmed.",
+"scr": "3-mi pop 96,283 ✓ · MHHI $81.5K ✓ · 33,000 VPD on Western Blvd (2024) ✓",
 "pub": "10/1: Theater space still available. Rent depends on delivery condition. Tour offered.",
 },
 {
@@ -252,7 +258,9 @@ const SITES = [
 "size": "3.87 AC, I-1",
 "ask": "$800K",
 "u": "https://www.crexi.com/properties/2234158/north-carolina-jimmie-kerr-rd",
-"note": "To do: check 3-mi population. I-40/85 Exit 150, across from Alamance Community College (map point is the college). Needs rezoning; traffic count is a question.",
+"note": "I-40/85 Exit 150, across from Alamance Community College (map point is the college). Needs rezoning; traffic count is a question.",
+"scr": "3-mi pop 19,438 ✗ · MHHI $55.0K ✓ · 22,000 VPD on Jimmie Kerr Rd at I-40/85 (2024) ✓",
+"scr_fail": "3-mi population under 40K",
 "pub": "9/28: Confirmed still for sale.",
 },
 {
@@ -267,7 +275,9 @@ const SITES = [
 "size": "4.23 AC, C-2 corner",
 "ask": "$850K",
 "u": "https://www.crexi.com/properties/886748/north-carolina-423-acres-prime-commercial-land-in-thomasville-city-limits",
-"note": "~1 mi from I-85. VPD likely under 20K."
+"note": "~1 mi from I-85. VPD likely under 20K.",
+"scr": "3-mi pop 26,780 ✗ · MHHI $62.9K ✓ · 6,500 VPD on Unity St (2024) ✗ · parcel 4.96 AC",
+"scr_fail": "3-mi population under 40K; traffic under 20K VPD",
 },
 {
 "t": "second",
@@ -281,7 +291,9 @@ const SITES = [
 "size": "4.81 AC, R10",
 "ask": "$550K",
 "u": "https://www.crexi.com/properties/1935832/north-carolina-walmart-shadow-parcel---233-kennedy-road",
-"note": "Needs rezoning; check for Walmart deed restrictions. Liberty Dr 15K / NC-109 25K VPD."
+"note": "Needs rezoning; check for Walmart deed restrictions. Liberty Dr 15K / NC-109 25K VPD.",
+"scr": "3-mi pop 24,529 ✗ · MHHI $60.1K ✓ · 12,000 VPD on NC 109 (2024) ✗ · parcel 4.91 AC",
+"scr_fail": "3-mi population under 40K; traffic under 20K VPD",
 },
 {
 "t": "second",
@@ -296,6 +308,8 @@ const SITES = [
 "ask": "Unpriced",
 "u": "https://www.crexi.com/properties/660186/north-carolina-multi-family-office-commercial-site",
 "note": "South High Point toward Archdale.",
+"scr": "3-mi pop 35,953 ✗ · MHHI $47.0K ✗ · 20,000 VPD on S Main St (2024) ✓ · parcel 12.50 AC",
+"scr_fail": "3-mi population under 40K; MHHI under $50K",
 },
 {
 "t": "out",
@@ -340,7 +354,9 @@ const SITES = [
 "size": "2.0 + 2.07 AC",
 "ask": "$525K + $325K",
 "u": "https://www.crexi.com/properties/1327335/north-carolina-2-ac-land-kinnamon-clemmons-nc",
-"note": "Outparcels of a grocery-anchored center, so the REA / exclusive likely applies. Check before pursuing."
+"note": "Outparcels of a grocery-anchored center, so the REA / exclusive likely applies. Check before pursuing.",
+"scr": "3-mi pop 37,553 ✗ · MHHI $81.7K ✓ · 14,500 VPD on US 158 (Clemmons Rd) (2024) ✗ · parcel 1.93 AC",
+"scr_fail": "3-mi population under 40K; traffic under 20K VPD",
 },
 {
 "t": "out",
@@ -413,6 +429,7 @@ const SITES = [
 "u": "https://www.loopnet.com/Listing/8111-Glenwood-Ave-Raleigh-NC/12512782/",
 "flyer": "https://drive.google.com/file/d/1YDP9Y8wVnE5W4aNtJiGPi670uPQHgo1x/view",
 "note": "Vacant former Lowes Foods box (store closed Aug 2024) in a 95,569 SF center at Glenwood Ave & Ebenezer Church Rd. Second-gen grocery box with parking and loading already in place. Need a ~23–26K SF demise.",
+"scr": "3-mi pop 51,079 ✓ · MHHI $110.9K ✓ · 41,000 VPD on Glenwood Ave (US 70), nearest count station (2024) ✓ · parcel 12.30 AC",
 "pub": "10/2: Still available. Landlord has discussed subdividing and will consider it if it makes sense. At 35,000 SF the quote was ~$15.00 NNN with TICAM of $3.83.",
 },
 {
@@ -541,6 +558,7 @@ const SITES = [
 "u": "https://www.loopnet.com/Listing/5504-Durham-Chapel-Hill-Blvd-Durham-NC/39271081/",
 "flyer": "https://drive.google.com/file/d/17eOFCQuYJnODgtXMGkVYa5Fspe8XNNxd/view",
 "note": "CSD-S1 zoning, approved for up to 13-story mixed use; brochure says the ground floor can take grocery. Fronts 15-501 in front of New Hope Commons at I-40 (51K VPD on 15-501). Brochure 3-mi: 48,118 pop, $78K MHHI. Tenants year-to-year except one restaurant.",
+"scr": "3-mi pop 46,566 ✓ · MHHI $93.9K ✓ · 41,500 VPD on US 15-501 at I-40 (2024) ✓",
 "pub": "10/2 call: East parcels (2.44 AC) $7.0M, west parcel (2.13 AC) $4.0M. Restaurant lease has 4 years left with a buyout provision; other tenants are year-to-year. 3–4% buyer-broker fee depending on price.",
 },
 {
@@ -557,6 +575,7 @@ const SITES = [
 "u": "https://southcreekch.com/",
 "flyer": "https://drive.google.com/file/d/1LuXUg1JM4MsWLhWYUzuYg85PXDSkxiSy/view",
 "note": "Mixed-use project on 15-501 across from Southern Village, Chapel Hill. Flyer 3-mi: 49,852 pop, $58K MHHI; 15-501 at 23,298 VPD (2022). Residential above and structured parking are a poor fit for surface parking and truck docks.",
+"scr": "3-mi pop 49,400 ✓ · MHHI $72.3K ✓ · 24,000 VPD on US 15-501 (2024) ✓",
 "pub": "10/2: Developer is open to a 20K+ SF large-format user if residential can go above it. Preliminary planning, no hard design yet. About a 20-month build after 6–9 months of design/permitting.",
 },
 {
@@ -572,7 +591,9 @@ const SITES = [
 "ask": "$1,475,000",
 "u": "https://www.crexi.com/properties?term=1204%20S%20Main%20St%20Graham%20NC",
 "flyer": "https://drive.google.com/file/d/1J6qGjhHokIkTzDliSMduexeBuD584u_t/view",
-"note": "1.44 AC now. Needs neighboring land assembled to reach 2.5+ AC. Corner across from the new Sheetz; 300+ unit apartments under construction behind it. Owner-occupied 4,500 SF office (ComTech), B2 zoning, 3.73% cap."
+"note": "1.44 AC now. Needs neighboring land assembled to reach 2.5+ AC. Corner across from the new Sheetz; 300+ unit apartments under construction behind it. Owner-occupied 4,500 SF office (ComTech), B2 zoning, 3.73% cap. Three adjacent house lots (~1.3 AC) could bring it to ~2.8 AC.",
+"scr": "3-mi pop 28,558 ✗ · MHHI $59.2K ✓ · 19,500 VPD on NC 87 (S Main St) (2024) ✗ · parcel 1.44 AC",
+"scr_fail": "3-mi population under 40K; traffic under 20K VPD",
 },
 {
 "t": "short",
@@ -588,6 +609,7 @@ const SITES = [
 "u": "https://www.loopnet.com/property/8401-glenwood-ave-raleigh-nc-27612/37183-077704845757000/",
 "flyer": "https://drive.google.com/file/d/1sb_WoELdfjI1VusNL_FrIaA2pmV5-DxX/view",
 "note": "Freestanding building on Glenwood Ave (US 70), 41,000 VPD. New HVAC, fully sprinkled, 1 dock-high door, monument sign, CX-3 zoning, available now. Flyer 3-mi: 49,562 pop, $106,789 MHHI. Only 71 parking spaces vs. the 100–130 the program needs. 0.5 mi from Cornerstone Commons.",
+"scr": "3-mi pop 52,014 ✓ · MHHI $106.1K ✓ · 41,000 VPD on Glenwood Ave (US 70) (2024) ✓ · parcel 2.98 AC",
 "pub": "10/1: Listing broker sent it in reply to the \"20K+ SF\" request. No pricing discussion yet beyond the $24.50 NNN asking rate.",
 }
 ];
@@ -610,7 +632,7 @@ function fit(k){const v=VIEWS[k];map.fitBounds(new google.maps.LatLngBounds(ll(v
 function content(s){
   return '<div class="iw"><div class="tier" style="color:'+(s.t==='out'?'#6b7380':s.t==='second'?'#A36F00':'#0E7A5C')+'">'+TIER[s.t]+' · '+esc(MARKETS[s.m])+'</div><h3>'+esc(s.n)+'</h3>'+
   '<dl><dt>Type</dt><dd>'+esc(s.type)+'</dd><dt>Size</dt><dd>'+esc(s.size)+'</dd><dt>Ask</dt><dd>'+esc(s.ask)+'</dd><dt>Nearest store</dt><dd>'+s.near.d.toFixed(2)+' mi · '+esc(s.near.l.n)+'</dd></dl>'+
-  (s.why?'<p><strong>Why out:</strong> '+esc(s.why)+'</p>':'')+(s.note?'<p>'+esc(s.note)+'</p>':'')+(s.pub?'<p><strong>Call notes:</strong> '+esc(s.pub)+'</p>':'')+(s.approx?'<p style="color:#5b6576">Map point is approximate.</p>':'')+
+  (s.why?'<p><strong>Why out:</strong> '+esc(s.why)+'</p>':'')+(s.note?'<p>'+esc(s.note)+'</p>':'')+(s.scr?'<p style="font-size:12px"><strong>RFP check:</strong> '+esc(s.scr)+(s.scr_fail?'<br><span style="color:#B42318"><strong>Misses:</strong> '+esc(s.scr_fail)+'</span>':'')+'<br><span style="color:#6b7380">Census ACS 2024 (±5–10% vs. Esri rings) · NCDOT 2024 AADT · NC OneMap parcels</span></p>':'')+(s.pub?'<p><strong>Call notes:</strong> '+esc(s.pub)+'</p>':'')+(s.approx?'<p style="color:#5b6576">Map point is approximate.</p>':'')+
   (s.flyer?'<a href="'+s.flyer+'" target="_blank" rel="noopener"><strong>Open flyer ↗</strong></a> &nbsp;·&nbsp; ':'')+'<a href="'+s.u+'" target="_blank" rel="noopener">Open listing ↗</a></div>';
 }
 function select(i,fly){
