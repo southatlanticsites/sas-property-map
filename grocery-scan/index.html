@@ -76,6 +76,13 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
         <button class="chip" id="t-big" data-k="big" aria-pressed="false"><span class="dot d-big"></span>Big boxes</button>
         <button class="chip" id="t-ctr" data-k="ctr" aria-pressed="false"><span class="dot d-ctr"></span>Centers</button>
       </div>
+      <div class="ctrl" role="group" aria-label="Demographics">
+        <span class="lbl">Demographics</span>
+        <button class="chip" id="t-drfp" data-k="drfp" aria-pressed="false"><span class="dot" style="background:#10966A"></span>RFP zones</button>
+        <button class="chip" id="t-dpop" data-k="dpop" aria-pressed="false"><span class="dot" style="background:#D76028"></span>3-mi population</button>
+        <button class="chip" id="t-dinc" data-k="dinc" aria-pressed="false"><span class="dot" style="background:#0571B0"></span>Household income</button>
+      </div>
+      <div id="dlegend" class="note" hidden style="margin-top:6px"></div>
       <div class="ctrl" role="group" aria-label="Zoom to">
         <span class="lbl">Zoom</span>
         <button class="chip" data-z="tri">Triangle</button>
@@ -643,7 +650,7 @@ SITES.forEach(s=>{let b=null;STORES.forEach(l=>{const d=hav(s.c,l.c);if(!b||d<b.
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 const ll=c=>({lat:c[0],lng:c[1]});
 
-let map,iw,ring=null;const groups={short:[],second:[],out:[],store:[],box:[],groc:[],big:[],ctr:[]};const shown={short:true,second:true,out:false,store:true,box:true,groc:false,big:false,ctr:false};
+let map,iw,ring=null;const groups={short:[],second:[],out:[],store:[],box:[],groc:[],big:[],ctr:[],drfp:[],dpop:[],dinc:[]};const shown={short:true,second:true,out:false,store:true,box:true,groc:false,big:false,ctr:false,drfp:false,dpop:false,dinc:false};
 const VIEWS={tri:[[35.68,-78.95],[36.02,-78.47]],triad:[[35.82,-80.45],[36.16,-79.30]],all:[[35.68,-80.45],[36.18,-78.47]]};
 function fit(k){const v=VIEWS[k];map.fitBounds(new google.maps.LatLngBounds(ll(v[0]),ll(v[1])),20);}
 
@@ -666,7 +673,38 @@ function select(i,fly){
 function boxContent(b){const ok=b.near_mi>=4.5;return '<div class="iw"><div class="tier" style="color:#C25E00">Box Watch · '+esc(b.brand)+' · '+(b.s==='closed'?'Closed':'Open')+'</div><h3>'+esc(b.n)+'</h3><dl><dt>Market</dt><dd>'+esc(b.mk)+'</dd><dt>Nearest store</dt><dd>'+b.near_mi.toFixed(2)+' mi · '+esc(b.near)+'</dd><dt>4.5-mi rule</dt><dd>'+(ok?'Clears':'Inside 4.5 mi')+'</dd></dl>'+(b.adj&&b.adj.length?'<p><strong>Grocer next door:</strong> '+esc(b.adj.join(', '))+'. Check if same center (co-tenancy).</p>':'')+'<p>Size, owner and leasing broker not yet confirmed.</p><a href="https://www.google.com/maps/place/?q=place_id:'+b.pid+'" target="_blank" rel="noopener">Open in Google Maps ↗</a></div>';}
 function selectBox(i){const b=BOX[i];if(!shown.box)toggle('box',true);if(ring){ring.setMap(null);ring=null;}document.querySelectorAll('.item.sel').forEach(e=>e.classList.remove('sel'));const el=document.getElementById('bx'+i);if(el)el.classList.add('sel');ring=new google.maps.Circle({map,center:ll(b.c),radius:3*MI,strokeColor:'#FFFFFF',strokeOpacity:.9,strokeWeight:1.5,fillOpacity:0,clickable:false});iw.setContent(boxContent(b));iw.open({map,anchor:b.marker});map.fitBounds(ring.getBounds(),20);}
 function setVis(k,on){shown[k]=on;groups[k].forEach(o=>o.setMap(on?map:null));document.querySelectorAll('.item[data-t="'+k+'"]').forEach(e=>e.hidden=!on);}
-function toggle(k,force){const b=document.getElementById('t-'+k);const on=force!==undefined?force:b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);setVis(k,on);}
+function toggle(k,force){const b=document.getElementById('t-'+k);const on=force!==undefined?force:b.getAttribute('aria-pressed')!=='true';
+  if(on&&DEMO_KEYS.includes(k))DEMO_KEYS.filter(x=>x!==k&&shown[x]).forEach(x=>toggle(x,false));
+  b.setAttribute('aria-pressed',on);setVis(k,on);if(DEMO_KEYS.includes(k)){demoLegend();if(on)loadBG();}}
+const DEMO_KEYS=['drfp','dpop','dinc'];
+const DEMO_B={"N": 36.3, "S": 35.452173913043524, "W": -80.55, "E": -78.2522140985158};
+const DLEG={drfp:'<p><strong>RFP zones</strong> – where a 3-mile ring around that spot holds the RFP minimums.</p><p><span style="color:#10966A">■</span> 40K+ people and $50K+ median household income &nbsp;<span style="color:#E6961A">■</span> 40K+ people but income under $50K &nbsp;<span style="color:#10966A;opacity:.45">■</span> 36–40K (within 10%)</p>',
+ dpop:'<p><strong>3-mile ring population</strong> centred on each spot. Dark line = the 40K line.</p><p><span style="color:#FDE08B">■</span> 30–40K <span style="color:#F4A552">■</span> 40–60K <span style="color:#D76028">■</span> 60–80K <span style="color:#962814">■</span> 80K+</p>',
+ dinc:'<p><strong>Median household income</strong> by Census block group.</p><p><span style="color:#CA0020">■</span> under $40K <span style="color:#F4A582">■</span> $40–50K <span style="color:#D1E5F0">■</span> $50–75K <span style="color:#67A9CF">■</span> $75–100K <span style="color:#0571B0">■</span> $100K+</p>'};
+function demoLegend(){const k=DEMO_KEYS.find(x=>shown[x]);const el=document.getElementById('dlegend');if(!k){el.hidden=true;return;}el.hidden=false;
+  el.innerHTML=DLEG[k]+'<p><strong>Click anywhere on the map</strong> for the 3-mile ring at that exact spot.</p><p style="color:#8b93a1">US Census ACS 2020–2024 5-yr estimates, 2,394 block groups, area-weighted. A screen, not an underwrite.</p>';}
+let BG=null,BGP=null;function loadBG(){if(BG||BGP)return;BGP=fetch('bgpts.json').then(r=>r.json()).then(j=>{BG=j;});}
+const EDG=[0,10e3,15e3,20e3,25e3,30e3,35e3,40e3,45e3,50e3,60e3,75e3,100e3,125e3,150e3,200e3,250e3];
+function ringStats(la,lo,R){R=R||3;let P=0,H=0;const bins=new Array(16).fill(0);
+  for(const r of BG){const dy=(la-r[0])*69.0,dx=(lo-r[1])*69.172*Math.cos((la+r[0])/2*Math.PI/180),d=Math.sqrt(dx*dx+dy*dy);
+    const rr=Math.sqrt(Math.max(r[2],1e-4)/Math.PI);if(d>=R+rr)continue;let w;
+    if(d+rr<=R)w=1;else if(d+R<=rr)w=R*R/(rr*rr);else{const a1=Math.acos(Math.max(-1,Math.min(1,(d*d+rr*rr-R*R)/(2*d*rr)))),a2=Math.acos(Math.max(-1,Math.min(1,(d*d+R*R-rr*rr)/(2*d*R))));
+      const A=rr*rr*a1+R*R*a2-0.5*Math.sqrt(Math.max(0,(-d+rr+R)*(d+rr-R)*(d-rr+R)*(d+rr+R)));w=Math.min(1,A/(Math.PI*rr*rr));}
+    P+=w*r[3];H+=w*r[4];for(let i=0;i<16;i++)bins[i]+=w*r[5+i];}
+  const t=bins.reduce((a,b)=>a+b,0);let cum=0,med=null;for(let i=0;i<16;i++){if(cum+bins[i]>=t/2){med=EDG[i]+(t/2-cum)/Math.max(bins[i],1e-9)*(EDG[i+1]-EDG[i]);break;}cum+=bins[i];}
+  return {P,H,med};}
+let qring=null;
+async function queryAt(ev){if(!DEMO_KEYS.some(k=>shown[k]))return;if(!BG){loadBG();await BGP;}
+  const la=ev.latLng.lat(),lo=ev.latLng.lng();const s3=ringStats(la,lo,3),s1=ringStats(la,lo,1),s5=ringStats(la,lo,5);
+  if(qring)qring.setMap(null);qring=new google.maps.Circle({map,center:ev.latLng,radius:3*MI,strokeColor:'#FFFFFF',strokeOpacity:.95,strokeWeight:2,fillOpacity:0,clickable:false});
+  let nb=null;STORES.forEach(l=>{const d=hav([la,lo],l.c);if(!nb||d<nb.d)nb={d,l};});
+  const f=n=>Math.round(n).toLocaleString(),$=m=>m==null?'n/a':m>=250e3?'$250K+':'$'+(m/1000).toFixed(1)+'K',ok=b=>b?'<span style="color:#0E7A5C">✓</span>':'<span style="color:#B42318">✗</span>';
+  iw.setContent('<div class="iw"><div class="tier" style="color:#445">Ring at this spot</div><h3>'+la.toFixed(5)+', '+lo.toFixed(5)+'</h3><dl>'+
+   '<dt>3-mi population</dt><dd>'+f(s3.P)+' '+ok(s3.P>=40000)+'</dd><dt>3-mi median HH income</dt><dd>'+$(s3.med)+' '+ok(s3.med>=50000)+'</dd><dt>3-mi households</dt><dd>'+f(s3.H)+'</dd>'+
+   '<dt>1 mi / 5 mi pop</dt><dd>'+f(s1.P)+' / '+f(s5.P)+'</dd><dt>Nearest store</dt><dd>'+nb.d.toFixed(2)+' mi'+(nb.d<4.5?' <span style="color:#B42318">(inside 4.5)</span>':'')+'</dd></dl>'+
+   '<p style="color:#5b6576">Census ACS 2020–24, block groups area-weighted.</p></div>');
+  iw.setPosition(ev.latLng);iw.open({map});}
+
 
 function buildList(){
   let h='';
@@ -714,6 +752,10 @@ window.initMap=function(){
     m.addListener('click',()=>{iw.setContent(lp(g.brand,'Big box · open',[['Address',g.addr],['Market',mkts(g)]]));iw.open({map,anchor:m});});groups.big.push(m);});
   LAYERS.centers.forEach(c=>{const m=new google.maps.Marker({map:null,position:ll([c.lat,c.lng]),title:c.name,zIndex:10,icon:{path:'M 0 -6 L 6 0 L 0 6 L -6 0 Z',scale:1,fillColor:'#B784F5',fillOpacity:(c.grocers.length||c.boxes.length||c.dark.length)?1:.45,strokeColor:'#0B1A33',strokeWeight:1}});
     m.addListener('click',()=>{iw.setContent(lp(c.name,'Shopping center',[['Address',c.addr],['Market',mkts(c)],['Grocers',c.grocers.join(', ')||'None found'],['Big boxes',c.boxes.join(', ')||'None found'],['Dark boxes',c.dark.join(', ')||'None'],['Nearest store',c.near_mi.toFixed(2)+' mi']],'<p style="color:#5b6576">Anchors matched by distance (within ~0.2 mi); confirm on site.</p>'));iw.open({map,anchor:m});});groups.ctr.push(m);});
+  const ob=new google.maps.LatLngBounds({lat:DEMO_B.S,lng:DEMO_B.W},{lat:DEMO_B.N,lng:DEMO_B.E});
+  [['drfp','demo-rfp-web.png',1],['dpop','demo-pop-web.png',1],['dinc','demo-inc-web.png',0.9]].forEach(([k,u,o])=>groups[k].push(new google.maps.GroundOverlay(u,ob,{opacity:o,clickable:false})));
+  map.addListener('click',queryAt);
+  iw.addListener('closeclick',()=>{if(qring){qring.setMap(null);qring=null;}});
   buildList();setVis('out',false);
   document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.k)));
   document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>fit(b.dataset.z)));
