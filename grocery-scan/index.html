@@ -743,7 +743,7 @@ window.initMap=function(){
     m.addListener('click',()=>select(i,false));
     s.marker=m;groups[s.t].push(m);
   });
-  BOX.forEach((b,i)=>{if(b.s!=='closed')return;const ok=b.near_mi>=4.5;const m=new google.maps.Marker({map,position:ll(b.c),title:b.brand+' – '+b.n,zIndex:25,icon:{path:'M -6 -6 L 6 -6 L 6 6 L -6 6 Z',scale:1.1,fillColor:COL.box,fillOpacity:ok?1:.35,strokeColor:'#FFFFFF',strokeWeight:2}});m.addListener('click',()=>selectBox(i));b.marker=m;groups.box.push(m);});
+  BOX.forEach((b,i)=>{if(b.s!=='closed')return;const ok=b.near_mi>=4.5;const m=new google.maps.Marker({map,position:ll(b.c),title:b.brand+' – '+b.n,zIndex:25,icon:{path:'M -4 -4 L 4 -4 L 4 4 L -4 4 Z',scale:1,fillColor:COL.box,fillOpacity:ok?1:.35,strokeColor:'#FFFFFF',strokeWeight:1}});m.addListener('click',()=>selectBox(i));b.marker=m;groups.box.push(m);});
   const GC={'Conventional':'#4FA3FF','Hard discount':'#FF5CA8','Walmart / Target':'#FFD23F','Specialty / natural':'#7CE38B','Ethnic / value':'#FF9E5E','Club':'#A0E7FF'};
   const dot=(c,sc)=>({path:google.maps.SymbolPath.CIRCLE,scale:sc,fillColor:c,fillOpacity:1,strokeColor:'#0B1A33',strokeWeight:1});
   function lp(title,kind,rows,extra){return '<div class="iw"><div class="tier" style="color:#445">'+kind+'</div><h3>'+esc(title)+'</h3><dl>'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>').join('')+'</dl>'+(extra||'')+'</div>';}
