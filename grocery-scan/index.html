@@ -79,7 +79,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
       </div>
       <div class="ctrl" role="group" aria-label="Demographics">
         <span class="lbl">Demographics</span>
-        <button class="chip" id="t-drfp" data-k="drfp" aria-pressed="false"><span class="dot" style="background:#10966A"></span>RFP zones</button>
+        <button class="chip" id="t-drfp" data-k="drfp" aria-pressed="false"><span class="dot" style="background:#1E5AFF"></span>RFP zones</button>
         <button class="chip" id="t-dpop" data-k="dpop" aria-pressed="false"><span class="dot" style="background:#D76028"></span>3-mi population</button>
         <button class="chip" id="t-dinc" data-k="dinc" aria-pressed="false"><span class="dot" style="background:#0571B0"></span>Household income</button>
       </div>
@@ -680,7 +680,7 @@ function toggle(k,force){const b=document.getElementById('t-'+k);const on=force!
   b.setAttribute('aria-pressed',on);setVis(k,on);if(DEMO_KEYS.includes(k)){demoLegend();if(on)loadBG();}}
 const DEMO_KEYS=['drfp','dpop','dinc'];
 const DEMO_B={"N": 36.3, "S": 35.452173913043524, "W": -80.55, "E": -78.2522140985158};
-const DLEG={drfp:'<p><strong>RFP zones</strong> – where a 3-mile ring around that spot holds the RFP minimums.</p><p><span style="color:#10966A">■</span> 40K+ people and $50K+ median household income &nbsp;<span style="color:#E6961A">■</span> 40K+ people but income under $50K &nbsp;<span style="color:#10966A;opacity:.45">■</span> 36–40K (within 10%)</p>',
+const DLEG={drfp:'<p><strong>RFP zones</strong> – where a 3-mile ring around that spot holds the RFP minimums.</p><p><span style="color:#1E5AFF">■</span> 40K+ people and $50K+ median household income &nbsp;<span style="color:#E6961A">■</span> 40K+ people but income under $50K &nbsp;<span style="color:#8CE1FF">■</span> 30–40K people (close)</p>',
  dpop:'<p><strong>3-mile ring population</strong> centred on each spot. Dark line = the 40K line.</p><p><span style="color:#FDE08B">■</span> 30–40K <span style="color:#F4A552">■</span> 40–60K <span style="color:#D76028">■</span> 60–80K <span style="color:#962814">■</span> 80K+</p>',
  dinc:'<p><strong>Median household income</strong> by Census block group.</p><p><span style="color:#CA0020">■</span> under $40K <span style="color:#F4A582">■</span> $40–50K <span style="color:#D1E5F0">■</span> $50–75K <span style="color:#67A9CF">■</span> $75–100K <span style="color:#0571B0">■</span> $100K+</p>'};
 function demoLegend(){const k=DEMO_KEYS.find(x=>shown[x]);const el=document.getElementById('dlegend');if(!k){el.hidden=true;return;}el.hidden=false;
