@@ -27,7 +27,7 @@ button.chip[aria-pressed="false"]{opacity:.45}
 button.chip:hover{border-color:var(--gold)}
 button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
-.d-short{background:var(--short)}.d-mike{background:var(--mike)}.d-cade{background:var(--cade)}.d-cam{background:var(--cam)}.bkh{margin:18px 20px 2px;font:700 12px/1.2 inherit;letter-spacing:.08em;text-transform:uppercase;color:var(--gold,#C9A249);display:flex;align-items:center;gap:8px}.bkh .dot{width:10px;height:10px;border-radius:50%}.d-second{background:var(--second)}.d-out{background:transparent;border:2px solid var(--out)}.d-store{background:var(--store)}.d-box{background:var(--box);border-radius:2px;box-shadow:0 0 0 1.5px #fff}.d-groc{background:#4FA3FF}.d-big{background:#C7CCD4;border-radius:2px}.d-ctr{background:#B784F5;transform:rotate(45deg);border-radius:1px}
+.d-short{background:var(--short)}.d-mike{background:var(--mike)}.dot.d-star{width:13px;height:13px;border-radius:0;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}.d-cade{background:var(--cade)}.d-cam{background:var(--cam)}.bkh{margin:18px 20px 2px;font:700 12px/1.2 inherit;letter-spacing:.08em;text-transform:uppercase;color:var(--gold,#C9A249);display:flex;align-items:center;gap:8px}.bkh .dot{width:10px;height:10px;border-radius:50%}.d-second{background:var(--second)}.d-out{background:transparent;border:2px solid var(--out)}.d-store{background:var(--store)}.d-box{background:var(--box);border-radius:2px;box-shadow:0 0 0 1.5px #fff}.d-groc{background:#4FA3FF}.d-big{background:#C7CCD4;border-radius:2px}.d-ctr{background:#B784F5;transform:rotate(45deg);border-radius:1px}
 #list{flex:1;overflow:auto;padding-bottom:20px}
 .mk h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:16px 20px 6px}
 .mk .none{margin:0 20px 6px;color:var(--mid);font-size:12.5px}
@@ -225,6 +225,7 @@ const SITES = [
 "note": "In-line space by NCSU; rent is high. Grocer co-tenancy not yet confirmed.",
 "scr": "3-mi pop 96,283 ✓ · MHHI $81.5K ✓ · 33,000 VPD on Western Blvd (2024) ✓ · 2025 est. 3-mi pop 105,085 ✓ · MHHI $84.5K ✓",
 "pub": "10/1: Theater space still available. Rent depends on delivery condition. Tour offered.",
+"star": true
 },
 {
 "t": "out",
@@ -441,6 +442,7 @@ const SITES = [
 "note": "Vacant former Lowes Foods box (store closed Aug 2024) in a 95,569 SF center at Glenwood Ave & Ebenezer Church Rd. Second-gen grocery box with parking and loading already in place. Need a ~23–26K SF demise.",
 "scr": "3-mi pop 51,079 ✓ · MHHI $110.9K ✓ · 41,000 VPD on Glenwood Ave (US 70), nearest count station (2024) ✓ · parcel 12.30 AC · 2025 est. 3-mi pop 55,428 ✓ · MHHI $112.1K ✓",
 "pub": "10/2: Still available. Landlord has discussed subdividing and will consider it if it makes sense. At 35,000 SF the quote was ~$15.00 NNN with TICAM of $3.83.",
+"star": true
 },
 {
 "t": "out",
@@ -570,6 +572,7 @@ const SITES = [
 "note": "CSD-S1 zoning, approved for up to 13-story mixed use; brochure says the ground floor can take grocery. Fronts 15-501 in front of New Hope Commons at I-40 (51K VPD on 15-501). Brochure 3-mi: 48,118 pop, $78K MHHI. Tenants year-to-year except one restaurant.",
 "scr": "3-mi pop 46,566 ✓ · MHHI $93.9K ✓ · 41,500 VPD on US 15-501 at I-40 (2024) ✓ · 2025 est. 3-mi pop 50,826 ✓ · MHHI $96.3K ✓",
 "pub": "10/2 call: East parcels (2.44 AC) $7.0M, west parcel (2.13 AC) $4.0M. Restaurant lease has 4 years left with a buyout provision; other tenants are year-to-year. 3–4% buyer-broker fee depending on price.",
+"star": true
 },
 {
 "t": "second",
@@ -621,6 +624,7 @@ const SITES = [
 "note": "Freestanding building on Glenwood Ave (US 70), 41,000 VPD. New HVAC, fully sprinkled, 1 dock-high door, monument sign, CX-3 zoning, available now. Flyer 3-mi: 49,562 pop, $106,789 MHHI. Only 71 parking spaces vs. the 100–130 the program needs. 0.5 mi from Cornerstone Commons.",
 "scr": "3-mi pop 52,014 ✓ · MHHI $106.1K ✓ · 41,000 VPD on Glenwood Ave (US 70) (2024) ✓ · parcel 2.98 AC · 2025 est. 3-mi pop 53,331 ✓ · MHHI $107.8K ✓",
 "pub": "10/1: Listing broker sent it in reply to the \"20K+ SF\" request. No pricing discussion yet beyond the $24.50 NNN asking rate.",
+"star": true
 },
 {
 "t": "second",
@@ -1634,7 +1638,8 @@ const SITES = [
 "u": "https://www.crexi.com/properties/2368437/north-carolina-3300-north-duke-street",
 "note": "Cam's notes: Could try and buy 3304 to the North to increase parking. POPULATION 1 mi: 8,705 3mi:67,490 5mi: 151,779 MHHI: 1mi: $96,422 3mi: $137,344 5mi: $139,074",
 "scr": "2025 est. 3-mi pop 65,322 ✓ · MHHI $74.6K ✓ · VPD and parcel not yet checked",
-"pub": "From Cam's map (listing pin)."
+"pub": "From Cam's map (listing pin).",
+"star": true
 },
 {
 "t": "out",
@@ -1744,7 +1749,8 @@ const SITES = [
 "u": "https://www.crexi.com/properties/1169932/north-carolina-0-s-main-street",
 "scr": "2025 est. 3-mi pop 33,867 ✗ · MHHI $102.4K ✓ · VPD and parcel not yet checked",
 "scr_fail": "3-mi population under 40K",
-"pub": "From Cam's map (listing pin)."
+"pub": "From Cam's map (listing pin).",
+"star": true
 },
 {
 "t": "second",
@@ -1847,7 +1853,7 @@ function buildList(){
     const list=SITES.map((s,i)=>[s,i]).filter(([s])=>s.m===mi).sort((a,b)=>(a[0].t==='out')-(b[0].t==='out'));
     h+='<section class="mk"><h2>'+esc(m)+'</h2>';
     if(!list.some(([s])=>s.t!=='out'))h+='<p class="none">No qualifying listing on Crexi or LoopNet.</p>';
-    list.forEach(([s,i])=>{h+='<div class="item '+s.t+'" id="it'+i+'" data-t="'+gk(s)+'" tabindex="0" role="button"><span class="dot d-'+gk(s)+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.near.d.toFixed(1)+' mi</span><span class="meta">'+esc(s.type+' · '+s.size+' · '+s.ask)+(s.why?' · '+esc(s.why):'')+'</span></div>';});
+    list.forEach(([s,i])=>{h+='<div class="item '+s.t+'" id="it'+i+'" data-t="'+gk(s)+'" tabindex="0" role="button"><span class="dot d-'+gk(s)+(s.star?' d-star':'')+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.near.d.toFixed(1)+' mi</span><span class="meta">'+esc(s.type+' · '+s.size+' · '+s.ask)+(s.why?' · '+esc(s.why):'')+'</span></div>';});
     h+='</section>';
    });
   });
@@ -1872,8 +1878,9 @@ window.initMap=function(){
   });
   SITES.forEach((s,i)=>{
     const out=s.t==='out';
-    const g=gk(s);const m=new google.maps.Marker({map:shown[g]?map:null,position:ll(s.c),title:s.n,zIndex:out?10:20,
-      icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:out?'#000':COL[g],fillOpacity:out?.25:1,strokeColor:out?COL.out:'#0B1A33',strokeWeight:out?2.5:2}});
+    const g=gk(s);const m=new google.maps.Marker({map:shown[g]?map:null,position:ll(s.c),title:s.n,zIndex:s.star?30:out?10:20,
+      icon:s.star?{path:'M 0 -12 L 3.5 -4 L 12 -3.7 L 5.5 2 L 7.4 10.5 L 0 6 L -7.4 10.5 L -5.5 2 L -12 -3.7 L -3.5 -4 Z',scale:1.15,fillColor:out?'#000':COL[g],fillOpacity:out?.25:1,strokeColor:'#0B1A33',strokeWeight:1.8}
+        :{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:out?'#000':COL[g],fillOpacity:out?.25:1,strokeColor:out?COL.out:'#0B1A33',strokeWeight:out?2.5:2}});
     m.addListener('click',()=>select(i,false));
     s.marker=m;groups[g].push(m);
   });
