@@ -1818,7 +1818,7 @@ const DLEG={drfp:'<p><strong>RFP zones</strong> – where a 3-mile ring around t
  dinc:'<p><strong>Median household income</strong> by Census block group.</p><p><span style="color:#CA0020">■</span> under $40K <span style="color:#F4A582">■</span> $40–50K <span style="color:#D1E5F0">■</span> $50–75K <span style="color:#67A9CF">■</span> $75–100K <span style="color:#0571B0">■</span> $100K+</p>'};
 function demoLegend(){const k=DEMO_KEYS.find(x=>shown[x]);const el=document.getElementById('dlegend');if(!k){el.hidden=true;return;}el.hidden=false;
   el.innerHTML=DLEG[k]+'<p><strong>Click anywhere on the map</strong> for the 3-mile ring at that exact spot.</p><p style="color:#8b93a1">2025 estimates: US Census ACS 2020–2024 5-yr block groups (3,374 across the Triangle, Triad, Fayetteville and Wilmington), aged to 2025 with Census county population estimates (Vintage 2025) and CPI +2.7% for income. Area-weighted. Income map shows raw ACS. A screen, not an underwrite.</p>';}
-let BG=null,BGP=null;function loadBG(){if(BG||BGP)return;BGP=fetch('bgpts.json').then(r=>r.json()).then(j=>{BG=j;});}
+let BG=null,BGP=null;function loadBG(){if(BG||BGP)return;BGP=fetch('bgpts.json?v=20261014').then(r=>r.json()).then(j=>{BG=j;});}
 const EDG=[0,10e3,15e3,20e3,25e3,30e3,35e3,40e3,45e3,50e3,60e3,75e3,100e3,125e3,150e3,200e3,250e3];
 const IF25=1.027;
 function ringStats(la,lo,R,aged){R=R||3;let P=0,H=0;const bins=new Array(16).fill(0);
