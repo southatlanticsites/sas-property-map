@@ -21,7 +21,7 @@ html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(
 h1{font-family:'DM Sans',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin:4px 0 4px}
 .sub{font-size:12px;color:var(--mid);line-height:1.4}
 .ctrl{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center}
-.ctrl .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);width:44px}
+.ctrl .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);min-width:44px}
 button.chip{font:600 12px/1 'DM Sans',sans-serif;color:var(--cream);background:var(--navy3);border:1px solid var(--border);border-radius:999px;padding:7px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 button.chip[aria-pressed="false"]{opacity:.45}
 button.chip:hover{border-color:var(--gold)}
@@ -65,6 +65,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
       <div class="firm">South Atlantic Sites</div>
       <h1>Grocery Deal Dashboard</h1>
       <div class="sub">Crexi + LoopNet listings as of Sep 25, 2026 · tiers updated Sep 28. Red circles are a 4.5-mi straight-line buffer around existing stores; click a site to see its 3-mi ring.</div>
+      <div class="sub" id="pg-link"><a href="fay-wil.html" style="color:var(--gold,#C9A249);font-weight:700">Fayetteville &amp; Wilmington map &rarr;</a></div>
       <div class="ctrl" role="group" aria-label="Show">
         <span class="lbl">Show</span>
         <button class="chip" id="t-mike" data-k="mike" aria-pressed="true"><span class="dot d-mike"></span>Mike's sites</button>
@@ -102,7 +103,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
 const API_KEY = 'AIzaSyCoqCH6BGDq4K-DDZs1XnWnuSGRAzviS00';
 const STORES = [{"n": "Raleigh – 4308 Wake Forest Rd", "c": [35.8398606, -78.6104082]}, {"n": "Raleigh – 4115 Buffaloe Rd", "c": [35.8321032, -78.5679358]}, {"n": "Cary – 1105 N Harrison Ave", "c": [35.8051399, -78.7840167]}, {"n": "Garner – 2694 Timber Dr", "c": [35.7165693, -78.635989]}, {"n": "Apex – 670 Grand Central Station", "c": [35.7384325, -78.8436595]}, {"n": "Wake Forest – 1120 S Main St", "c": [35.9658972, -78.5187179]}, {"n": "Burlington – 3010 S Church St", "c": [36.0791666, -79.4917205]}, {"n": "Greensboro – 5696 W Gate City Blvd", "c": [36.0179105, -79.8964733]}, {"n": "Greensboro – 3005 Martinsville Rd", "c": [36.1178683, -79.8301287]}, {"n": "Winston-Salem – 3315 Sides Branch Rd", "c": [36.0323142, -80.2613417]}, {"n": "Winston-Salem – 2445 Fairlawn Ct", "c": [36.1437539, -80.2923337]}, {"n": "Sanford – 3209 NC-87", "c": [35.44712, -79.12995]}, {"n": "Fayetteville – 1912 Skibo Rd", "c": [35.0699952, -78.9680649]}, {"n": "Wilmington – 1451 Eastwood Rd", "c": [34.2324216, -77.8350391]}, {"n": "Wilmington – 3500 Oleander Dr", "c": [34.21364, -77.90401]}];
 
-const MARKETS = ["Central Raleigh (Western / New Bern)", "NW Raleigh (Glenwood / Creedmoor)", "E Burlington / Graham", "High Point", "Archdale / Thomasville", "Clemmons", "Chapel Hill / Carrboro", "Knightdale", "Rolesville", "Green Level / West Cary", "Sweetwater / Apex", "North Durham", "15-501 Durham", "Southpoint", "Holly Springs", "Fuquay-Varina", "Mebane", "Burlington (N Church St)", "Fayetteville / Hope Mills", "New Hanover County"];
+const MARKETS = ["Central Raleigh (Western / New Bern)", "NW Raleigh (Glenwood / Creedmoor)", "E Burlington / Graham", "High Point", "Archdale / Thomasville", "Clemmons", "Chapel Hill / Carrboro", "Knightdale", "Rolesville", "Green Level / West Cary", "Sweetwater / Apex", "North Durham", "15-501 Durham", "Southpoint", "Holly Springs", "Fuquay-Varina", "Mebane", "Burlington (N Church St)", "Fayetteville / Hope Mills", "Greater Wilmington (New Hanover, Brunswick, Pender)"];
 const SITES = [
 {
 "t": "short",
@@ -1794,7 +1795,7 @@ const MI=1609.344, BUF=4.5;
 const COL={se:'#2BD1A0',mike:'#2BD1A0',cade:'#2BD1A0',cam:'#2BD1A0',short:'#2BD1A0',second:'#F5B83D',out:'#9AA3AE',store:'#EF4444',box:'#000000'};
 const TIER={short:'Shortlist',second:'Second tier',out:'Ruled out'};
 const BROKERS=[['mike','Mike'],['cade','Cade'],['cam','Cam'],['se','New territories: Fayetteville & New Hanover']];const BNAME={mike:'Mike',cade:'Cade',cam:'Cam',se:'New territories'};
-const BKR={'Knightdale':'cade','Rolesville':'cade','Green Level / West Cary':'cade','Sweetwater / Apex':'cade','North Durham':'cam','15-501 Durham':'cam','Southpoint':'cam','Holly Springs':'cam','Fuquay-Varina':'cam','Mebane':'cam','Burlington (N Church St)':'cam','Fayetteville / Hope Mills':'se','New Hanover County':'se'};
+const BKR={'Knightdale':'cade','Rolesville':'cade','Green Level / West Cary':'cade','Sweetwater / Apex':'cade','North Durham':'cam','15-501 Durham':'cam','Southpoint':'cam','Holly Springs':'cam','Fuquay-Varina':'cam','Mebane':'cam','Burlington (N Church St)':'cam','Fayetteville / Hope Mills':'se','Greater Wilmington (New Hanover, Brunswick, Pender)':'se'};
 const bk=s=>BKR[MARKETS[s.m]]||s.b||'mike';const gk=s=>s.t==='out'?'out':bk(s);
 function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b[1]-a[1]);const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 SITES.forEach(s=>{let b=null;STORES.forEach(l=>{const d=hav(s.c,l.c);if(!b||d<b.d)b={d,l};});s.near=b;});
