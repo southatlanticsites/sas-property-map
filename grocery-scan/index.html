@@ -102,7 +102,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
 const API_KEY = 'AIzaSyCoqCH6BGDq4K-DDZs1XnWnuSGRAzviS00';
 const STORES = [{"n": "Raleigh – 4308 Wake Forest Rd", "c": [35.8398606, -78.6104082]}, {"n": "Raleigh – 4115 Buffaloe Rd", "c": [35.8321032, -78.5679358]}, {"n": "Cary – 1105 N Harrison Ave", "c": [35.8051399, -78.7840167]}, {"n": "Garner – 2694 Timber Dr", "c": [35.7165693, -78.635989]}, {"n": "Apex – 670 Grand Central Station", "c": [35.7384325, -78.8436595]}, {"n": "Wake Forest – 1120 S Main St", "c": [35.9658972, -78.5187179]}, {"n": "Burlington – 3010 S Church St", "c": [36.0791666, -79.4917205]}, {"n": "Greensboro – 5696 W Gate City Blvd", "c": [36.0179105, -79.8964733]}, {"n": "Greensboro – 3005 Martinsville Rd", "c": [36.1178683, -79.8301287]}, {"n": "Winston-Salem – 3315 Sides Branch Rd", "c": [36.0323142, -80.2613417]}, {"n": "Winston-Salem – 2445 Fairlawn Ct", "c": [36.1437539, -80.2923337]}, {"n": "Sanford – 3209 NC-87", "c": [35.44712, -79.12995]}, {"n": "Fayetteville – 1912 Skibo Rd", "c": [35.0699952, -78.9680649]}, {"n": "Wilmington – 1451 Eastwood Rd", "c": [34.2324216, -77.8350391]}, {"n": "Wilmington – 3500 Oleander Dr", "c": [34.21364, -77.90401]}];
 
-const MARKETS = ["Central Raleigh (Western / New Bern)", "NW Raleigh (Glenwood / Creedmoor)", "E Burlington / Graham", "High Point", "Archdale / Thomasville", "Clemmons", "Chapel Hill / Carrboro", "Knightdale", "Rolesville", "Green Level / West Cary", "Sweetwater / Apex", "North Durham", "15-501 Durham", "Southpoint", "Holly Springs", "Fuquay-Varina", "Mebane", "Burlington (N Church St)", "Fayetteville"];
+const MARKETS = ["Central Raleigh (Western / New Bern)", "NW Raleigh (Glenwood / Creedmoor)", "E Burlington / Graham", "High Point", "Archdale / Thomasville", "Clemmons", "Chapel Hill / Carrboro", "Knightdale", "Rolesville", "Green Level / West Cary", "Sweetwater / Apex", "North Durham", "15-501 Durham", "Southpoint", "Holly Springs", "Fuquay-Varina", "Mebane", "Burlington (N Church St)", "Fayetteville / Hope Mills", "New Hanover County"];
 const SITES = [
 {
 "t": "short",
@@ -1793,8 +1793,8 @@ const CADE = {"counts":[],"bases":[],"closed":[{"addr":"2731 NC-55, Cary, NC 275
 const MI=1609.344, BUF=4.5;
 const COL={se:'#2BD1A0',mike:'#2BD1A0',cade:'#2BD1A0',cam:'#2BD1A0',short:'#2BD1A0',second:'#F5B83D',out:'#9AA3AE',store:'#EF4444',box:'#000000'};
 const TIER={short:'Shortlist',second:'Second tier',out:'Ruled out'};
-const BROKERS=[['mike','Mike'],['cade','Cade'],['cam','Cam'],['se','Fayetteville & Wilmington']];const BNAME={mike:'Mike',cade:'Cade',cam:'Cam',se:'Fayetteville & Wilmington'};
-const BKR={'Knightdale':'cade','Rolesville':'cade','Green Level / West Cary':'cade','Sweetwater / Apex':'cade','North Durham':'cam','15-501 Durham':'cam','Southpoint':'cam','Holly Springs':'cam','Fuquay-Varina':'cam','Mebane':'cam','Burlington (N Church St)':'cam','Fayetteville':'se','Wilmington':'se'};
+const BROKERS=[['mike','Mike'],['cade','Cade'],['cam','Cam'],['se','New territories: Fayetteville & New Hanover']];const BNAME={mike:'Mike',cade:'Cade',cam:'Cam',se:'New territories'};
+const BKR={'Knightdale':'cade','Rolesville':'cade','Green Level / West Cary':'cade','Sweetwater / Apex':'cade','North Durham':'cam','15-501 Durham':'cam','Southpoint':'cam','Holly Springs':'cam','Fuquay-Varina':'cam','Mebane':'cam','Burlington (N Church St)':'cam','Fayetteville / Hope Mills':'se','New Hanover County':'se'};
 const bk=s=>BKR[MARKETS[s.m]]||s.b||'mike';const gk=s=>s.t==='out'?'out':bk(s);
 function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b[1]-a[1]);const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 SITES.forEach(s=>{let b=null;STORES.forEach(l=>{const d=hav(s.c,l.c);if(!b||d<b.d)b={d,l};});s.near=b;});
@@ -1865,12 +1865,12 @@ function buildList(){
   let h='';
   BROKERS.forEach(([bkey,bname])=>{
    h+='<div class="bkh"><span class="dot d-'+bkey+'"></span>'+(bkey==='se'?bname:bname+'\u2019s markets')+'</div>';
-   const mks=MARKETS.map((m,mi)=>[m,mi]).filter(([m])=>(BKR[m]||'mike')===bkey&&SITES.some(s=>s.m===MARKETS.indexOf(m)));
+   const mks=MARKETS.map((m,mi)=>[m,mi]).filter(([m])=>(BKR[m]||'mike')===bkey&&(bkey==='se'||SITES.some(s=>s.m===MARKETS.indexOf(m))));
    if(!mks.length)h+='<p class="none" style="padding:4px 20px 10px">Sites to come.</p>';
    mks.forEach(([m,mi])=>{
     const list=SITES.map((s,i)=>[s,i]).filter(([s])=>s.m===mi).sort((a,b)=>(a[0].t==='out')-(b[0].t==='out'));
     h+='<section class="mk"><h2>'+esc(m)+'</h2>';
-    if(!list.some(([s])=>s.t!=='out'))h+='<p class="none">No qualifying listing on Crexi or LoopNet.</p>';
+    if(!list.length&&bkey==='se')h+='<p class="none">New territory. Listing search to come.</p>';else if(!list.some(([s])=>s.t!=='out'))h+='<p class="none">No qualifying listing on Crexi or LoopNet.</p>';
     list.forEach(([s,i])=>{h+='<div class="item '+s.t+'" id="it'+i+'" data-t="'+gk(s)+'" tabindex="0" role="button"><span class="dot d-'+gk(s)+(s.star?' d-star':'')+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.near.d.toFixed(1)+' mi</span><span class="meta">'+esc(s.type+' · '+s.size+' · '+s.ask)+(s.why?' · '+esc(s.why):'')+'</span></div>';});
     h+='</section>';
    });
