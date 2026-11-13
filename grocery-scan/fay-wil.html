@@ -16,6 +16,7 @@
 html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--cream)}
 #app{display:flex;height:100%}
 #sidebar{width:380px;flex-shrink:0;display:flex;flex-direction:column;background:var(--navy);box-shadow:4px 0 24px rgba(0,0,0,.35);z-index:2}
+#sas-logo{display:flex;align-items:center;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid var(--border);text-decoration:none}#sas-logo img.lantern{height:46px;width:46px;flex-shrink:0}#sas-logo img.wordmark{height:28px;width:auto;max-width:calc(100% - 56px)}#sas-logo:hover{background:#f4f6f9}
 #sb-head{padding:18px 20px 14px;background:var(--navy2);border-bottom:1px solid var(--border)}
 .firm{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
 h1{font-family:'DM Sans',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin:4px 0 4px}
@@ -61,8 +62,8 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
 <body>
 <div id="app">
   <aside id="sidebar">
+    <a id="sas-logo" href="https://www.southatlanticsites.com" target="_blank" rel="noopener" title="South Atlantic Sites home"><img class="lantern" src="../assets/sas-lantern.png" alt=""><img class="wordmark" src="../assets/sas-wordmark.png" alt="South Atlantic Sites"></a>
     <div id="sb-head">
-      <div class="firm">South Atlantic Sites</div>
       <h1>Fayetteville &amp; Wilmington</h1>
       <div class="sub">Assigned territories: Fayetteville / Hope Mills and Wilmington (New Hanover, Brunswick and Pender counties, outlined in gold). Red circles are a 4.5-mi straight-line buffer around existing stores; click a site to see its 3-mi ring.</div>
       <div class="sub" id="pg-link"><a href="index.html" style="color:var(--gold,#C9A249);font-weight:700">&larr; Triangle &amp; Triad map</a></div>
