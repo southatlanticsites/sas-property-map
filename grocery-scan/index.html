@@ -2511,8 +2511,9 @@ const CADE = {"counts":[],"bases":[],"closed":[{"addr":"2731 NC-55, Cary, NC 275
 const MI=1609.344, BUF=4.5;
 const COL={se:'#2BD1A0',mike:'#2BD1A0',cade:'#2BD1A0',cam:'#2BD1A0',short:'#2BD1A0',second:'#F5B83D',out:'#9AA3AE',store:'#EF4444',box:'#000000'};
 const TIER={short:'Shortlist',second:'Second tier',out:'Ruled out'};
-const BROKERS=[['mike','Mike'],['cade','Cade'],['cam','Cam'],['se','New territories: Fayetteville & New Hanover']];const BNAME={mike:'Mike',cade:'Cade',cam:'Cam',se:'New territories'};
+const BROKERS=[['mike','Mike'],['cade','Cade'],['cam','Cam']];const BNAME={mike:'Mike',cade:'Cade',cam:'Cam',se:'New territories'};
 const BKR={'Knightdale':'cade','Rolesville':'cade','Green Level / West Cary':'cade','Sweetwater / Apex':'cade','North Durham':'cam','15-501 Durham':'cam','Southpoint':'cam','Holly Springs':'cam','Fuquay-Varina':'cam','Mebane':'cam','Burlington (N Church St)':'cam','Fayetteville / Hope Mills':'se','Wilmington':'se'};
+/*MAIN_ONLY*/for(let i=SITES.length-1;i>=0;i--)if((BKR[MARKETS[SITES[i].m]]||'mike')==='se')SITES.splice(i,1);document.querySelectorAll('[data-z="fay"],[data-z="wil"]').forEach(b=>b.remove());/*END_MAIN_ONLY*/
 const bk=s=>BKR[MARKETS[s.m]]||s.b||'mike';const gk=s=>s.t==='out'?'out':bk(s);
 function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b[1]-a[1]);const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 SITES.forEach(s=>{let b=null;STORES.forEach(l=>{const d=hav(s.c,l.c);if(!b||d<b.d)b={d,l};});s.near=b;});
