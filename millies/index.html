@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Millie's Ice Cream Site Search – South Atlantic Sites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1A33;--navy2:#132040;--navy3:#1A2A4E;--gold:#C9A249;--cream:#F6F1E9;--mid:#8A95A5;--border:rgba(255,255,255,.09);
+  --short:#2BD1A0;--second:#F5B83D;--mike:#2BD1A0;--cade:#2BD1A0;--cam:#2BD1A0;--out:#9AA3AE;--store:#EF4444;--box:#000000;
+}
+html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--navy);color:var(--cream)}
+#app{display:flex;height:100%}
+#sidebar{width:380px;flex-shrink:0;display:flex;flex-direction:column;background:var(--navy);box-shadow:4px 0 24px rgba(0,0,0,.35);z-index:2}
+#sas-logo{display:flex;align-items:center;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid var(--border);text-decoration:none}#sas-logo img.lantern{height:46px;width:46px;flex-shrink:0}#sas-logo img.wordmark{height:28px;width:auto;max-width:calc(100% - 56px)}#sas-logo:hover{background:#f4f6f9}
+#sb-head{padding:18px 20px 14px;background:var(--navy2);border-bottom:1px solid var(--border)}
+.firm{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{font-family:'DM Sans',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin:4px 0 4px}
+.sub{font-size:12px;color:var(--mid);line-height:1.4}
+.ctrl{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center}
+.ctrl .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);min-width:44px}
+button.chip{font:600 12px/1 'DM Sans',sans-serif;color:var(--cream);background:var(--navy3);border:1px solid var(--border);border-radius:999px;padding:7px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button.chip[aria-pressed="false"]{opacity:.45}
+button.chip:hover{border-color:var(--gold)}
+button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.d-short{background:var(--short)}.d-mike{background:var(--mike)}.d-se{background:var(--mike)}.dot.d-star{width:13px;height:13px;border-radius:0;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}.d-cade{background:var(--cade)}.d-cam{background:var(--cam)}.bkh{margin:18px 20px 2px;font:700 12px/1.2 inherit;letter-spacing:.08em;text-transform:uppercase;color:var(--gold,#C9A249);display:flex;align-items:center;gap:8px}.bkh .dot{width:10px;height:10px;border-radius:50%}.d-second{background:var(--second)}.d-out{background:transparent;border:2px solid var(--out)}.d-store{background:var(--store)}.d-box{background:var(--box);border-radius:2px;box-shadow:0 0 0 1.5px #fff}.d-groc{background:#4FA3FF}.d-big{background:#C7CCD4;border-radius:2px}.d-ctr{background:#B784F5;transform:rotate(45deg);border-radius:1px}
+#list{flex:1;overflow:auto;padding-bottom:20px}
+.mk h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:16px 20px 6px}
+.mk .none{margin:0 20px 6px;color:var(--mid);font-size:12.5px}
+.item{display:grid;grid-template-columns:12px 1fr auto;gap:2px 10px;align-items:baseline;padding:8px 20px;cursor:pointer;border-left:3px solid transparent}
+.item:hover{background:rgba(255,255,255,.04)}
+.item.sel{background:rgba(201,162,73,.10);border-left-color:var(--gold)}
+.item .nm{font-weight:600;font-size:14px}
+.item .ds{font-size:12.5px;color:var(--mid);font-variant-numeric:tabular-nums;white-space:nowrap}
+.item .meta{grid-column:2/4;font-size:12.5px;color:var(--mid);line-height:1.4}
+.item.out .nm{text-decoration:line-through;text-decoration-color:var(--out);color:#C9CED6}
+[hidden]{display:none!important}
+.note{margin:18px 20px 0;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--mid);line-height:1.5}
+.note p{margin-bottom:6px}
+#map{flex:1;min-height:300px}
+/* info window */
+.iw{font-family:'DM Sans',sans-serif;color:#0B1A33;max-width:280px}
+.iw .tier{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.iw h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.15;margin:3px 0 6px}
+.iw dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12.5px;margin-bottom:8px}
+.iw dt{color:#5b6576}.iw dd{font-variant-numeric:tabular-nums}
+.iw p{font-size:12.5px;margin-bottom:8px;line-height:1.4}
+.iw a{color:#0B5CAD;font-weight:600}
+@media (max-width:820px){
+  #app{flex-direction:column-reverse;height:auto}
+  #map{height:62vh;flex:none}
+  #sidebar{width:100%}
+  #list{overflow:visible}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <a id="sas-logo" href="https://www.southatlanticsites.com" target="_blank" rel="noopener" title="South Atlantic Sites home"><img class="lantern" src="../assets/sas-lantern.png" alt=""><img class="wordmark" src="../assets/sas-wordmark.png" alt="South Atlantic Sites"></a>
+    <div id="sb-head">
+      <div class="firm">Tenant rep search</div>
+      <h1>Millie's Homemade Ice Cream</h1>
+      <div class="sub">Sandeep &amp; Bhavya's territory: 20-mile radius around 27540 (Holly Springs). Awarded towns in gold; Raleigh proper is excluded (Nisi's territory). Seeking <strong style="color:var(--cream)">700–1,700 SF</strong> retail near restaurants and evening traffic; patio and end-cap a plus. Status as of Nov 18, 2026.</div>
+      <div class="ctrl" role="group" aria-label="Show">
+        <span class="lbl">Show</span>
+        <button class="chip" id="t-active" data-k="active" aria-pressed="true"><span class="dot" style="background:#2BD1A0"></span>Active</button>
+        <button class="chip" id="t-check" data-k="check" aria-pressed="true"><span class="dot" style="background:#F5B83D"></span>Re-check</button>
+        <button class="chip" id="t-future" data-k="future" aria-pressed="true"><span class="dot" style="background:#4FA3FF"></span>Future</button>
+        <button class="chip" id="t-out" data-k="out" aria-pressed="false"><span class="dot d-out"></span>Ruled out</button>
+        <button class="chip" id="t-comp" data-k="comp" aria-pressed="true"><span class="dot" style="background:#EF4444;width:8px;height:8px"></span>Ice cream / dessert</button>
+        <button class="chip" id="t-terr" data-k="terr" aria-pressed="true"><span class="dot" style="background:transparent;border:2px solid #F0718A"></span>Territory</button>
+      </div>
+      <div class="ctrl" role="group" aria-label="Zoom to">
+        <span class="lbl">Zoom</span>
+        <button class="chip" data-z="hs">Holly Springs</button>
+        <button class="chip" data-z="apex">Apex / Cary</button>
+        <button class="chip" data-z="fv">Fuquay</button>
+        <button class="chip" data-z="all">All</button>
+      </div>
+    </div>
+    <div id="list"></div>
+  </aside>
+  <div id="map" aria-label="Map of candidate sites for Millie's"></div>
+</div>
+<script>
+const API_KEY = 'AIzaSyCoqCH6BGDq4K-DDZs1XnWnuSGRAzviS00';
+const MI = 1609.344;
+const CENTER = [35.6251337,-78.8495889]; // 27540 (Holly Springs)
+const AWARDED = [["Holly Springs",[35.6512655,-78.8336218]],["Apex",[35.732652,-78.8502856]],["New Hill",[35.6809856,-78.9355668]],["Fuquay-Varina",[35.5843235,-78.8000128]],["Angier / Willow Spring",[35.5071044,-78.7391813]]];
+
+/* t: active | future | check | out */
+const SITES = [
+{t:"active",n:"Harvest District",a:"614 Old Honeycutt Rd, Fuquay-Varina",c:[35.5884343,-78.7754148],
+ size:"Bldg 2, Space 4: ±1,300 SF",ask:"$38/SF NNN + ~$6 TICAM (2025 quote)",
+ status:"Offered to us 11/16/26. Landlord is waiting on a counter-LOI from another ice cream group.",
+ next:"Time-sensitive: get current rate and delivery date to the team and decide on an LOI.",
+ lease:"Foundry Commercial (Julie Augustyn, James Mattox)",
+ note:"New mixed-use district 5 min from downtown Fuquay, next to the Academy Village grocery center and Gold Leaf Crossing. In May Lauren flagged nearby competition: DQ, Baskin-Robbins, Pelicans and Tiny House Treats.",
+ links:[["2025 flyer","https://drive.google.com/file/d/1emWT7BsSXSOcqO9gQxLJeSRX6zR4wVNX/view?usp=sharing"],["LoopNet","https://www.loopnet.com/Listing/614-Old-Honeycutt-rd-Fuquay-Varina-NC/42508207/"]]},
+{t:"active",n:"Carolina Springs Town Center",a:"3708 Old Holly Springs Apex Rd, Holly Springs",c:[35.6819244,-78.864726],
+ size:"52,425 SF inline + ±50,887 SF grocery anchor",ask:"Mid-$40s/SF NNN, cold dark shell + $50/SF TIA (2025 quote)",
+ status:"Town Council final review was 11/17/26. Early tenants: fast casual, sit-down restaurant, vet, nail salon, dental. No dessert use yet.",
+ next:"Contact the leasing team at The Shopping Center Group (Sandeep asked 11/16).",
+ lease:"The Shopping Center Group (TSCG)",
+ note:"Delivery 2027. Pocket parks and a playground planned. About 14 min from Sandeep's home.",
+ links:[["2025 flyer","https://drive.google.com/file/d/1z2kEFXmk12Vvd4ROYd51Ycm6L12DQ8eH/view?usp=sharing"],["Crexi","https://www.crexi.com/lease/properties/806649/north-carolina-carolina-springs-town-center"]]},
+{t:"active",n:"Nichols Plaza (former Crumbl)",a:"1101–1107 Pine Plaza Dr, Apex",c:[35.7466247,-78.8301019],
+ size:"±1,400 SF, 2nd-generation bakery",ask:"TBD",
+ status:"Sandeep found it 11/16/26. Inquiry pending.",
+ next:"Confirm availability and terms, and what's left of the Crumbl buildout.",
+ lease:"See LoopNet listing",
+ note:"Established center near Costco and Academy. Co-tenants include Starbucks and Alpaca Chicken. The Peach Cobbler Factory is next door at 1071 Pine Plaza Dr.",
+ links:[["LoopNet","https://www.loopnet.com/Listing/1101-1107-Pine-Plaza-Dr-Apex-NC/43024302/"]]},
+{t:"active",n:"Holly Springs Crossing",a:"130 Bass Lake Rd, Holly Springs",c:[35.6530495,-78.8235683],
+ size:"±1,160–2,502 SF (two spaces left)",ask:"TBD",
+ status:"New lead from the 10/28/26 Foundry eblast. Not yet sent to the team.",
+ next:"Ask Foundry for the 1,160 SF space's rate and whether an ice cream use is open.",
+ lease:"Foundry Commercial (Ross Diachenko, Nolan Mills IV)",
+ note:"Grocery-anchored center at the signalized corner of Holly Springs Rd and Bass Lake Rd. Co-tenants include School of Rock, Serasana and Blind Pelican. 14,500–16,000 VPD. 3-mi: ±56,300 pop, ±$136K median HH income (broker figures).",
+ links:[]},
+{t:"active",n:"7625 Roberts Rd",a:"7625 Roberts Rd, Apex",c:[35.7709926,-78.9012186],
+ size:"Inline and end-cap units",ask:"$38–39/SF inline, $42/SF end cap NNN + ~$6.50–7.00 TICAM",
+ status:"11/14/26 (Rikky Goswami): the ice cream use is still open, but there's a proposal out to another group. Several LOIs under response.",
+ next:"Decide whether to submit an LOI before the other group signs. Sandeep plans to drive the area.",
+ lease:"Insight Property Group (Rikky Goswami)",
+ note:"Delivery ~summer 2027. Across from a large high school, walkable to many rooftops. Earlier concerns: few restaurants nearby and a winter opening.",
+ links:[]},
+{t:"active",n:"Main Street Vista",a:"324 N Main St, Holly Springs",c:[35.6562302,-78.8329723],
+ size:"Inline space (LOI'd 2025)",ask:"$35/SF NNN + ~$6 TICAM (2025)",
+ status:"LOI signed 10/2025 and lease drafted 10/21/25, with a 15% coffee-sales allowance agreed. It stalled while the landlord sorted out the coffee tenant's exclusive. Back9Golf signed 10/2026.",
+ next:"Per the 11/16 call, ask the landlord whether a deal is still possible.",
+ lease:"Lee & Associates (Karah Jennings McConnell, Cole Pennell)",
+ note:"Mixed use built around a public green. Mama Bird's Ice Cream is next door at 304 N Main St.",
+ links:[["2025 flyer","https://drive.google.com/file/d/1E-FLztPd3j3fWRnVV9w9OKNxErmP5tVP/view?usp=sharing"]]},
+
+{t:"future",n:"Gold Leaf Crossing (Target)",a:"Gold Ring Rd area, Fuquay-Varina",c:[35.5991874,-78.7515376],approx:true,
+ size:"Future inline retail",ask:"TBD",
+ status:"Open center: Alpaca Chicken, Mezeh, Firebirds, Super Chix, Paris Baguette, Nothing Bundt Cakes, First Horizon. More retail expected ~summer 2027. No ice cream yet.",
+ next:"Contact the leasing team now to get on the list (Sandeep's 11/14 request).",
+ lease:"TBD",note:"Pin is approximate (center of the development).",links:[]},
+{t:"future",n:"Morrisville Town Center",a:"Town Hall Dr area, Morrisville",c:[35.823483,-78.8255621],approx:true,
+ size:"TBD",ask:"TBD",
+ status:"As of 7/2026, retail delivers Q1–Q2 2027. Modeled on downtown Cary.",
+ next:"Check leasing status and timing.",lease:"TBD",note:"Pin is approximate. Near the north edge of the territory.",links:[]},
+
+{t:"check",n:"1803 NC 42 (standalone)",a:"1803 NC 42, Fuquay-Varina",c:[35.5907064,-78.7322498],
+ size:"1,100 SF in a standalone building with patio (one other tenant)",ask:"Not set (2025). Landlord offering TI on a new upfit.",
+ status:"Off-market lead from 2025. No update since.",
+ next:"Check availability. Fits Sandeep's 11/13 ask for standalone or highway sites. Confirm the owner will pay a brokerage fee.",
+ lease:"Owner direct (off-market)",note:"About 25 min from Sandeep's home.",links:[]},
+{t:"check",n:"Main Street Square",a:"1001 Hayes Ln, Holly Springs",c:[35.6373078,-78.8294045],
+ size:"1,360 SF and 1,442 SF (2025)",ask:"$29/SF/yr (2025)",
+ status:"2025 favorite. No update since. Includes a 2nd-generation coffee/tea space.",
+ next:"Re-check availability and rate.",lease:"Lee & Associates (Karah Jennings McConnell, Moss Withers)",
+ note:"Near downtown Holly Springs on NC 55, close to NC 540 and UNC Rex Holly Springs. Walkable. JT's Creamery and FRESH have since opened on S Main St.",
+ links:[["2025 flyer","https://drive.google.com/file/d/1rlli8oYfuypgNXznEo_xasMARVOKmNVk/view?usp=sharing"]]},
+{t:"check",n:"Shoppes at Woodcreek",a:"5160 Sunset Lake Rd, Apex",c:[35.6677078,-78.7993704],
+ size:"Suite 105: 1,213 SF (2025)",ask:"$26/SF NNN + $6.05 TICAM (2025)",
+ status:"In 2025 the landlord had another LOI on Suite 105. Status unknown.",
+ next:"Re-check availability.",lease:"See 2025 flyer",
+ note:"Co-tenants include Shakey Ray's Tavern and Osteria G. 3-mi pop 55,271 / 5-mi 124,039 (2025 flyer).",
+ links:[["2025 flyer","https://drive.google.com/file/d/1nQwKyvmvh3iUUybAJ9X2mxh2vs-L1udL/view?usp=sharing"]]},
+{t:"check",n:"8101–8109 Fayetteville Rd",a:"8101–8109 Fayetteville Rd, Fuquay-Varina",c:[35.6633227,-78.700531],
+ size:"Suite 105: 1,000 SF (2025)",ask:"$30/SF NNN + $5.03 TICAM (2025)",
+ status:"2025 lead. No update since. The Peach Cobbler Factory has opened in the same center (#109).",
+ next:"Re-check availability. Confirm the location falls in the awarded territory.",lease:"See 2025 flyer",
+ note:"Grocery-anchored, busy residential area.",
+ links:[["2025 flyer","https://drive.google.com/file/d/1Qu57L4VzYnUqge1c8M3qZ-1ZKxYtQE4p/view?usp=sharing"]]},
+
+{t:"out",n:"Overlook on Main (Ting Park)",a:"N Main St & Anchor Creek Way, Holly Springs",c:[35.6695455,-78.8346566],approx:true,
+ size:"Suite 2C ±1,245 SF",ask:"LOI 11/2025",why:"Paused 11/13/26: the developer needs new partners and financing. No update before Q1 2027."},
+{t:"out",n:"Peterson Station",a:"McChesney Hill Loop, Holly Springs",c:[35.6800984,-78.8077994],
+ size:"Ste 3165: 1,201 SF (2025)",ask:"$35 + $6 CAM (2025)",why:"Jack the Dipper Ice Cream has since opened in the same center (3137 McChesney Hill Lp)."},
+{t:"out",n:"SouthPark Village",a:"324 Village Walk Dr, Holly Springs",c:[35.6398216,-78.8380387],
+ size:"I-110: 1,285 SF",ask:"$40 + $8.80",why:"Space leased (11/2025)."},
+{t:"out",n:"Oakview Commons",a:"Oakview Commons Dr, Holly Springs",c:[35.6584446,-78.8680079],
+ size:"Bldg A #104",ask:"",why:"Cold Stone has an ice cream exclusive (11/2025)."},
+{t:"out",n:"Veridea",a:"Veridea Pkwy, Apex",c:[35.6947849,-78.859999],approx:true,
+ size:"",ask:"",why:"Brokers have multiple experienced ice cream operators ahead of us (5/2026)."},
+{t:"out",n:"Depot 499",a:"Apex",c:[35.7222875,-78.8745319],approx:true,
+ size:"1,200 SF (next to Starbucks)",ask:"$45 + $8 NNN (end cap)",why:"Team passed (5/2026)."},
+{t:"out",n:"Fuquay Market",a:"1301 N Judd Pkwy, Fuquay-Varina",c:[35.603428,-78.799226],
+ size:"2,289–4,319 SF",ask:"$37 NNN",why:"Ice cream tenant already signed. Spaces too large."},
+{t:"out",n:"Twyla Walk",a:"Cary",c:[35.808365,-78.887704],approx:true,
+ size:"",ask:"",why:"Zoning doesn't allow ice cream sales."},
+{t:"out",n:"122 W Chatham St",a:"122 W Chatham St, Cary",c:[35.7874202,-78.7822597],
+ size:"1st floor",ask:"",why:"Landlord went quiet. The team preferred Holly Springs. Milkshake Factory and FRESH are ~500 ft away."},
+{t:"out",n:"Shoppes of Kildaire",a:"Kildaire Farm Rd, Cary",c:[35.7597383,-78.781704],
+ size:"1,626 SF",ask:"",why:"Leased to another tenant (5/2026)."},
+{t:"out",n:"Mid-Town Square",a:"Downtown Cary",c:[35.7698044,-78.7816219],approx:true,
+ size:"±1,560 SF",ask:"",why:"Leased to another tenant (5/2026)."}
+];
+
+const COMP = [
+["Mama Bird's Ice Cream","304 N Main St, Holly Springs",35.6554565,-78.8340286],
+["JT's Creamery","300 S Main St, Holly Springs",35.6485096,-78.8339104],
+["FRESH. Local Ice Cream","205 S Main St, Holly Springs",35.6494399,-78.8334558],
+["sweetFrog","132 Collins Crossing Rd, Holly Springs",35.6338314,-78.8313976],
+["Cold Stone Creamery","161 Oakview Cmns Dr, Holly Springs",35.6581299,-78.8675531],
+["Jack the Dipper Ice Cream","3137 McChesney Hl Lp, Apex",35.6800327,-78.8076858],
+["FRESH. Local Ice Cream","109 N Salem St, Apex",35.7311053,-78.851585],
+["Kilwins","108 N Salem St, Apex",35.7310825,-78.8511534],
+["The Enchantment (paletería)","807 E Williams St, Apex",35.7221394,-78.8439489],
+["Bruster's Real Ice Cream","952 US-64, Apex",35.7459813,-78.8224715],
+["The Peach Cobbler Factory","1071 Pine Plaza Dr, Apex",35.7467055,-78.8296152],
+["Cold Stone Creamery","2050 Creekside Landing Dr, Apex",35.7464676,-78.8846388],
+["Mama Bird's Ice Cream","2700 Stokesdale Ln, Apex",35.7419213,-78.9148918],
+["Two Roosters Ice Cream","575 New Waverly Pl, Cary",35.7381695,-78.7772142],
+["MILKLAB","6418 Tryon Rd, Cary",35.745405,-78.7606785],
+["Goodberry's","1146 Kildaire Farm Rd, Cary",35.7658236,-78.7835319],
+["Sugar Koi","116 Kilmayne Dr, Cary",35.7705376,-78.7829855],
+["Andia's Ice Cream","1008 Ryan Rd, Cary",35.7772672,-78.7679442],
+["Honeysuckle Gelato","7 Fenton Main St, Cary",35.780711,-78.7582606],
+["FRESH. Local Ice Cream","138 E Chatham St, Cary",35.7872949,-78.7798956],
+["MilkShake Factory","161 E Chatham St, Cary",35.7875539,-78.7794701],
+["Geluna Gelato","111 E Chatham St, Cary",35.7877128,-78.7806379],
+["Vida Dulce","836 E Chatham St, Cary",35.7903834,-78.7604428],
+["Goodberry's","2325 Davis Dr, Cary",35.7896305,-78.8475963],
+["Andia's Ice Cream","10120 Green Level Church Rd, Cary",35.820066,-78.900843],
+["Handel's Homemade Ice Cream","115 Parkside Valley Dr, Morrisville",35.8394172,-78.8572722],
+["Sweeten Your Life","2831 Jones Franklin Rd, Raleigh",35.7434011,-78.7369112],
+["Howling Cow Creamery","100 Dairy Ln, Raleigh",35.7241659,-78.6832499],
+["JT's Creamery","2128 Gathering Sq Ct, Fuquay-Varina",35.6009297,-78.7829127],
+["Tiny House Treats","1013 E Broad St, Fuquay-Varina",35.5932248,-78.7819926],
+["Fat Cat Homemade Ice Cream","405 E Broad St, Fuquay-Varina",35.5939596,-78.7950604],
+["Pints Ice Cream & Beer","512 E Broad St, Fuquay-Varina",35.5930512,-78.7942509],
+["FRESH. Local Ice Cream","202 S Main St, Fuquay-Varina",35.5828131,-78.8000053],
+["Baskin-Robbins","1450 N Main St, Fuquay-Varina",35.5935701,-78.7683868],
+["Ice Cream Social","236 Brook Farm Ln, Fuquay-Varina",35.566958,-78.7976048],
+["The Peach Cobbler Factory","8105 Fayetteville Rd, Fuquay-Varina",35.6631318,-78.7000306],
+["The Scoop @ Willow Oak Farms","1510 Lafayette Rd, Fuquay-Varina",35.5047861,-78.7987854],
+["Sunni Sky's Homemade Ice Cream","8617 NC-55, Angier",35.5316378,-78.7445491],
+["El Encanto Paletería","300 N Raleigh St, Angier",35.511612,-78.740425],
+["McLean Farms Ice Cream","5490 River Rd, Fuquay-Varina",35.5215592,-78.9303209]
+];
+
+const COL={active:'#2BD1A0',future:'#4FA3FF',check:'#F5B83D',out:'#9AA3AE'};
+const TIER={active:'Active',future:'Future / watch',check:'Needs re-check (2025 lead)',out:'Ruled out'};
+const ORDER=['active','future','check','out'];
+const VIEWS={hs:[[35.615,-78.885],[35.69,-78.79]],apex:[[35.715,-78.93],[35.83,-78.74]],fv:[[35.55,-78.82],[35.615,-78.72]],all:null};
+let map,iw,ring;const groups={active:[],future:[],check:[],out:[],comp:[],terr:[]};const shown={};
+const ll=c=>({lat:c[0],lng:c[1]});
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b[1]-a[1]);const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+SITES.forEach(s=>{let best=null;COMP.forEach(c=>{const d=hav(s.c,[c[2],c[3]]);if(!best||d<best.d)best={d,n:c[0],a:c[1]};});s.near=best;s.home=hav(CENTER,s.c);
+  s.near1=COMP.filter(c=>hav(s.c,[c[2],c[3]])<=1).length;});
+
+function content(s){
+  const col=s.t==='out'?'#6b7380':'#0B1A33';
+  let h='<div class="iw"><div class="tier" style="color:'+col+'"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:'+COL[s.t]+'"></span>'+TIER[s.t]+'</div><h3>'+esc(s.n)+'</h3><dl>';
+  h+='<dt>Address</dt><dd>'+esc(s.a)+(s.approx?' (approx. pin)':'')+'</dd>';
+  if(s.size)h+='<dt>Space</dt><dd>'+esc(s.size)+'</dd>';
+  if(s.ask)h+='<dt>Ask</dt><dd>'+esc(s.ask)+'</dd>';
+  if(s.lease)h+='<dt>Leasing</dt><dd>'+esc(s.lease)+'</dd>';
+  h+='<dt>From 27540</dt><dd>'+s.home.toFixed(1)+' mi straight line</dd>';
+  h+='<dt>Nearest ice cream</dt><dd>'+esc(s.near.n)+' · '+s.near.d.toFixed(2)+' mi</dd>';
+  h+='<dt>Within 1 mi</dt><dd>'+s.near1+' ice cream / dessert shop'+(s.near1===1?'':'s')+'</dd></dl>';
+  if(s.why)h+='<p><strong>Why out:</strong> '+esc(s.why)+'</p>';
+  if(s.status)h+='<p><strong>Status:</strong> '+esc(s.status)+'</p>';
+  if(s.next)h+='<p><strong>Next step:</strong> '+esc(s.next)+'</p>';
+  if(s.note)h+='<p>'+esc(s.note)+'</p>';
+  (s.links||[]).forEach(([t,u])=>{h+='<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(t)+' →</a><br>';});
+  h+='<a href="https://www.google.com/maps/search/?api=1&query='+s.c[0]+','+s.c[1]+'" target="_blank" rel="noopener">Google Maps →</a></div>';
+  return h;
+}
+function select(i,fly){
+  const s=SITES[i];if(ring)ring.setMap(null);
+  ring=new google.maps.Circle({map,center:ll(s.c),radius:1*MI,strokeColor:'#FFFFFF',strokeOpacity:.9,strokeWeight:1.5,fillOpacity:0,clickable:false});
+  document.querySelectorAll('.item.sel').forEach(e=>e.classList.remove('sel'));
+  const el=document.getElementById('it'+i);if(el)el.classList.add('sel');
+  if(!shown[s.t])toggle(s.t,true);
+  iw.setContent(content(s));iw.open({map,anchor:s.marker});
+  if(fly)map.fitBounds(ring.getBounds(),30);
+}
+function setVis(k,on){shown[k]=on;groups[k].forEach(o=>o.setMap(on?map:null));document.querySelectorAll('.item[data-t="'+k+'"]').forEach(e=>e.hidden=!on);}
+function toggle(k,force){const b=document.getElementById('t-'+k);const on=force!==undefined?force:b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);setVis(k,on);}
+function fit(k){const v=VIEWS[k];if(!v){map.fitBounds(groups.terr[0].getBounds(),10);return;}map.fitBounds(new google.maps.LatLngBounds(ll(v[0]),ll(v[1])),20);}
+function buildList(){
+  let h='';
+  ORDER.forEach(t=>{
+    const list=SITES.map((s,i)=>[s,i]).filter(([s])=>s.t===t);
+    h+='<section class="mk"><h2><span class="dot" style="background:'+COL[t]+';margin-right:6px"></span>'+TIER[t]+' ('+list.length+')</h2>';
+    list.forEach(([s,i])=>{
+      h+='<div class="item'+(t==='out'?' out':'')+'" id="it'+i+'" data-t="'+t+'" tabindex="0" role="button"><span class="dot" style="background:'+COL[t]+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.home.toFixed(1)+' mi</span><span class="meta">'+esc(s.size||s.a)+(s.why?' · '+esc(s.why):'')+'</span></div>';
+    });
+    h+='</section>';
+  });
+  h+='<div class="note"><p><strong>Criteria:</strong> 700–1,700 SF retail; restaurants and evening traffic nearby; patio or outdoor seating and end-cap visibility a plus; avoid ice cream exclusives and clusters of competitors; avoid a winter opening. Open to standalone or highway buildings.</p><p>Distances are straight-line from the 27540 zip center. Red dots are existing ice cream, gelato, custard and dessert shops (Google Places, Nov 2026). Click a site for its 1-mile ring.</p><p>2025 rents and sizes come from the original flyers and may have changed.</p></div>';
+  document.getElementById('list').innerHTML=h;
+  document.querySelectorAll('.item').forEach(el=>{const i=+el.id.slice(2);el.addEventListener('click',()=>select(i,true));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i,true);}});});
+}
+window.initMap=function(){
+  map=new google.maps.Map(document.getElementById('map'),{center:ll(CENTER),zoom:10,mapTypeId:'hybrid',mapTypeControl:true,mapTypeControlOptions:{mapTypeIds:['hybrid','satellite','roadmap','terrain'],position:google.maps.ControlPosition.TOP_RIGHT},streetViewControl:true,fullscreenControl:true});
+  iw=new google.maps.InfoWindow();
+  groups.terr.push(new google.maps.Circle({map,center:ll(CENTER),radius:20*MI,strokeColor:'#F0718A',strokeOpacity:.95,strokeWeight:2.5,fillColor:'#F0718A',fillOpacity:.04,clickable:false,zIndex:1}));
+  groups.terr.push(new google.maps.Polyline({map,path:Array.from({length:121},(_,k)=>{const a=k*3*Math.PI/180;return {lat:CENTER[0]+10/69*Math.cos(a),lng:CENTER[1]+10/(69*Math.cos(CENTER[0]*Math.PI/180))*Math.sin(a)};}),strokeOpacity:0,icons:[{icon:{path:'M 0,-1 0,1',strokeOpacity:.6,strokeColor:'#FFFFFF',scale:2},offset:'0',repeat:'12px'}],clickable:false,zIndex:1}));
+  groups.terr.push(new google.maps.Marker({map,position:ll(CENTER),title:'27540 (home zip)',zIndex:3,icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:'#F0718A',fillOpacity:1,strokeColor:'#fff',strokeWeight:2}}));
+  AWARDED.forEach(([n,c])=>groups.terr.push(new google.maps.Marker({map,position:ll(c),title:n+' (awarded territory)',zIndex:2,label:{text:n,color:'#F5D27A',fontSize:'12px',fontWeight:'700'},icon:{path:google.maps.SymbolPath.CIRCLE,scale:11,fillOpacity:0,strokeColor:'#C9A249',strokeWeight:3,labelOrigin:new google.maps.Point(0,-2.6)}})));
+  COMP.forEach(c=>{const m=new google.maps.Marker({map,position:{lat:c[2],lng:c[3]},title:c[0],zIndex:4,icon:{path:google.maps.SymbolPath.CIRCLE,scale:4.5,fillColor:'#EF4444',fillOpacity:1,strokeColor:'#fff',strokeWeight:1}});
+    m.addListener('click',()=>{iw.setContent('<div class="iw"><div class="tier" style="color:#B91C1C">Existing ice cream / dessert</div><h3>'+esc(c[0])+'</h3><p>'+esc(c[1])+'</p></div>');iw.open({map,anchor:m});});groups.comp.push(m);});
+  SITES.forEach((s,i)=>{const out=s.t==='out';const m=new google.maps.Marker({map,position:ll(s.c),title:s.n,zIndex:out?6:10,icon:{path:google.maps.SymbolPath.CIRCLE,scale:out?7:9,fillColor:COL[s.t],fillOpacity:out?.6:1,strokeColor:out?'#9AA3AE':'#0B1A33',strokeWeight:2}});m.addListener('click',()=>select(i,false));s.marker=m;groups[s.t].push(m);});
+  buildList();setVis('out',false);
+  document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.k)));
+  document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>fit(b.dataset.z)));
+  fit('all');
+};
+(function(){const s=document.createElement('script');s.src='https://maps.googleapis.com/maps/api/js?key='+API_KEY+'&callback=initMap';s.async=true;s.defer=true;document.head.appendChild(s);})();
+</script>
+</body>
+</html>
