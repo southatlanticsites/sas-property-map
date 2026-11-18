@@ -308,7 +308,8 @@ window.initMap=function(){
   buildList();setVis('out',false);
   document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.k)));
   document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>fit(b.dataset.z)));
-  fit('all');
+  google.maps.event.addListenerOnce(map,'idle',()=>fit('all'));
+  new ResizeObserver(()=>{if(map.getZoom()<6)fit('all');}).observe(document.getElementById('map'));
 };
 (function(){const s=document.createElement('script');s.src='https://maps.googleapis.com/maps/api/js?key='+API_KEY+'&callback=initMap';s.async=true;s.defer=true;document.head.appendChild(s);})();
 </script>
