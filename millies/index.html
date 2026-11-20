@@ -51,6 +51,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
 .iw dt{color:#5b6576}.iw dd{font-variant-numeric:tabular-nums}
 .iw p{font-size:12.5px;margin-bottom:8px;line-height:1.4}
 .iw a{color:#0B5CAD;font-weight:600}
+.iw .pic{margin:0 0 8px}.iw .pic img{display:block;width:100%;height:auto;border-radius:4px;background:#E6EAF0;min-height:60px}.iw .pic figcaption{font-size:10.5px;color:#5b6576;margin-top:2px}
 .iw .lc{font-size:12.5px;line-height:1.4;margin:0 0 8px;padding:6px 8px;background:#EEF3FA;border-left:3px solid #0B5CAD;border-radius:3px}
 @media (max-width:820px){
   #app{flex-direction:column-reverse;height:auto}
@@ -97,14 +98,14 @@ const AWARDED = [["Holly Springs",[35.6512655,-78.8336218]],["Apex",[35.732652,-
 
 /* t: active | future | check | out */
 const SITES = [
-{t:"active",n:"Harvest District",latest:"11/16/26: landlord offered Bldg 2, Space 4 to us; waiting on a counter-LOI from another ice cream group.",a:"614 Old Honeycutt Rd, Fuquay-Varina",c:[35.5884343,-78.7754148],
+{t:"active",n:"Harvest District",img:"img/harvest-district.jpg",imgcap:"Site plan",latest:"11/16/26: landlord offered Bldg 2, Space 4 to us; waiting on a counter-LOI from another ice cream group.",a:"614 Old Honeycutt Rd, Fuquay-Varina",c:[35.5884343,-78.7754148],
  size:"Bldg 2, Space 4: ±1,300 SF",ask:"$38.00/SF NNN + $6.50 TICAM, cold dark shell + $40/SF TIA (base rate 12/18/25, TICAM confirmed 5/14/26). About $57.9K/yr all-in on 1,300 SF",
  status:"Offered to us 11/16/26. Landlord is waiting on a counter-LOI from another ice cream group.",
  next:"Time-sensitive: get current rate and delivery date to the team and decide on an LOI.",
  lease:"Foundry Commercial (Julie Augustyn, James Mattox)",
  note:"Broke ground 4/2026; delivery scheduled 4Q2026. Spaces in Buildings 2 and 3 open onto a programmed civic green. Inline spaces can be cut down to about 1,000 SF. LOIs out with a national salon suites concept, a medical group, a local coffee shop, two restaurants and a nail salon (5/2026). Millie's corporate passed in 5/2026 over the dessert competition nearby: DQ, Baskin-Robbins, Pelicans and Tiny House Treats.",
  links:[["Site plan and tenant mix","harvest-district-merchandise-plan.pdf"],["2025 flyer","https://drive.google.com/file/d/1emWT7BsSXSOcqO9gQxLJeSRX6zR4wVNX/view?usp=sharing"],["LoopNet","https://www.loopnet.com/Listing/614-Old-Honeycutt-rd-Fuquay-Varina-NC/42508207/"]]},
-{t:"active",n:"Carolina Springs Town Center",a:"3708 Old Holly Springs Apex Rd, Holly Springs",c:[35.6819244,-78.864726],
+{t:"active",n:"Carolina Springs Town Center",img:"img/carolina-springs.jpg",imgcap:"2025 flyer, page 1",a:"3708 Old Holly Springs Apex Rd, Holly Springs",c:[35.6819244,-78.864726],
  size:"52,425 SF inline + ±50,887 SF grocery anchor",ask:"Mid-$40s/SF NNN, cold dark shell + $50/SF TIA (2025 quote)",
  status:"Town Council final review was 11/17/26. Early tenants: fast casual, sit-down restaurant, vet, nail salon, dental. No dessert use yet.",
  next:"Contact the leasing team at The Shopping Center Group (Sandeep asked 11/16).",
@@ -125,14 +126,14 @@ const SITES = [
  lease:"Foundry Commercial (Ross Diachenko, Nolan Mills IV)",
  note:"Grocery-anchored center at the signalized corner of Holly Springs Rd and Bass Lake Rd. Co-tenants include School of Rock, Serasana and Blind Pelican. 14,500–16,000 VPD. 3-mi: ±56,300 pop, ±$136K median HH income (broker figures).",
  links:[]},
-{t:"active",n:"7625 Roberts Rd",latest:"11/14/26: Rikky Goswami (Insight) said the ice cream use is still open but a proposal is out to another group. 7/9/26: Mike told Sandeep a colleague was submitting an offer for a Vietnamese cafe here.",a:"7625 Roberts Rd, Apex",c:[35.7709926,-78.9012186],
+{t:"active",n:"7625 Roberts Rd",img:"img/roberts-rd.jpg",imgcap:"Insight flyer (Mar 2025), page 1",latest:"11/14/26: Rikky Goswami (Insight) said the ice cream use is still open but a proposal is out to another group. 7/9/26: Mike told Sandeep a colleague was submitting an offer for a Vietnamese cafe here.",a:"7625 Roberts Rd, Apex",c:[35.7709926,-78.9012186],
  size:"Inline and end-cap units",ask:"$38–39/SF inline, $42/SF end cap NNN + ~$6.50–7.00 TICAM",
  status:"11/14/26 (Rikky Goswami): the ice cream use is still open, but there's a proposal out to another group. Several LOIs under response.",
  next:"Decide whether to submit an LOI before the other group signs. Sandeep plans to drive the area.",
  lease:"Insight Property Group (Rikky Goswami)",
  note:"Delivery ~summer 2027. Across from a large high school, walkable to many rooftops. Earlier concerns: few restaurants nearby and a winter opening.",
  links:[]},
-{t:"active",n:"Main Street Vista",a:"324 N Main St, Holly Springs",c:[35.6562302,-78.8329723],
+{t:"active",n:"Main Street Vista",img:"img/main-street-vista.jpg",imgcap:"2025 flyer, page 1",a:"324 N Main St, Holly Springs",c:[35.6562302,-78.8329723],
  size:"Inline space (LOI'd 2025)",ask:"$35/SF NNN + ~$6 TICAM (2025)",
  status:"LOI signed 10/2025 and lease drafted 10/21/25, with a 15% coffee-sales allowance agreed. It stalled while the landlord sorted out the coffee tenant's exclusive. Back9Golf signed 10/2026.",
  next:"Per the 11/16 call, ask the landlord whether a deal is still possible.",
@@ -155,19 +156,19 @@ const SITES = [
  status:"Off-market lead from 2025. No update since.",
  next:"Check availability. Fits Sandeep's 11/13 ask for standalone or highway sites. Confirm the owner will pay a brokerage fee.",
  lease:"Owner direct (off-market)",note:"About 25 min from Sandeep's home.",links:[]},
-{t:"check",n:"Main Street Square",a:"1001 Hayes Ln, Holly Springs",c:[35.6373078,-78.8294045],
+{t:"check",n:"Main Street Square",img:"img/main-street-square.jpg",imgcap:"2025 flyer, page 1",a:"1001 Hayes Ln, Holly Springs",c:[35.6373078,-78.8294045],
  size:"1,360 SF and 1,442 SF (2025)",ask:"$29/SF/yr (2025)",
  status:"2025 favorite. No update since. Includes a 2nd-generation coffee/tea space.",
  next:"Re-check availability and rate.",lease:"Lee & Associates (Karah Jennings McConnell, Moss Withers)",
  note:"Near downtown Holly Springs on NC 55, close to NC 540 and UNC Rex Holly Springs. Walkable. JT's Creamery and FRESH have since opened on S Main St.",
  links:[["2025 flyer","https://drive.google.com/file/d/1rlli8oYfuypgNXznEo_xasMARVOKmNVk/view?usp=sharing"]]},
-{t:"check",n:"Shoppes at Woodcreek",a:"5160 Sunset Lake Rd, Apex",c:[35.6677078,-78.7993704],
+{t:"check",n:"Shoppes at Woodcreek",img:"img/woodcreek.jpg",imgcap:"2025 flyer, page 1",a:"5160 Sunset Lake Rd, Apex",c:[35.6677078,-78.7993704],
  size:"Suite 105: 1,213 SF (2025)",ask:"$26/SF NNN + $6.05 TICAM (2025)",
  status:"In 2025 the landlord had another LOI on Suite 105. Status unknown.",
  next:"Re-check availability.",lease:"See 2025 flyer",
  note:"Co-tenants include Shakey Ray's Tavern and Osteria G. 3-mi pop 55,271 / 5-mi 124,039 (2025 flyer).",
  links:[["2025 flyer","https://drive.google.com/file/d/1nQwKyvmvh3iUUybAJ9X2mxh2vs-L1udL/view?usp=sharing"]]},
-{t:"check",n:"8101–8109 Fayetteville Rd",a:"8101–8109 Fayetteville Rd, Fuquay-Varina",c:[35.6633227,-78.700531],
+{t:"check",n:"8101–8109 Fayetteville Rd",img:"img/fayetteville-rd.jpg",imgcap:"Avison Young flyer, page 1",a:"8101–8109 Fayetteville Rd, Fuquay-Varina",c:[35.6633227,-78.700531],
  size:"Suite 105: 1,000 SF (2025)",ask:"$30/SF NNN + $5.03 TICAM (2025)",
  status:"2025 lead. No update since. The Peach Cobbler Factory has opened in the same center (#109).",
  next:"Re-check availability. Confirm the location falls in the awarded territory.",lease:"See 2025 flyer",
@@ -416,9 +417,16 @@ function hav(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dl=r(b[0]-a[0]),dn=r(b
 SITES.forEach(s=>{let best=null;COMP.forEach(c=>{const d=hav(s.c,[c[2],c[3]]);if(!best||d<best.d)best={d,n:c[0],a:c[1]};});s.near=best;s.home=hav(CENTER,s.c);
   s.near1=COMP.filter(c=>hav(s.c,[c[2],c[3]])<=1).length;});
 
+function pic(s){
+  if(s.t==='out')return '';
+  let src,cap;
+  if(s.img){src=s.img;cap=s.imgcap||'Flyer';}
+  else{src='https://maps.googleapis.com/maps/api/staticmap?center='+s.c[0]+','+s.c[1]+'&zoom=18&size=280x170&scale=2&maptype=hybrid&markers=color:red%7C'+s.c[0]+','+s.c[1]+'&key='+API_KEY;cap='Aerial view (Google)'+(s.approx?', approx. location':'');}
+  return '<figure class="pic"><img src="'+esc(src)+'" alt="'+esc(s.n)+'" loading="lazy" onerror="this.parentNode.style.display=\'none\'"><figcaption>'+esc(cap)+'</figcaption></figure>';
+}
 function content(s){
   const col=s.t==='out'?'#6b7380':'#0B1A33';
-  let h='<div class="iw"><div class="tier" style="color:'+col+'"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:'+COL[s.t]+'"></span>'+TIER[s.t]+'</div><h3>'+esc(s.n)+'</h3><dl>';
+  let h='<div class="iw"><div class="tier" style="color:'+col+'"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:'+COL[s.t]+'"></span>'+TIER[s.t]+'</div><h3>'+esc(s.n)+'</h3>'+pic(s)+'<dl>';
   h+='<dt>Address</dt><dd>'+esc(s.a)+(s.approx?' (approx. pin)':'')+'</dd>';
   if(s.size)h+='<dt>Space</dt><dd>'+esc(s.size)+'</dd>';
   if(s.ask)h+='<dt>Ask</dt><dd>'+esc(s.ask)+'</dd>';
