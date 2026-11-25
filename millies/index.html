@@ -23,7 +23,7 @@ h1{font-family:'DM Sans',system-ui,sans-serif;font-size:22px;font-weight:700;let
 .sub{font-size:12px;color:var(--mid);line-height:1.4}
 .ctrl{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center}
 .ctrl .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);min-width:44px}
-button.chip{font:600 12px/1 'DM Sans',sans-serif;color:var(--cream);background:var(--navy3);border:1px solid var(--border);border-radius:999px;padding:7px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button.chip,span.chip{font:600 12px/1 'DM Sans',sans-serif;color:var(--cream);background:var(--navy3);border:1px solid var(--border);border-radius:999px;padding:7px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 button.chip[aria-pressed="false"]{opacity:.45}
 button.chip:hover{border-color:var(--gold)}
 button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -75,6 +75,7 @@ button.chip:focus-visible,.item:focus-visible{outline:2px solid var(--gold);outl
         <button class="chip" id="t-check" data-k="check" aria-pressed="true"><span class="dot" style="background:#F5B83D"></span>Re-check</button>
         <button class="chip" id="t-future" data-k="future" aria-pressed="true"><span class="dot" style="background:#4FA3FF"></span>Future</button>
         <button class="chip" id="t-out" data-k="out" aria-pressed="false"><span class="dot d-out"></span>Ruled out</button>
+        <span class="chip" style="cursor:default" title="Stops on the 12/2 self-guided tour"><span class="dot d-star" style="background:#fff"></span>12/2 tour stop</span>
         <button class="chip" id="t-comp" data-k="comp" aria-pressed="true"><span class="dot" style="background:#EF4444;width:8px;height:8px"></span>Ice cream / dessert</button>
         <button class="chip" id="t-terr" data-k="terr" aria-pressed="true"><span class="dot" style="background:transparent;border:2px solid #F0718A"></span>Territory</button>
       </div>
@@ -98,14 +99,14 @@ const AWARDED = [["Holly Springs",[35.6512655,-78.8336218]],["Apex",[35.732652,-
 
 /* t: active | future | check | out */
 const SITES = [
-{t:"active",n:"Harvest District",img:"img/harvest-district.jpg",imgcap:"Site plan",latest:"11/16/26: landlord offered Bldg 2, Space 4 to us; waiting on a counter-LOI from another ice cream group.",a:"614 Old Honeycutt Rd, Fuquay-Varina",c:[35.5884343,-78.7754148],
+{t:"active",n:"Harvest District",tour:6,img:"img/harvest-district.jpg",imgcap:"Site plan",latest:"11/16/26: landlord offered Bldg 2, Space 4 to us; waiting on a counter-LOI from another ice cream group.",a:"614 Old Honeycutt Rd, Fuquay-Varina",c:[35.5884343,-78.7754148],
  size:"Bldg 2, Space 4: ±1,300 SF",ask:"$38.00/SF NNN + $6.50 TICAM, cold dark shell + $40/SF TIA (base rate 12/18/25, TICAM confirmed 5/14/26). About $57.9K/yr all-in on 1,300 SF",
  status:"Offered to us 11/16/26. Landlord is waiting on a counter-LOI from another ice cream group.",
  next:"Time-sensitive: get current rate and delivery date to the team and decide on an LOI. Client's first priority; wants to visit 12/2 or 12/3 and move to an LOI quickly.",
  lease:"Foundry Commercial (Julie Augustyn, James Mattox)",
  note:"Broke ground 4/2026; delivery scheduled 4Q2026. Spaces in Buildings 2 and 3 open onto a programmed civic green. Inline spaces can be cut down to about 1,000 SF. LOIs out with a national salon suites concept, a medical group, a local coffee shop, two restaurants and a nail salon (5/2026). Millie's corporate passed in 5/2026 over the dessert competition nearby: DQ, Baskin-Robbins, Pelicans and Tiny House Treats.",
  links:[["Site plan and tenant mix","harvest-district-merchandise-plan.pdf"],["2025 flyer","https://drive.google.com/file/d/1emWT7BsSXSOcqO9gQxLJeSRX6zR4wVNX/view?usp=sharing"],["LoopNet","https://www.loopnet.com/Listing/614-Old-Honeycutt-rd-Fuquay-Varina-NC/42508207/"]]},
-{t:"active",n:"Carolina Springs Town Center",img:"img/carolina-springs.jpg",imgcap:"2025 flyer, page 1",a:"3708 Old Holly Springs Apex Rd, Holly Springs",c:[35.6819244,-78.864726],
+{t:"active",n:"Carolina Springs Town Center",tour:3,img:"img/carolina-springs.jpg",imgcap:"2025 flyer, page 1",a:"3708 Old Holly Springs Apex Rd, Holly Springs",c:[35.6819244,-78.864726],
  size:"52,425 SF inline + ±50,887 SF grocery anchor",ask:"Mid-$40s/SF NNN, cold dark shell + $50/SF TIA (2025 quote)",
  status:"Town Council final review was 11/17/26. Early tenants: fast casual, sit-down restaurant, vet, nail salon, dental. No dessert use yet.",
  next:"Awaiting Jeff Nimmer's reply (emailed 11/18). Client has selected this site for the 12/2 tour.",
@@ -113,28 +114,28 @@ const SITES = [
  lease:"The Shopping Center Group (Jeff Nimmer)",
  note:"Delivery 2027. Pocket parks and a playground planned. About 14 min from Sandeep's home.",
  links:[["2025 flyer","https://drive.google.com/file/d/1z2kEFXmk12Vvd4ROYd51Ycm6L12DQ8eH/view?usp=sharing"],["Crexi","https://www.crexi.com/lease/properties/806649/north-carolina-carolina-springs-town-center"]]},
-{t:"active",n:"Nichols Plaza (former Crumbl)",latest:"11/16/26: We asked Pat Flanagan and Jose Cruz about availability. Pat confirmed it is available and sent the exclusive-use restrictions; Ewan Ross sent the asking rate and TICAM.",a:"1105 Pine Plaza Dr (1101–1107 bldg), Apex",c:[35.7466247,-78.8301019],
+{t:"active",n:"Nichols Plaza (former Crumbl)",tour:1,latest:"11/16/26: We asked Pat Flanagan and Jose Cruz about availability. Pat confirmed it is available and sent the exclusive-use restrictions; Ewan Ross sent the asking rate and TICAM.",a:"1105 Pine Plaza Dr (1101–1107 bldg), Apex",c:[35.7466247,-78.8301019],
  size:"±1,400 SF, 2nd-generation bakery",ask:"$45.00/SF NNN + $8.26 TICAM (11/16/26), about $74.6K/yr all-in on 1,400 SF",
  status:"Confirmed available 11/16/26 (Pat Flanagan, Ewan Ross). No ice cream exclusive in the center. Starbucks' coffee/tea exclusive has a carve-out for qualifying ice cream shops. Coffee or tea under 5% of sales is OK, and blended milk drinks are 'subject to exceptions'. Landlord review is required for dessert uses.",
  next:"Confirm in writing that Millie's qualifies under the Starbucks ice cream exception, including milkshakes and any coffee items. Ask what Crumbl equipment and buildout stays. Schedule a tour. Rent is the highest of the active options. Client has selected this site for the 12/2 tour.",
  lease:"Century 21 Commercial: Pat Flanagan (919.302.3298), Jose Cruz, Ewan Ross",
  note:"Established center near Costco and Academy. Co-tenants include Starbucks, Alpaca Chicken, McAlister's and Pei Wei. The Peach Cobbler Factory is next door at 1071 Pine Plaza Dr, and Bruster's is ~0.5 mi away on US-64.",
  links:[["LoopNet","https://www.loopnet.com/Listing/1101-1107-Pine-Plaza-Dr-Apex-NC/43024302/"]]},
-{t:"active",n:"Holly Springs Crossing",latest:"11/24/26: We emailed Foundry (Ross Diachenko; cc Nolan Mills and James Mattox) for the rate and TICAM on the 1,160 SF space and B-7a, which suites are open, and any exclusives. 11/24/26: Nolan Mills replied that Suite B-3 is asking $37/SF plus $6.86 NNN, with no ice cream restrictions. He did not address the 1,160 SF space or B-7a.",a:"130 Bass Lake Rd, Holly Springs",c:[35.6530495,-78.8235683],
+{t:"active",n:"Holly Springs Crossing",tour:5,latest:"11/24/26: We emailed Foundry (Ross Diachenko; cc Nolan Mills and James Mattox) for the rate and TICAM on the 1,160 SF space and B-7a, which suites are open, and any exclusives. 11/24/26: Nolan Mills replied that Suite B-3 is asking $37/SF plus $6.86 NNN, with no ice cream restrictions. He did not address the 1,160 SF space or B-7a.",a:"130 Bass Lake Rd, Holly Springs",c:[35.6530495,-78.8235683],
  size:"±1,160–2,502 SF (two spaces left)",ask:"$37/SF + $6.86 NNN (Suite B-3, per Foundry 11/24/26)",
  status:"Foundry quoted Suite B-3 on 11/24/26 with no ice cream restrictions. The size of B-3 and the status of the 1,160 SF space and B-7a (about 1,584 SF, shown as available 12/1/26) are not yet confirmed.",
  next:"Ask Foundry for the size of B-3, the status of the 1,160 SF space and B-7a, delivery condition and timing. Client has selected this site for the 12/2 tour.",
  lease:"Foundry Commercial (Ross Diachenko, Nolan Mills IV)",
  note:"Grocery-anchored center at the signalized corner of Holly Springs Rd and Bass Lake Rd. Co-tenants include School of Rock, Serasana and Blind Pelican. 14,500–16,000 VPD. 3-mi: ±56,300 pop, ±$136K median HH income (broker figures).",
  links:[["Flyer (Foundry)", "https://images.loopnet.ca/d2/Q2x62ZIoxKQx4qaQy5e1BnIM8n5S6fIMdzwzilxQXLU/Holly%20Springs%20Crossing%20Flyer.pdf"], ["LoopNet listing", "https://www.loopnet.ca/Listing/Bass-Lake-Rd-Holly-Springs-NC/11973493"]]},
-{t:"active",n:"7625 Roberts Rd",img:"img/roberts-rd.jpg",imgcap:"Insight flyer (Mar 2025), page 1",latest:"11/14/26: Rikky Goswami (Insight) said the ice cream use is still open but a proposal is out to another group.",a:"7625 Roberts Rd, Apex",c:[35.7709926,-78.9012186],
+{t:"active",n:"7625 Roberts Rd",tour:2,img:"img/roberts-rd.jpg",imgcap:"Insight flyer (Mar 2025), page 1",latest:"11/14/26: Rikky Goswami (Insight) said the ice cream use is still open but a proposal is out to another group.",a:"7625 Roberts Rd, Apex",c:[35.7709926,-78.9012186],
  size:"Inline and end-cap units",ask:"$38–39/SF inline, $42/SF end cap NNN + ~$6.50–7.00 TICAM",
  status:"11/14/26 (Rikky Goswami): the ice cream use is still open, but there's a proposal out to another group. Several LOIs under response.",
  next:"Decide whether to submit an LOI before the other group signs. Sandeep plans to drive the area. Client has selected this site for the 12/2 tour.",
  lease:"Insight Property Group (Rikky Goswami)",
  note:"Delivery ~summer 2027. Across from a large high school, walkable to many rooftops. Earlier concerns: few restaurants nearby and a winter opening.",
  links:[]},
-{t:"active",n:"Main Street Vista",img:"img/main-street-vista.jpg",imgcap:"2025 flyer, page 1",a:"324 N Main St, Holly Springs",c:[35.6562302,-78.8329723],
+{t:"active",n:"Main Street Vista",tour:4,img:"img/main-street-vista.jpg",imgcap:"2025 flyer, page 1",a:"324 N Main St, Holly Springs",c:[35.6562302,-78.8329723],
  size:"Inline space (LOI'd 2025)",ask:"$35/SF NNN + ~$6 TICAM (2025)",
  status:"LOI signed 10/2025 and lease drafted 10/21/25, with a 15% coffee-sales allowance agreed. It stalled while the landlord sorted out the coffee tenant's exclusive. Back9Golf signed 10/2026. 11/20/26 web check: Lee's Crexi and LoopNet listings are still up. LoopNet shows 2,296-16,074 SF, above the 1,700 SF cap, so the smaller inline spaces may be gone. The $35 rate was last updated 1/23/25.",
  next:"Per the 11/16 call, ask the landlord whether a deal is still possible. Client has selected this site for the 12/2 tour.",
@@ -244,7 +245,7 @@ const SITES = [
  latest:"11/20/26: Alyssa Byrd (Lee) said Suite 211 is 1,057 SF and they are working through terms with another user on it. She asked whether Millie's could use one of the 1,500 SF spaces and noted Suite 411 has a demising wall and a poured slab, which would cut buildout cost. 11/24/26: We told her Millie's could take 1,500 SF. 11/24/26: Alyssa offered to put together a proposal.",
  links:[["Crexi listing", "https://www.crexi.com/lease/properties/997661/north-carolina-200-400-alex-ridge-dr"]]},
 {t:"check",
- n:"Academy Village",
+ n:"Academy Village",tour:7,
  a:"Academy St & Old Honeycutt Rd, Fuquay-Varina",
  c:[35.5862,-78.77],
  approx:true,
@@ -460,7 +461,7 @@ function pic(s){
 }
 function content(s){
   const col=s.t==='out'?'#6b7380':'#0B1A33';
-  let h='<div class="iw"><div class="tier" style="color:'+col+'"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:'+COL[s.t]+'"></span>'+TIER[s.t]+'</div><h3>'+esc(s.n)+'</h3>'+pic(s)+'<dl>';
+  let h='<div class="iw"><div class="tier" style="color:'+col+'"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:'+COL[s.t]+'"></span>'+TIER[s.t]+'</div>'+(s.tour?'<div class="tier" style="color:#0B1A33">&#9733; 12/2 tour: stop '+s.tour+' of 7</div>':'')+'<h3>'+esc(s.n)+'</h3>'+pic(s)+'<dl>';
   h+='<dt>Address</dt><dd>'+esc(s.a)+(s.approx?' (approx. pin)':'')+'</dd>';
   if(s.size)h+='<dt>Space</dt><dd>'+esc(s.size)+'</dd>';
   if(s.ask)h+='<dt>Ask</dt><dd>'+esc(s.ask)+'</dd>';
@@ -495,7 +496,7 @@ function buildList(){
     const list=SITES.map((s,i)=>[s,i]).filter(([s])=>s.t===t);
     h+='<section class="mk"><h2><span class="dot" style="background:'+COL[t]+';margin-right:6px"></span>'+TIER[t]+' ('+list.length+')</h2>';
     list.forEach(([s,i])=>{
-      h+='<div class="item'+(t==='out'?' out':'')+'" id="it'+i+'" data-t="'+t+'" tabindex="0" role="button"><span class="dot" style="background:'+COL[t]+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.home.toFixed(1)+' mi</span><span class="meta">'+esc(s.size||s.a)+(s.why?' · '+esc(s.why):'')+'</span></div>';
+      h+='<div class="item'+(t==='out'?' out':'')+'" id="it'+i+'" data-t="'+t+'" tabindex="0" role="button"><span class="dot'+(s.tour?' d-star':'')+'" style="background:'+COL[t]+'"></span><span class="nm">'+esc(s.n)+'</span><span class="ds">'+s.home.toFixed(1)+' mi</span><span class="meta">'+esc(s.size||s.a)+(s.why?' · '+esc(s.why):'')+'</span></div>';
     });
     h+='</section>';
   });
@@ -512,7 +513,7 @@ window.initMap=function(){
   AWARDED.forEach(([n,c])=>groups.terr.push(new google.maps.Marker({map,position:ll(c),title:n+' (awarded territory)',zIndex:2,label:{text:n,color:'#F5D27A',fontSize:'12px',fontWeight:'700'},icon:{path:google.maps.SymbolPath.CIRCLE,scale:11,fillOpacity:0,strokeColor:'#C9A249',strokeWeight:3,labelOrigin:new google.maps.Point(0,-2.6)}})));
   COMP.forEach(c=>{const m=new google.maps.Marker({map,position:{lat:c[2],lng:c[3]},title:c[0],zIndex:4,icon:{path:google.maps.SymbolPath.CIRCLE,scale:4.5,fillColor:'#EF4444',fillOpacity:1,strokeColor:'#fff',strokeWeight:1}});
     m.addListener('click',()=>{iw.setContent('<div class="iw"><div class="tier" style="color:#B91C1C">Existing ice cream / dessert</div><h3>'+esc(c[0])+'</h3><p>'+esc(c[1])+'</p></div>');iw.open({map,anchor:m});});groups.comp.push(m);});
-  SITES.forEach((s,i)=>{const out=s.t==='out';const m=new google.maps.Marker({map,position:ll(s.c),title:s.n,zIndex:out?6:10,icon:{path:google.maps.SymbolPath.CIRCLE,scale:out?7:9,fillColor:COL[s.t],fillOpacity:out?.6:1,strokeColor:out?'#9AA3AE':'#0B1A33',strokeWeight:2}});m.addListener('click',()=>select(i,false));s.marker=m;groups[s.t].push(m);});
+  SITES.forEach((s,i)=>{const out=s.t==='out';const m=new google.maps.Marker({map,position:ll(s.c),title:s.tour?s.n+' (12/2 tour stop '+s.tour+')':s.n,zIndex:s.tour?12:out?6:10,icon:s.tour?{path:'M 0,-1 0.588,0.809 -0.951,-0.309 0.951,-0.309 -0.588,0.809 z',scale:13,fillColor:COL[s.t],fillOpacity:1,strokeColor:'#0B1A33',strokeWeight:1.5}:{path:google.maps.SymbolPath.CIRCLE,scale:out?7:9,fillColor:COL[s.t],fillOpacity:out?.6:1,strokeColor:out?'#9AA3AE':'#0B1A33',strokeWeight:2}});m.addListener('click',()=>select(i,false));s.marker=m;groups[s.t].push(m);});
   buildList();setVis('out',false);
   document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.k)));
   document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>fit(b.dataset.z)));
